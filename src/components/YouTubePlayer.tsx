@@ -24,10 +24,7 @@ const YouTubePlayer: React.FC<{ videoId: string }> = ({ videoId }) => {
     playerRef.current = new window.YT.Player("player", {
       height: "auto",
       width: "100%",
-      videoId: videoId,
-      events: {
-        // You can add event listeners here if needed
-      },
+      videoId,
     });
 
     document.body.addEventListener("keypress", handleKeyPress);
