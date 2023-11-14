@@ -1,8 +1,14 @@
-import YouTubePlayer from "./YouTubePlayer";
+import YouTubePlayer from "./components/YouTubePlayer";
+import Overlay from "./components/Overlay";
 import "./App.css";
 
 function App() {
-  return <YouTubePlayer videoId="jfKfPfyJRdk" />;
+  return (
+    <>
+      <Overlay />
+      <YouTubePlayer videoId="jfKfPfyJRdk" />
+    </>
+  );
 }
 
 export default App;

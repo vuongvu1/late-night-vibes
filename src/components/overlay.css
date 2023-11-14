@@ -1,0 +1,6 @@
+#overlay {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background-color: red;
+}
