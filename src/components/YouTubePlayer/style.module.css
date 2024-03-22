@@ -1,0 +1,4 @@
+#player {
+  width: 100vw;
+  height: 99vh; /* to prevent showing scroll bar */
+}

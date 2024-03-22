@@ -1,9 +1,3 @@
-
 * {
   box-sizing: border-box;
-}
-
-#player {
-  width: 100vw;
-  height: 99vh; /* to prevent showing scroll bar */
 }
