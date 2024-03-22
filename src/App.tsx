@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
-import YouTubePlayer from "./components/YouTubePlayer";
-import PlayIcon from "./assets/icons/Play";
-import PauseIcon from "./assets/icons/Pause";
-// import Overlay from "./components/Overlay/Overlay";
-import IconButton from "./components/IconButton";
+import {
+  PlayIcon,
+  PauseIcon,
+  NextIcon,
+  PreviousIcon,
+  ShuffleIcon,
+} from "./assets/icons";
+import { YouTubePlayer, ControlButton, Flex } from "./components";
+
 import "./App.css";
 
 function App() {
@@ -24,18 +28,15 @@ function App() {
 
   return (
     <>
-      <IconButton
-        icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
-        onClick={() => setIsPlaying((prev) => !prev)}
-        onKeyDown={(event) => {
-          if (event.key === " ") {
-            event.preventDefault();
-          }
-        }}
-      />
-      <button>Shuffle</button>
-      <button>Previous</button>
-      <button>Next</button>
+      <Flex gap="var(--spacing-sm)">
+        <ControlButton
+          icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
+          onClick={() => setIsPlaying((prev) => !prev)}
+        />
+        <ControlButton icon={<ShuffleIcon />} onClick={console.log} />
+        <ControlButton icon={<PreviousIcon />} onClick={console.log} />
+        <ControlButton icon={<NextIcon />} onClick={console.log} />
+      </Flex>
 
       <YouTubePlayer videoId="jfKfPfyJRdk" isPlaying={isPlaying} />
 

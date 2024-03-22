@@ -1,11 +1,14 @@
 :root {
   /* Colors */
-  --primary-color: #91c434;
+  --primary-color: #646cff;
   --secondary-color: #333;
   --background-color: #242424;
   --text-color: #fff;
-  --text-color-lighter: #6a6a6a;
-  --text-color-hover: #91c434;
+  --text-color-hover: #646cff;
+
+  --button-color-background: #1a1a1a;
+  --button-color-background-hover: #272957;
+  --button-color-background-active: #3b3e7f;
 
   /* Spacings */
   --spacing-xs: 4px;
@@ -63,12 +66,4 @@ body {
   font-family: "Titillium Web", sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
-}
-
-a:focus-visible,
-input:focus-visible,
-button:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-shadow);
-  transition: box-shadow var(--duration-normal) ease;
 }
