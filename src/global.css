@@ -1,0 +1,74 @@
+:root {
+  /* Colors */
+  --primary-color: #91c434;
+  --secondary-color: #333;
+  --background-color: #242424;
+  --text-color: #fff;
+  --text-color-lighter: #6a6a6a;
+  --text-color-hover: #91c434;
+
+  /* Spacings */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 32px;
+  --spacing-xl: 40px;
+
+  /* Front sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+
+  /* Font weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-xs: 1.2;
+  --line-height-sm: 1.4;
+  --line-height-md: 1.6;
+  --line-height-lg: 1.8;
+  --line-height-xl: 2;
+
+  /* Border radius */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+  --border-radius-round: 50%;
+
+  /* Border colors */
+  --border-color: #e5e5e5;
+
+  /* Z-index */
+  --z-index-default: 1;
+  --z-index-header: 100;
+
+  /* Duration */
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-long: 300ms;
+  --duration-super-long: 2000ms;
+
+  /* Other variables */
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --focus-shadow: 0 0 0 3px rgba(145, 196, 52, 0.5);
+}
+
+body {
+  font-family: "Titillium Web", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+a:focus-visible,
+input:focus-visible,
+button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-shadow);
+  transition: box-shadow var(--duration-normal) ease;
+}
