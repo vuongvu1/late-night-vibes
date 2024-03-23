@@ -1,6 +1,6 @@
 .container {
   position: fixed;
+  width: 100%;
   z-index: var(--z-index-background);
   bottom: var(--spacing-md);
-  right: var(--spacing-md);
 }

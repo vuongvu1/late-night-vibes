@@ -15,7 +15,7 @@ interface ControlPanelProps {
 
 function ControlPanel({ isPlaying, setIsPlaying }: ControlPanelProps) {
   return (
-    <Flex gap="var(--spacing-sm)" className={styles.container}>
+    <Flex gap="var(--spacing-sm)" justify="center" className={styles.container}>
       <ControlButton
         icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
         onClick={() => setIsPlaying((prev) => !prev)}
