@@ -1,0 +1,11 @@
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-background);
+
+  img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }
+}

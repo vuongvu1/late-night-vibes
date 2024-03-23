@@ -1,7 +1,7 @@
 import React, { CSSProperties } from "react";
 import styles from "./style.module.css";
 
-interface FlexProps {
+interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   direction?: "row" | "row-reverse" | "column" | "column-reverse";
   justify?:
     | "flex-start"
@@ -13,8 +13,6 @@ interface FlexProps {
   align?: "stretch" | "flex-start" | "flex-end" | "center" | "baseline";
   wrap?: "wrap" | "nowrap";
   gap?: string;
-  style?: CSSProperties;
-  className?: string;
   children: React.ReactNode;
 }
 
@@ -27,6 +25,7 @@ const Flex: React.FC<FlexProps> = ({
   className,
   style,
   children,
+  ...restProps
 }) => {
   const customStyle = {
     "--flex-direction": direction,
@@ -38,7 +37,11 @@ const Flex: React.FC<FlexProps> = ({
   } as CSSProperties;
 
   return (
-    <div style={customStyle} className={`${styles.flex} ${className}`}>
+    <div
+      style={customStyle}
+      className={`${styles.flex} ${className}`}
+      {...restProps}
+    >
       {children}
     </div>
   );

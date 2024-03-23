@@ -1,13 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  PlayIcon,
-  PauseIcon,
-  NextIcon,
-  PreviousIcon,
-  ShuffleIcon,
-} from "./assets/icons";
-import { YouTubePlayer, ControlButton, Flex } from "./components";
-
+import { YouTubePlayer, ControlPanel, Background } from "./components";
 import "./App.css";
 
 function App() {
@@ -28,19 +20,9 @@ function App() {
 
   return (
     <>
-      <Flex gap="var(--spacing-sm)">
-        <ControlButton
-          icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
-          onClick={() => setIsPlaying((prev) => !prev)}
-        />
-        <ControlButton icon={<ShuffleIcon />} onClick={console.log} />
-        <ControlButton icon={<PreviousIcon />} onClick={console.log} />
-        <ControlButton icon={<NextIcon />} onClick={console.log} />
-      </Flex>
-
       <YouTubePlayer videoId="jfKfPfyJRdk" isPlaying={isPlaying} />
-
-      {/* <Overlay /> */}
+      <Background />
+      <ControlPanel isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
     </>
   );
 }
