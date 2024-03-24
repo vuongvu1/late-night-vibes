@@ -1,22 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { YouTubePlayer, ControlPanel, Background } from "./components";
+import { useSpaceKeyPress } from "./hooks";
 import "./App.css";
+import data from "../data.json";
+
+const channels = data.channels;
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
 
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === " ") {
-        setIsPlaying((prev) => !prev);
-      }
-    };
+  const togglePlaying = () => setIsPlaying((prev) => !prev);
 
-    document.addEventListener("keydown", handleKeyPress);
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
-  }, []);
+  useSpaceKeyPress(togglePlaying);
+
+  console.log(channels);
 
   return (
     <>
