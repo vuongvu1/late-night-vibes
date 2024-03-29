@@ -48,7 +48,7 @@ const YouTubePlayer: React.FC<Props> = ({ videoId, isPlaying }) => {
     }
   }, [isPlaying]);
 
-  return <div className={style.player} />;
+  return <div id="player" className={style.player} />;
 };
 
 export default YouTubePlayer;
