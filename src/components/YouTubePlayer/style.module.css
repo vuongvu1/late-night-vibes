@@ -1,5 +1,6 @@
-#player {
+.player {
   width: 100vw;
   height: 99vh; /* to prevent showing scroll bar */
   z-index: var(--z-index-hidden);
+  display: none;
 }

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import "./style.module.css";
+import style from "./style.module.css";
 
 type Props = { videoId: string; isPlaying: boolean };
 
@@ -48,7 +48,7 @@ const YouTubePlayer: React.FC<Props> = ({ videoId, isPlaying }) => {
     }
   }, [isPlaying]);
 
-  return <div id="player" />;
+  return <div className={style.player} />;
 };
 
 export default YouTubePlayer;
