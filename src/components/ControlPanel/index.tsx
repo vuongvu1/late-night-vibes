@@ -5,7 +5,7 @@ import {
   PreviousIcon,
   ShuffleIcon,
 } from "../../assets/icons";
-import { ControlButton, Flex } from "../../components";
+import { Button, Flex } from "../../components";
 import styles from "./style.module.css";
 
 interface ControlPanelProps {
@@ -16,13 +16,13 @@ interface ControlPanelProps {
 function ControlPanel({ isPlaying, setIsPlaying }: ControlPanelProps) {
   return (
     <Flex gap="var(--spacing-sm)" justify="center" className={styles.container}>
-      <ControlButton
+      <Button
         icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
         onClick={() => setIsPlaying((prev) => !prev)}
       />
-      <ControlButton icon={<ShuffleIcon />} onClick={console.log} />
-      <ControlButton icon={<PreviousIcon />} onClick={console.log} />
-      <ControlButton icon={<NextIcon />} onClick={console.log} />
+      <Button icon={<ShuffleIcon />} onClick={console.log} />
+      <Button icon={<PreviousIcon />} onClick={console.log} />
+      <Button icon={<NextIcon />} onClick={console.log} />
     </Flex>
   );
 }

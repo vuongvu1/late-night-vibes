@@ -1,4 +1,4 @@
-export { default as ControlButton } from "./ControlButton";
+export { default as Button } from "./Button";
 export { default as YouTubePlayer } from "./YouTubePlayer";
 export { default as Background } from "./Background";
 export { default as Flex } from "./Flex";

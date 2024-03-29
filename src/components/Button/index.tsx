@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./style.module.css";
 
-interface ControlButtonProps
+interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon: React.ReactNode;
   onClick: () => void;
 }
 
-const ControlButton: React.FC<ControlButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   icon,
   onClick,
   ...restProps
@@ -29,4 +29,4 @@ const ControlButton: React.FC<ControlButtonProps> = ({
   );
 };
 
-export default ControlButton;
+export default Button;
