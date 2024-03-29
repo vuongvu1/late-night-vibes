@@ -17,7 +17,7 @@
   --spacing-lg: 32px;
   --spacing-xl: 40px;
 
-  /* Front sizes */
+  /* Font sizes */
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-md: 16px;
@@ -52,7 +52,7 @@
   --z-index-background: 0;
   --z-index-overlay: 1;
 
-  /* Duration */
+  /* Durations */
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-long: 300ms;
@@ -61,6 +61,10 @@
   /* Other variables */
   --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   --focus-shadow: 0 0 0 3px rgba(145, 196, 52, 0.5);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {

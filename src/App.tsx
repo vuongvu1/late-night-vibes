@@ -1,7 +1,6 @@
 import React from "react";
 import { YouTubePlayer, ControlPanel, Background } from "./components";
 import { useSpaceKeyPress } from "./hooks";
-import "./App.css";
 import data from "../data.json";
 
 const channels = data.channels;
