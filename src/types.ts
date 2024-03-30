@@ -1,5 +1,5 @@
 export interface Channel {
-  index: number;
+  position: number;
   name: string;
   videoId: string;
 }
