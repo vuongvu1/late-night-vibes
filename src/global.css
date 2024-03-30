@@ -65,7 +65,7 @@
 }
 
 body {
-  font-family: monospace, sans-serif;
+  font-family: "VT323", monospace, sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
 }
