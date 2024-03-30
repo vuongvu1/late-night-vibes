@@ -41,10 +41,14 @@ const YouTubePlayer: React.FC<Props> = ({ videoId, isPlaying }) => {
   };
 
   useEffect(() => {
-    if (isPlaying) {
-      playerRef.current?.playVideo();
-    } else {
-      playerRef.current?.pauseVideo();
+    try {
+      if (isPlaying) {
+        playerRef.current?.playVideo();
+      } else {
+        playerRef.current?.pauseVideo();
+      }
+    } catch (error) {
+      console.error(error);
     }
   }, [isPlaying]);
 

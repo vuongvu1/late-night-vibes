@@ -2,7 +2,7 @@ import React from "react";
 import { YouTubePlayer, ControlPanel, Background } from "./components";
 import { useSpaceKeyPress } from "./hooks";
 import { selectRandomChannel } from "./utils";
-import type { Channel } from "./types";
+import type { Channel } from "./type";
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
