@@ -1,7 +1,11 @@
 import React, { useRef, useEffect, useCallback } from "react";
 import style from "./style.module.css";
 
-type Props = { videoId: string; isPlaying: boolean };
+type Props = {
+  videoId: string;
+  isPlaying: boolean;
+  setVideoTitle: (title: string) => void;
+};
 
 const initializePlayer = (
   ref: React.MutableRefObject<YT.Player | null>,
@@ -36,7 +40,11 @@ const initializePlayer = (
   });
 };
 
-const YouTubePlayer: React.FC<Props> = ({ videoId, isPlaying }) => {
+const YouTubePlayer: React.FC<Props> = ({
+  videoId,
+  isPlaying,
+  setVideoTitle,
+}) => {
   const playerRef = useRef<YT.Player | null>(null);
 
   const checkPlayerStatus = useCallback(() => {
@@ -50,16 +58,18 @@ const YouTubePlayer: React.FC<Props> = ({ videoId, isPlaying }) => {
     const playerTitle = player.videoTitle;
 
     if (player && !playerTitle) {
-      console.log("Stream is down!");
+      setVideoTitle("Radio channel is down!");
       return;
     }
+
+    setVideoTitle(playerTitle);
 
     if (isPlaying) {
       player.playVideo();
     } else {
       player.pauseVideo();
     }
-  }, [isPlaying]);
+  }, [isPlaying, setVideoTitle]);
 
   useEffect(() => {
     initializePlayer(playerRef, videoId, checkPlayerStatus);

@@ -4,6 +4,7 @@ import { useSpaceKeyPress, useChannel } from "./hooks";
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [videoTitle, setVideoTitle] = React.useState("");
 
   const {
     activeChannel,
@@ -18,10 +19,14 @@ function App() {
 
   return (
     <>
-      <YouTubePlayer videoId={activeChannel.videoId} isPlaying={isPlaying} />
+      <YouTubePlayer
+        videoId={activeChannel}
+        isPlaying={isPlaying}
+        setVideoTitle={setVideoTitle}
+      />
       <Background />
       <h1>
-        [{activeChannel.position}] - {activeChannel.name}
+        [{activeChannel}] - {videoTitle}
       </h1>
       <ControlPanel
         isPlaying={isPlaying}

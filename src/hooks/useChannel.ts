@@ -1,11 +1,10 @@
 import { useState } from "react";
-import type { Channel } from "../types";
 import data from "../data.json";
 
 const channels = data.channels;
 
 const useChannel = () => {
-  const [activeChannel, setActiveChannel] = useState<Channel>(channels[0]);
+  const [activeChannel, setActiveChannel] = useState<string>(channels[0]);
 
   const selectRandomChannel = () => {
     const randomIndex = Math.floor(Math.random() * channels.length);
@@ -13,15 +12,19 @@ const useChannel = () => {
   };
 
   const selectNextChannel = () => {
-    const currentPosition = activeChannel.position;
-    const nextPosition = (currentPosition + 1) % channels.length;
+    const currentIndex = channels.findIndex(
+      (channel) => channel === activeChannel
+    );
+    const nextPosition = (currentIndex + 1) % channels.length;
     setActiveChannel(channels[nextPosition]);
   };
 
   const selectPreviousChannel = () => {
-    const currentPosition = activeChannel.position;
+    const currentIndex = channels.findIndex(
+      (channel) => channel === activeChannel
+    );
     const previousPosition =
-      (currentPosition - 1 + channels.length) % channels.length;
+      (currentIndex - 1 + channels.length) % channels.length;
     setActiveChannel(channels[previousPosition]);
   };
 
