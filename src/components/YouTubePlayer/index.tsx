@@ -1,12 +1,22 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import style from "./style.module.css";
 
 type Props = { videoId: string; isPlaying: boolean };
 
 const initializePlayer = (
   ref: React.MutableRefObject<YT.Player | null>,
-  videoId: string
+  videoId: string,
+  cb?: () => void
 ) => {
+  if (ref.current) {
+    const currentVideoUrl = ref.current.getVideoUrl?.();
+    if (currentVideoUrl?.includes(videoId)) {
+      return;
+    }
+
+    ref.current.destroy();
+  }
+
   ref.current = new window.YT.Player("player", {
     height: "auto",
     width: "100%",
@@ -20,45 +30,27 @@ const initializePlayer = (
       iv_load_policy: 3, // hide annotations by default
       rel: 0,
     },
+    events: {
+      onReady: cb,
+    },
   });
 };
+
 const YouTubePlayer: React.FC<Props> = ({ videoId, isPlaying }) => {
-  const readyRef = useRef(false);
   const playerRef = useRef<YT.Player | null>(null);
 
-  useEffect(() => {
-    const tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-
-    const firstScriptTag = document.getElementsByTagName("script")[0];
-    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-
-    // @ts-expect-error -- global type doesn't work
-    window.onYouTubeIframeAPIReady = () => {
-      readyRef.current = true;
-      initializePlayer(playerRef, videoId);
-    };
-
-    return () => {
-      // @ts-expect-error -- global type doesn't work
-      window.onYouTubeIframeAPIReady = null;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (readyRef.current) {
-      playerRef.current?.destroy();
-      initializePlayer(playerRef, videoId);
-    }
-  }, [videoId]);
-
-  useEffect(() => {
+  const checkPlayerStatus = useCallback(() => {
     const player = playerRef.current;
-    const playerState = player?.getPlayerState?.();
 
-    if (!player || !playerState) {
-      console.log("Player not ready");
+    if (!player) {
+      return;
+    }
+
+    // @ts-expect-error - property exists
+    const playerTitle = player.videoTitle;
+
+    if (player && !playerTitle) {
+      console.log("Stream is down!");
       return;
     }
 
@@ -68,6 +60,12 @@ const YouTubePlayer: React.FC<Props> = ({ videoId, isPlaying }) => {
       player.pauseVideo();
     }
   }, [isPlaying]);
+
+  useEffect(() => {
+    initializePlayer(playerRef, videoId, checkPlayerStatus);
+  }, [videoId, checkPlayerStatus]);
+
+  checkPlayerStatus();
 
   return <div id="player" className={style.player} />;
 };
