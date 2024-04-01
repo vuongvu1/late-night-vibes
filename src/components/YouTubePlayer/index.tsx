@@ -4,7 +4,7 @@ import style from "./style.module.css";
 type Props = { videoId: string; isPlaying: boolean };
 
 const initializePlayer = (
-  ref: React.MutableRefObject<YT.Player>,
+  ref: React.MutableRefObject<YT.Player | null>,
   videoId: string
 ) => {
   ref.current = new window.YT.Player("player", {
@@ -23,6 +23,7 @@ const initializePlayer = (
   });
 };
 const YouTubePlayer: React.FC<Props> = ({ videoId, isPlaying }) => {
+  const readyRef = useRef(false);
   const playerRef = useRef<YT.Player | null>(null);
 
   useEffect(() => {
@@ -33,13 +34,23 @@ const YouTubePlayer: React.FC<Props> = ({ videoId, isPlaying }) => {
     firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
 
     // @ts-expect-error -- global type doesn't work
-    window.onYouTubeIframeAPIReady = () => initializePlayer(playerRef, videoId);
+    window.onYouTubeIframeAPIReady = () => {
+      readyRef.current = true;
+      initializePlayer(playerRef, videoId);
+    };
 
     return () => {
       // @ts-expect-error -- global type doesn't work
       window.onYouTubeIframeAPIReady = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (readyRef.current) {
+      playerRef.current?.destroy();
+      initializePlayer(playerRef, videoId);
+    }
   }, [videoId]);
 
   useEffect(() => {
