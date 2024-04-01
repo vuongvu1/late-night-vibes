@@ -10,7 +10,7 @@ import styles from "./style.module.css";
 
 interface ControlPanelProps {
   isPlaying: boolean;
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  togglePlaying: () => void;
 
   selectRandomChannel: () => void;
   selectNextChannel: () => void;
@@ -19,7 +19,7 @@ interface ControlPanelProps {
 
 function ControlPanel({
   isPlaying,
-  setIsPlaying,
+  togglePlaying,
   selectRandomChannel,
   selectNextChannel,
   selectPreviousChannel,
@@ -28,11 +28,11 @@ function ControlPanel({
     <Flex gap="var(--spacing-sm)" justify="center" className={styles.container}>
       <Button
         icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
-        onClick={() => setIsPlaying((prev) => !prev)}
+        onClick={togglePlaying}
       />
       <Button icon={<ShuffleIcon />} onClick={selectRandomChannel} />
-      <Button icon={<PreviousIcon />} onClick={selectNextChannel} />
-      <Button icon={<NextIcon />} onClick={selectPreviousChannel} />
+      <Button icon={<PreviousIcon />} onClick={selectPreviousChannel} />
+      <Button icon={<NextIcon />} onClick={selectNextChannel} />
     </Flex>
   );
 }

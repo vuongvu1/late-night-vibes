@@ -20,10 +20,12 @@ function App() {
     <>
       <YouTubePlayer videoId={activeChannel.videoId} isPlaying={isPlaying} />
       <Background />
-      <h1>{activeChannel.name}</h1>
+      <h1>
+        [{activeChannel.position}] - {activeChannel.name}
+      </h1>
       <ControlPanel
         isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
+        togglePlaying={togglePlaying}
         selectRandomChannel={selectRandomChannel}
         selectNextChannel={selectNextChannel}
         selectPreviousChannel={selectPreviousChannel}
