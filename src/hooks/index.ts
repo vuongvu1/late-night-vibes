@@ -1,2 +1,2 @@
-export { default as useSpaceKeyPress } from "./useSpaceKeyPress";
+export { default as useKeyPress } from "./useKeyPress";
 export { default as useChannel } from "./useChannel";

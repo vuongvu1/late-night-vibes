@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-const useSpaceKeyPress = (callback: () => void) => {
+const useKeyPress = (key: string, callback: () => void) => {
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.code === "Space") {
+      if (event.code === key) {
         callback();
       }
     };
@@ -13,7 +13,7 @@ const useSpaceKeyPress = (callback: () => void) => {
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, [callback]);
+  }, [callback, key]);
 };
 
-export default useSpaceKeyPress;
+export default useKeyPress;

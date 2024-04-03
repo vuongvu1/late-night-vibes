@@ -1,6 +1,6 @@
 import React from "react";
 import { YouTubePlayer, ControlPanel, Background } from "./components";
-import { useSpaceKeyPress, useChannel } from "./hooks";
+import { useKeyPress, useChannel } from "./hooks";
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -15,7 +15,9 @@ function App() {
 
   const togglePlaying = () => setIsPlaying((prev) => !prev);
 
-  useSpaceKeyPress(togglePlaying);
+  useKeyPress("Space", togglePlaying);
+  useKeyPress("ArrowRight", selectNextChannel);
+  useKeyPress("ArrowLeft", selectPreviousChannel);
 
   return (
     <>
