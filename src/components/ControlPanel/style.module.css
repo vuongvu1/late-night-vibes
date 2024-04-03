@@ -1,5 +1,4 @@
 .container {
   position: fixed;
-  width: 100%;
   bottom: var(--spacing-md);
 }
