@@ -28,7 +28,7 @@ function App() {
       />
       <Background />
       <h1>
-        [{activeChannel}] - {videoTitle}
+        [Radio {activeChannel}] - {videoTitle}
       </h1>
       <ControlPanel
         isPlaying={isPlaying}
