@@ -5,7 +5,7 @@ import {
   PreviousIcon,
   ShuffleIcon,
 } from "../../assets/icons";
-import { Button, Flex } from "../../components";
+import { Button, Flex, VolumeSlider } from "../../components";
 import styles from "./style.module.css";
 
 interface ControlPanelProps {
@@ -33,6 +33,7 @@ function ControlPanel({
       <Button icon={<ShuffleIcon />} onClick={selectRandomChannel} />
       <Button icon={<PreviousIcon />} onClick={selectPreviousChannel} />
       <Button icon={<NextIcon />} onClick={selectNextChannel} />
+      <VolumeSlider />
     </Flex>
   );
 }
