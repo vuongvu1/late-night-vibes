@@ -1,6 +1,6 @@
 # Late Night Vibes 🌙
 
-[▶️](https://late-night-vibes.netlify.app/)
+Let's play 👉 [▶️](https://late-night-vibes.netlify.app/)
 
 Enjoy a variety of live lofi radio channels through an exquisite online player.
 
