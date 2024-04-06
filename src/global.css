@@ -57,7 +57,7 @@
   --duration-super-long: 2000ms;
 
   /* Other variables */
-  --focus-shadow: 0 0 0 2px var(--primary-color);
+  --focus-shadow: 0 0 0 2px var(--border-color);
 }
 
 * {
