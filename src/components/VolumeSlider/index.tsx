@@ -24,7 +24,7 @@ function VolumeSlider() {
         type="range"
         min="0"
         max="100"
-        step="5"
+        step="10"
         value={value}
         onChange={(e) => setValue(Number(e.target.value))}
         className={styles.slider}

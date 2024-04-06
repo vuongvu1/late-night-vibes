@@ -15,9 +15,12 @@ function App() {
 
   const togglePlaying = () => setIsPlaying((prev) => !prev);
 
-  useKeyPress("Space", togglePlaying);
-  useKeyPress("ArrowRight", selectNextChannel);
-  useKeyPress("ArrowLeft", selectPreviousChannel);
+  useKeyPress({
+    Space: togglePlaying,
+    KeyN: selectNextChannel,
+    KeyP: selectPreviousChannel,
+    KeyR: selectRandomChannel,
+  });
 
   return (
     <>

@@ -1,11 +1,15 @@
 import { useEffect } from "react";
 
-const useKeyPress = (key: string, callback: () => void) => {
+type KeyActionPairs = Record<string, () => void>;
+
+const useKeyPress = (keyActionPairs: KeyActionPairs) => {
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.code === key) {
-        callback();
-      }
+      Object.entries(keyActionPairs).forEach(([key, action]) => {
+        if (event.code === key) {
+          action();
+        }
+      });
     };
 
     document.addEventListener("keydown", handleKeyPress);
@@ -13,7 +17,7 @@ const useKeyPress = (key: string, callback: () => void) => {
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, [callback, key]);
+  }, [keyActionPairs]);
 };
 
 export default useKeyPress;
