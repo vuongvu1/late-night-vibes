@@ -1,17 +1,17 @@
-import { useState } from "react";
 import styles from "./style.module.css";
 
-function VolumeSlider() {
-  // TODO: get the initial value from local storage
-  const [value, setValue] = useState(80);
+type Props = {
+  value: number;
+  setValue: (value: number) => void;
+};
 
-  console.log(value);
-
+function VolumeSlider({ value, setValue }: Props) {
   return (
     <div className={styles.container}>
       {new Array(10).fill("").map((_, index) => (
         <div
           className={styles.block}
+          key={index}
           style={
             {
               "--filled-color":

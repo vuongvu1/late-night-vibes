@@ -5,6 +5,7 @@ import { useKeyPress, useChannel } from "./hooks";
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState("");
+  const [volume, setVolume] = React.useState(80);
 
   const {
     activeChannel,
@@ -12,6 +13,8 @@ function App() {
     selectNextChannel,
     selectPreviousChannel,
   } = useChannel();
+
+  console.log(volume);
 
   const togglePlaying = () => setIsPlaying((prev) => !prev);
 
@@ -35,6 +38,8 @@ function App() {
       </h1>
       <ControlPanel
         isPlaying={isPlaying}
+        volume={volume}
+        setVolume={setVolume}
         togglePlaying={togglePlaying}
         selectRandomChannel={selectRandomChannel}
         selectNextChannel={selectNextChannel}

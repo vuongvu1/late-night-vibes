@@ -10,8 +10,9 @@ import styles from "./style.module.css";
 
 interface ControlPanelProps {
   isPlaying: boolean;
+  volume: number;
+  setVolume: (value: number) => void;
   togglePlaying: () => void;
-
   selectRandomChannel: () => void;
   selectNextChannel: () => void;
   selectPreviousChannel: () => void;
@@ -19,6 +20,8 @@ interface ControlPanelProps {
 
 function ControlPanel({
   isPlaying,
+  volume,
+  setVolume,
   togglePlaying,
   selectRandomChannel,
   selectNextChannel,
@@ -33,7 +36,7 @@ function ControlPanel({
       <Button icon={<ShuffleIcon />} onClick={selectRandomChannel} />
       <Button icon={<PreviousIcon />} onClick={selectPreviousChannel} />
       <Button icon={<NextIcon />} onClick={selectNextChannel} />
-      <VolumeSlider />
+      <VolumeSlider value={volume} setValue={setVolume} />
     </Flex>
   );
 }
