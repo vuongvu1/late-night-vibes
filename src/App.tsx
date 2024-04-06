@@ -1,6 +1,7 @@
 import React from "react";
 import { YouTubePlayer, ControlPanel, Background } from "./components";
 import { useKeyPress, useChannel } from "./hooks";
+import { VOLUME_STEP } from "./constants";
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -14,21 +15,22 @@ function App() {
     selectPreviousChannel,
   } = useChannel();
 
-  console.log(volume);
-
   const togglePlaying = () => setIsPlaying((prev) => !prev);
 
   useKeyPress({
     Space: togglePlaying,
+    KeyR: selectRandomChannel,
     KeyN: selectNextChannel,
     KeyP: selectPreviousChannel,
-    KeyR: selectRandomChannel,
+    ArrowRight: () => setVolume(volume < 100 ? volume + VOLUME_STEP : volume),
+    ArrowLeft: () => setVolume(volume > 0 ? volume - VOLUME_STEP : volume),
   });
 
   return (
     <>
       <YouTubePlayer
         videoId={activeChannel}
+        volume={volume}
         isPlaying={isPlaying}
         setVideoTitle={setVideoTitle}
       />

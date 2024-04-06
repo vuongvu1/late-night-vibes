@@ -9,7 +9,7 @@
 
   &:hover,
   &:active,
-  &:has(input:focus-visible) {
+  &:has(.slider:focus-visible) {
     opacity: 1;
   }
 }

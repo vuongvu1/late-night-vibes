@@ -3,6 +3,7 @@ import style from "./style.module.css";
 
 type Props = {
   videoId: string;
+  volume: number;
   isPlaying: boolean;
   setVideoTitle: (title: string) => void;
 };
@@ -45,6 +46,7 @@ const initializePlayer = (
 
 const YouTubePlayer: React.FC<Props> = ({
   videoId,
+  volume,
   isPlaying,
   setVideoTitle,
 }) => {
@@ -77,6 +79,12 @@ const YouTubePlayer: React.FC<Props> = ({
   useEffect(() => {
     initializePlayer(playerRef, videoId, checkPlayerStatus);
   }, [videoId, checkPlayerStatus]);
+
+  useEffect(() => {
+    if (playerRef.current) {
+      playerRef.current.setVolume?.(volume);
+    }
+  }, [volume]);
 
   checkPlayerStatus();
 

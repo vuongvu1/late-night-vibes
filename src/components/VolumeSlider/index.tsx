@@ -1,4 +1,5 @@
 import styles from "./style.module.css";
+import { VOLUME_STEP } from "../../constants";
 
 type Props = {
   value: number;
@@ -8,14 +9,14 @@ type Props = {
 function VolumeSlider({ value, setValue }: Props) {
   return (
     <div className={styles.container}>
-      {new Array(10).fill("").map((_, index) => (
+      {new Array(VOLUME_STEP).fill("").map((_, index) => (
         <div
           className={styles.block}
           key={index}
           style={
             {
               "--filled-color":
-                value / 10 > index ? "var(--primary-color)" : "",
+                value / VOLUME_STEP > index ? "var(--primary-color)" : "",
             } as React.CSSProperties
           }
         />
@@ -24,9 +25,10 @@ function VolumeSlider({ value, setValue }: Props) {
         type="range"
         min="0"
         max="100"
-        step="10"
+        step={VOLUME_STEP}
         value={value}
         onChange={(e) => setValue(Number(e.target.value))}
+        onKeyDown={(e) => e.stopPropagation()}
         className={styles.slider}
       />
     </div>
