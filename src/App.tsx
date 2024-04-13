@@ -2,6 +2,7 @@ import React from "react";
 import { YouTubePlayer, ControlPanel, Background } from "./components";
 import { useKeyPress, useChannel } from "./hooks";
 import { VOLUME_STEP } from "./constants";
+import { removeEmojis } from "./utils";
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -36,7 +37,7 @@ function App() {
       />
       <Background />
       <h1>
-        [Radio {activeChannel}] - {videoTitle}
+        [Live Radio {activeChannel}] - {removeEmojis(videoTitle)}
       </h1>
       <ControlPanel
         isPlaying={isPlaying}
