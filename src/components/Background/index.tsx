@@ -1,11 +1,11 @@
 import styles from "./style.module.css";
-import night2Gif from "../../assets/gifs/night-2.gif";
+import night3Gif from "../../assets/gifs/night-3.gif";
 
 function Background() {
   return (
     <div className={styles.container}>
-      <img src={night2Gif} alt="foreground" className={styles.foreground}></img>
-      <img src={night2Gif} alt="background" className={styles.background}></img>
+      <img src={night3Gif} alt="foreground" className={styles.foreground}></img>
+      <img src={night3Gif} alt="background" className={styles.background}></img>
     </div>
   );
 }

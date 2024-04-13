@@ -36,7 +36,7 @@ function App() {
         setVideoTitle={setVideoTitle}
       />
       <Background />
-      <h1>
+      <h1 style={{ textShadow: "0px 1px 2px rgb(0 0 0 / 80%)" }}>
         [Live Radio {activeChannel}] - {removeEmojis(videoTitle)}
       </h1>
       <ControlPanel
