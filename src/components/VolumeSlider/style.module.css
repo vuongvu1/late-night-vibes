@@ -52,4 +52,5 @@
   width: var(--spacing-sm);
   height: var(--spacing-md);
   background-color: transparent;
+  border: none;
 }
