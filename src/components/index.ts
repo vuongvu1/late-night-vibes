@@ -1,6 +1,7 @@
-export { default as Button } from "./Button";
-export { default as YouTubePlayer } from "./YouTubePlayer";
 export { default as Background } from "./Background";
-export { default as Flex } from "./Flex";
+export { default as Button } from "./Button";
 export { default as ControlPanel } from "./ControlPanel";
+export { default as Flex } from "./Flex";
+export { default as Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 export { default as VolumeSlider } from "./VolumeSlider";
+export { default as YouTubePlayer } from "./YouTubePlayer";

@@ -1,5 +1,12 @@
 import React from "react";
-import { YouTubePlayer, ControlPanel, Background } from "./components";
+import {
+  YouTubePlayer,
+  ControlPanel,
+  Background,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "./components";
 import { useKeyPress, useChannel } from "./hooks";
 import { VOLUME_STEP } from "./constants";
 import { removeEmojis } from "./utils";
@@ -36,9 +43,16 @@ function App() {
         setVideoTitle={setVideoTitle}
       />
       <Background />
-      <h1 style={{ textShadow: "0px 1px 2px rgb(0 0 0 / 80%)" }}>
-        [Live Radio {activeChannel}] - {removeEmojis(videoTitle)}
-      </h1>
+      <Tooltip>
+        <TooltipTrigger>
+          <h1 style={{ textShadow: "var(--text-highlight-shadow)" }}>
+            [LiveRadio {activeChannel}] - {removeEmojis(videoTitle)}
+          </h1>
+        </TooltipTrigger>
+        <TooltipContent>
+          <h2>{removeEmojis(videoTitle)}</h2>
+        </TooltipContent>
+      </Tooltip>
       <ControlPanel
         isPlaying={isPlaying}
         volume={volume}
