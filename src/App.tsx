@@ -6,6 +6,7 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
+  NeonText,
 } from "./components";
 import { useKeyPress, useChannel } from "./hooks";
 import { VOLUME_STEP } from "./constants";
@@ -43,16 +44,10 @@ function App() {
         setVideoTitle={setVideoTitle}
       />
       <Background />
-      <Tooltip>
-        <TooltipTrigger>
-          <h1 style={{ textShadow: "var(--text-highlight-shadow)" }}>
-            [LiveRadio {activeChannel}] - {removeEmojis(videoTitle)}
-          </h1>
-        </TooltipTrigger>
-        <TooltipContent>
-          <h2>{removeEmojis(videoTitle)}</h2>
-        </TooltipContent>
-      </Tooltip>
+      <NeonText as="h1">
+        [LiveRadio {activeChannel}] - {removeEmojis(videoTitle)}
+      </NeonText>
+
       <ControlPanel
         isPlaying={isPlaying}
         volume={volume}

@@ -5,3 +5,4 @@ export { default as Flex } from "./Flex";
 export { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 export { default as VolumeSlider } from "./VolumeSlider";
 export { default as YouTubePlayer } from "./YouTubePlayer";
+export { NeonText } from "./NeonText";
