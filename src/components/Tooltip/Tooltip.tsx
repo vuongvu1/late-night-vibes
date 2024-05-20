@@ -1,23 +1,22 @@
-import * as React from "react";
-import type { TooltipOptions } from "./type";
-import { useTooltip } from "./hooks/useTooltip";
-import { TooltipContext } from "./hooks/useTooltipContext";
+import * as RadixTooltip from "@radix-ui/react-tooltip";
+import styles from "./style.module.css";
 
-/**
- * Tooltip component that wraps the trigger and content.
- * @docs https://floating-ui.com/docs/tooltip
- */
-export function Tooltip({
-  children,
-  ...options
-}: { children: React.ReactNode } & TooltipOptions) {
-  // This can accept any props as options, e.g. `placement`,
-  // or other positioning options.
-  const tooltip = useTooltip(options);
+type TooltipProps = {
+  content: React.ReactNode;
+  children: React.ReactNode;
+};
 
+export const Tooltip = ({ content, children }: TooltipProps) => {
   return (
-    <TooltipContext.Provider value={tooltip}>
-      {children}
-    </TooltipContext.Provider>
+    <RadixTooltip.Provider delayDuration={200}>
+      <RadixTooltip.Root>
+        <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
+        <RadixTooltip.Portal>
+          <RadixTooltip.Content className={styles.content} sideOffset={5}>
+            {content}
+          </RadixTooltip.Content>
+        </RadixTooltip.Portal>
+      </RadixTooltip.Root>
+    </RadixTooltip.Provider>
   );
-}
+};

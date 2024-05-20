@@ -38,7 +38,7 @@ function App() {
         videoId={activeChannel}
         volume={volume}
         isPlaying={isPlaying}
-        setVideoTitle={setVideoTitle}
+        onVideoLoaded={(title) => setVideoTitle(title)}
       />
       <Background />
       <NeonText as="h1">

@@ -5,7 +5,7 @@ type Props = {
   videoId: string;
   volume: number;
   isPlaying: boolean;
-  setVideoTitle: (title: string) => void;
+  onVideoLoaded: (title: string) => void;
 };
 
 const initializePlayer = (
@@ -48,7 +48,7 @@ const YouTubePlayer: React.FC<Props> = ({
   videoId,
   volume,
   isPlaying,
-  setVideoTitle,
+  onVideoLoaded,
 }) => {
   const playerRef = useRef<YT.Player | null>(null);
 
@@ -63,18 +63,18 @@ const YouTubePlayer: React.FC<Props> = ({
     const playerTitle = player.videoTitle;
 
     if (player && !playerTitle) {
-      setVideoTitle("Radio channel is down!");
+      onVideoLoaded("Radio channel is down!");
       return;
     }
 
-    setVideoTitle(playerTitle);
+    onVideoLoaded(playerTitle);
 
     if (isPlaying) {
       player.playVideo();
     } else {
       player.pauseVideo();
     }
-  }, [isPlaying, setVideoTitle]);
+  }, [isPlaying, onVideoLoaded]);
 
   useEffect(() => {
     initializePlayer(playerRef, videoId, checkPlayerStatus);

@@ -5,7 +5,7 @@ import {
   PreviousIcon,
   ShuffleIcon,
 } from "../../assets/icons";
-import { Button, Flex, VolumeSlider } from "../../components";
+import { Button, Flex, Tooltip, VolumeSlider } from "../../components";
 import styles from "./style.module.css";
 
 interface ControlPanelProps {
@@ -30,15 +30,25 @@ function ControlPanel({
   return (
     <Flex justify="space-between" className={styles.container}>
       <Flex gap="var(--spacing-sm)" justify="flex-start">
-        <Button
-          icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
-          onClick={togglePlaying}
-        />
-        <Button icon={<ShuffleIcon />} onClick={selectRandomChannel} />
-        <Button icon={<PreviousIcon />} onClick={selectPreviousChannel} />
-        <Button icon={<NextIcon />} onClick={selectNextChannel} />
+        <Tooltip content={<div>alo</div>}>
+          <Button
+            icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
+            onClick={togglePlaying}
+          />
+        </Tooltip>
+        <Tooltip content={<div>alo</div>}>
+          <Button icon={<ShuffleIcon />} onClick={selectRandomChannel} />
+        </Tooltip>
+        <Tooltip content={<div>alo</div>}>
+          <Button icon={<PreviousIcon />} onClick={selectPreviousChannel} />
+        </Tooltip>
+        <Tooltip content={<div>alo</div>}>
+          <Button icon={<NextIcon />} onClick={selectNextChannel} />
+        </Tooltip>
       </Flex>
-      <VolumeSlider value={volume} setValue={setVolume} />
+      <Tooltip content={<div>alo</div>}>
+        <VolumeSlider value={volume} setValue={setVolume} />
+      </Tooltip>
     </Flex>
   );
 }

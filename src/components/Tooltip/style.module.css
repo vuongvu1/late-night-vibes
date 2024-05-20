@@ -1,10 +1,34 @@
-.tooltip {
-  background-color: #444;
-  color: white;
-  font-size: 90%;
-  padding: 4px 8px;
-  border-radius: 4px;
-  box-sizing: border-box;
+.content {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: var(--font-size-md);
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
   width: max-content;
-  max-width: calc(100vw - 10px);
+}
+
+.content[data-state="open"] {
+  animation: fadeIn var(--duration-normal) ease-out;
+}
+
+.content[data-state="closed"] {
+  animation: fadeOut var(--duration-normal) ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

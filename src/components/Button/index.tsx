@@ -6,9 +6,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ icon, onClick, ...restProps }) => {
+const Button: React.FC<ButtonProps> = React.forwardRef<
+  HTMLButtonElement,
+  ButtonProps
+>(({ icon, onClick, ...restProps }, ref) => {
   return (
     <button
+      ref={ref}
       className={styles.button}
       onClick={onClick}
       onKeyDown={(event) => {
@@ -21,6 +25,6 @@ const Button: React.FC<ButtonProps> = ({ icon, onClick, ...restProps }) => {
       {icon}
     </button>
   );
-};
+});
 
 export default Button;
