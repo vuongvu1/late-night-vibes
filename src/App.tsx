@@ -3,9 +3,6 @@ import {
   YouTubePlayer,
   ControlPanel,
   Background,
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
   NeonText,
 } from "./components";
 import { useKeyPress, useChannel } from "./hooks";
