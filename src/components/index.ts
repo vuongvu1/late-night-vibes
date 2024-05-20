@@ -6,3 +6,4 @@ export { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 export { default as VolumeSlider } from "./VolumeSlider";
 export { default as YouTubePlayer } from "./YouTubePlayer";
 export { NeonText } from "./NeonText";
+export { Spinner } from "./Spinner";
