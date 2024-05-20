@@ -1,11 +1,18 @@
 .neonText {
-  color: #fff;
-  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
-    0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
-  animation: flicker 2s infinite alternate;
+  border: 0.2rem solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: 0.4em;
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem var(--primary-color),
+    0 0 0.8rem var(--primary-color), 0 0 2.8rem var(--primary-color),
+    inset 0 0 1.3rem var(--primary-color);
+  width: fit-content;
+  background-color: #00000099;
+  opacity: 1;
+  pointer-events: none;
+  /* animation: flicker 2s infinite alternate; */
 }
 
-@keyframes flicker {
+/* @keyframes flicker {
   0%,
   18%,
   22%,
@@ -13,8 +20,8 @@
   53%,
   57%,
   100% {
-    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa,
-      0 0 80px #0fa, 0 0 90px #0fa, 0 0 100px #0fa, 0 0 150px #0fa;
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px var(--primary-color),
+      0 0 80px var(--primary-color), 0 0 90px var(--primary-color), 0 0 100px var(--primary-color), 0 0 150px var(--primary-color);
   }
 
   20%,
@@ -22,4 +29,4 @@
   55% {
     text-shadow: none;
   }
-}
+} */
