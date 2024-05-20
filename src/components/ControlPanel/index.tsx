@@ -30,23 +30,23 @@ function ControlPanel({
   return (
     <Flex justify="space-between" className={styles.container}>
       <Flex gap="var(--spacing-sm)" justify="flex-start">
-        <Tooltip content={<div>alo</div>}>
+        <Tooltip content="Press [Space] to Play/Pause">
           <Button
             icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
             onClick={togglePlaying}
           />
         </Tooltip>
-        <Tooltip content={<div>alo</div>}>
+        <Tooltip content="Press [R] to play a random channel">
           <Button icon={<ShuffleIcon />} onClick={selectRandomChannel} />
         </Tooltip>
-        <Tooltip content={<div>alo</div>}>
+        <Tooltip content="Press [ArrowLeft] to play previous channel">
           <Button icon={<PreviousIcon />} onClick={selectPreviousChannel} />
         </Tooltip>
-        <Tooltip content={<div>alo</div>}>
+        <Tooltip content="Press [ArrowRight] to play next channel">
           <Button icon={<NextIcon />} onClick={selectNextChannel} />
         </Tooltip>
       </Flex>
-      <Tooltip content={<div>alo</div>}>
+      <Tooltip content="Press [ArrowUp/Down] to control volume">
         <VolumeSlider value={volume} setValue={setVolume} />
       </Tooltip>
     </Flex>

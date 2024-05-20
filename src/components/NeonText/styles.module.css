@@ -6,7 +6,7 @@
     0 0 0.8rem var(--primary-color), 0 0 2.8rem var(--primary-color),
     inset 0 0 1.3rem var(--primary-color);
   width: fit-content;
-  background-color: #00000099;
+  background-color: var(--background-transparent);
   opacity: 1;
   pointer-events: none;
   /* animation: flicker 2s infinite alternate; */

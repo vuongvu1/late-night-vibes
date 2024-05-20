@@ -1,8 +1,8 @@
 .content {
-  background-color: var(--background-color);
+  background-color: var(--background-transparent);
   color: var(--text-color);
   font-size: var(--font-size-md);
-  padding: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-sm);
   width: max-content;
 }
