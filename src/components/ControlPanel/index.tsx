@@ -28,14 +28,16 @@ function ControlPanel({
   selectPreviousChannel,
 }: ControlPanelProps) {
   return (
-    <Flex gap="var(--spacing-sm)" justify="center" className={styles.container}>
-      <Button
-        icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
-        onClick={togglePlaying}
-      />
-      <Button icon={<ShuffleIcon />} onClick={selectRandomChannel} />
-      <Button icon={<PreviousIcon />} onClick={selectPreviousChannel} />
-      <Button icon={<NextIcon />} onClick={selectNextChannel} />
+    <Flex justify="space-between" className={styles.container}>
+      <Flex gap="var(--spacing-sm)" justify="flex-start">
+        <Button
+          icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
+          onClick={togglePlaying}
+        />
+        <Button icon={<ShuffleIcon />} onClick={selectRandomChannel} />
+        <Button icon={<PreviousIcon />} onClick={selectPreviousChannel} />
+        <Button icon={<NextIcon />} onClick={selectNextChannel} />
+      </Flex>
       <VolumeSlider value={volume} setValue={setVolume} />
     </Flex>
   );

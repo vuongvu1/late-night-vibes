@@ -26,10 +26,10 @@ function App() {
   useKeyPress({
     Space: togglePlaying,
     KeyR: selectRandomChannel,
-    KeyN: selectNextChannel,
-    KeyP: selectPreviousChannel,
-    ArrowRight: () => setVolume(volume < 100 ? volume + VOLUME_STEP : volume),
-    ArrowLeft: () => setVolume(volume > 0 ? volume - VOLUME_STEP : volume),
+    ArrowRight: selectNextChannel,
+    ArrowLeft: selectPreviousChannel,
+    ArrowUp: () => setVolume(volume < 100 ? volume + VOLUME_STEP : volume),
+    ArrowDown: () => setVolume(volume > 0 ? volume - VOLUME_STEP : volume),
   });
 
   return (
