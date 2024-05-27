@@ -3,7 +3,7 @@ import data from "../data.json";
 
 const channels = data.channels;
 
-const useChannel = () => {
+export const useChannel = () => {
   const [activeChannel, setActiveChannel] = useState<string>(channels[0]);
 
   const selectRandomChannel = () => {
@@ -35,5 +35,3 @@ const useChannel = () => {
     selectPreviousChannel,
   };
 };
-
-export default useChannel;

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 type KeyActionPairs = Record<string, () => void>;
 
-const useKeyPress = (keyActionPairs: KeyActionPairs) => {
+export const useKeyPress = (keyActionPairs: KeyActionPairs) => {
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       Object.entries(keyActionPairs).forEach(([key, action]) => {
@@ -19,5 +19,3 @@ const useKeyPress = (keyActionPairs: KeyActionPairs) => {
     };
   }, [keyActionPairs]);
 };
-
-export default useKeyPress;

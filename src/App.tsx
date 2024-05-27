@@ -4,8 +4,9 @@ import {
   ControlPanel,
   Background,
   NeonText,
+  Spinner,
 } from "./components";
-import { useKeyPress, useChannel } from "./hooks";
+import { useKeyPress, useChannel, useStory } from "./hooks";
 import { VOLUME_STEP } from "./constants";
 import { removeEmojis } from "./utils";
 
@@ -13,6 +14,7 @@ function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState("");
   const [volume, setVolume] = React.useState(80);
+  const [isLoading, story] = useStory();
 
   const {
     activeChannel,
@@ -44,6 +46,8 @@ function App() {
       <NeonText as="h1">
         [LiveRadio {activeChannel}] - {removeEmojis(videoTitle)}
       </NeonText>
+
+      {isLoading ? <Spinner /> : <NeonText as="h3">{story}</NeonText>}
 
       <ControlPanel
         isPlaying={isPlaying}
