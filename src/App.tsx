@@ -14,7 +14,7 @@ function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState("");
   const [volume, setVolume] = React.useState(80);
-  const [isLoading, story] = useStory();
+  const story = useStory();
 
   const {
     activeChannel,
@@ -47,7 +47,11 @@ function App() {
         [LiveRadio {activeChannel}] - {removeEmojis(videoTitle)}
       </NeonText>
 
-      {isLoading ? <Spinner /> : <NeonText as="h3">{story}</NeonText>}
+      {story ? (
+        <NeonText as="p">{JSON.stringify(story)}</NeonText>
+      ) : (
+        <Spinner />
+      )}
 
       <ControlPanel
         isPlaying={isPlaying}

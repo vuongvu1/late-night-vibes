@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { getStory } from "../services";
+import { StoryType } from "../types";
 
-export function useStory(): [boolean, string] {
-  const [story, setStory] = useState("");
+export function useStory(): StoryType | undefined {
+  const [story, setStory] = useState<StoryType>();
 
   useEffect(() => {
     (async () => {
       const storyOfTheDay = await getStory();
-      setStory(storyOfTheDay);
+
+      setStory(JSON.parse(storyOfTheDay));
     })();
   }, []);
 
-  return [Boolean(!story), story];
+  return story;
 }

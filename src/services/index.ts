@@ -11,4 +11,6 @@ export const getStory = async () => {
     // Handle the error here
     console.error("Error fetching story:", error);
   }
+
+  return null;
 };
