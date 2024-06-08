@@ -16,7 +16,7 @@ interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-const Flex: React.FC<FlexProps> = ({
+export const Flex: React.FC<FlexProps> = ({
   direction = "row",
   justify = "flex-start",
   align = "stretch",
@@ -46,5 +46,3 @@ const Flex: React.FC<FlexProps> = ({
     </div>
   );
 };
-
-export default Flex;

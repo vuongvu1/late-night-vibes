@@ -4,7 +4,8 @@ import {
   ControlPanel,
   Background,
   NeonText,
-  Spinner,
+  Flex,
+  ChatBlock,
 } from "./components";
 import { useKeyPress, useChannel, useStory } from "./hooks";
 import { VOLUME_STEP } from "./constants";
@@ -35,7 +36,7 @@ function App() {
   });
 
   return (
-    <>
+    <Flex direction="column" style={{ height: "90vh" }}>
       <YouTubePlayer
         videoId={activeChannel}
         volume={volume}
@@ -47,11 +48,13 @@ function App() {
         [LiveRadio {activeChannel}] - {removeEmojis(videoTitle)}
       </NeonText>
 
-      {story ? (
+      {/* {story ? (
         <NeonText as="p">{JSON.stringify(story)}</NeonText>
       ) : (
         <Spinner />
-      )}
+      )} */}
+
+      <ChatBlock />
 
       <ControlPanel
         isPlaying={isPlaying}
@@ -62,7 +65,7 @@ function App() {
         selectNextChannel={selectNextChannel}
         selectPreviousChannel={selectPreviousChannel}
       />
-    </>
+    </Flex>
   );
 }
 
