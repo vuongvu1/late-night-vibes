@@ -7,7 +7,11 @@ import {
   Flex,
   ChatBlock,
 } from "./components";
-import { useKeyPress, useChannel, useStory } from "./hooks";
+import {
+  useKeyPress,
+  useChannel,
+  // useStory
+} from "./hooks";
 import { VOLUME_STEP } from "./constants";
 import { removeEmojis } from "./utils";
 
@@ -15,7 +19,7 @@ function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState("");
   const [volume, setVolume] = React.useState(80);
-  const story = useStory();
+  // const story = useStory();
 
   const {
     activeChannel,
