@@ -49,7 +49,7 @@ function App() {
       />
       <Background />
       <NeonText as="h1">
-        [LiveRadio {activeChannel}] - {removeEmojis(videoTitle)}
+        [Live #{activeChannel.substring(0, 3)}] - {removeEmojis(videoTitle)}
       </NeonText>
 
       {/* {story ? (
