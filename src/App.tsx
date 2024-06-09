@@ -47,7 +47,7 @@ function App() {
         isPlaying={isPlaying}
         onVideoLoaded={(title) => setVideoTitle(title)}
       />
-      <Background />
+      <Background key={activeChannel} />
       <NeonText as="h1">
         [Live #{activeChannel.substring(0, 3)}] - {removeEmojis(videoTitle)}
       </NeonText>
