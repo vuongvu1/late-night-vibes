@@ -7,12 +7,8 @@ import {
   Flex,
   ChatBlock,
 } from "./components";
-import {
-  useKeyPress,
-  useChannel,
-  // useStory
-} from "./hooks";
-import { VOLUME_STEP } from "./constants";
+import { useKeyPress, useChannel, useAutoSwitchChannelWhenDown } from "./hooks";
+import { VOLUME_STEP, VIDEO_DOWN_TITLE } from "./constants";
 import { removeEmojis } from "./utils";
 
 function App() {
@@ -37,6 +33,11 @@ function App() {
     ArrowLeft: selectPreviousChannel,
     ArrowUp: () => setVolume(volume < 100 ? volume + VOLUME_STEP : volume),
     ArrowDown: () => setVolume(volume > 0 ? volume - VOLUME_STEP : volume),
+  });
+
+  useAutoSwitchChannelWhenDown({
+    isChannelDown: videoTitle === VIDEO_DOWN_TITLE,
+    callback: selectRandomChannel,
   });
 
   return (

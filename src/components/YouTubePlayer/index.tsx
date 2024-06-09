@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useCallback } from "react";
+import { VIDEO_DOWN_TITLE } from "../../constants";
 import style from "./style.module.css";
 
 type Props = {
@@ -63,7 +64,7 @@ const YouTubePlayer: React.FC<Props> = ({
     const playerTitle = player.videoTitle;
 
     if (player && !playerTitle) {
-      onVideoLoaded("Radio channel is down!");
+      onVideoLoaded(VIDEO_DOWN_TITLE);
       return;
     }
 
