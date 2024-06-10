@@ -13,7 +13,7 @@ export const useAutoSwitchChannelWhenDown = ({
     let intervalId: ReturnType<typeof setTimeout> | undefined;
 
     if (isChannelDown) {
-      intervalId = setInterval(callback, 2000);
+      intervalId = setInterval(callback, 3000);
     } else {
       clearInterval(intervalId);
     }

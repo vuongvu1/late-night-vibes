@@ -6,6 +6,7 @@ import {
   NeonText,
   Flex,
   ChatBlock,
+  Spinner,
 } from "./components";
 import { useKeyPress, useChannel, useAutoSwitchChannelWhenDown } from "./hooks";
 import { VOLUME_STEP, VIDEO_DOWN_TITLE } from "./constants";
@@ -40,6 +41,8 @@ function App() {
     callback: selectRandomChannel,
   });
 
+  const shouldShowSpinner = !videoTitle || videoTitle === VIDEO_DOWN_TITLE;
+
   return (
     <Flex direction="column" style={{ height: "90vh" }}>
       <YouTubePlayer
@@ -50,7 +53,8 @@ function App() {
       />
       <Background key={activeChannel} />
       <NeonText as="h1">
-        [Live #{activeChannel.substring(0, 3)}] - {removeEmojis(videoTitle)}
+        [Live #{activeChannel.substring(0, 3)}] -{" "}
+        {shouldShowSpinner ? <Spinner /> : removeEmojis(videoTitle)}
       </NeonText>
 
       {/* {story ? (

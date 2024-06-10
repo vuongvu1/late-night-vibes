@@ -5,10 +5,10 @@
   box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem var(--primary-color),
     0 0 0.8rem var(--primary-color), 0 0 2.8rem var(--primary-color),
     inset 0 0 1.3rem var(--primary-color);
-  width: fit-content;
   background-color: var(--background-transparent);
   opacity: 1;
   pointer-events: none;
+  text-align: center;
   /* animation: flicker 2s infinite alternate; */
 }
 

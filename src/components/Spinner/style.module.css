@@ -1,3 +1,8 @@
+.container {
+  display: inline;
+  vertical-align: middle;
+}
+
 .spinner {
   display: inline-block;
   border: 12px solid #f3f3f3;
