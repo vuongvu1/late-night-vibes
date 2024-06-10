@@ -20,7 +20,7 @@
   object-fit: cover;
   z-index: -1;
   filter: blur(0.55em) saturate(0.8) contrast(1) brightness(2);
-  animation: fade-in 2s ease-in-out;
+  animation: fade-in 3s ease-in-out;
 }
 
 .background {
