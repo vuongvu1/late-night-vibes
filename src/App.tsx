@@ -13,9 +13,10 @@ import { VOLUME_STEP, VIDEO_DOWN_TITLE } from "./constants";
 import { removeEmojis } from "./utils";
 
 function App() {
-  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [isPlaying, setIsPlaying] = React.useState(true);
   const [videoTitle, setVideoTitle] = React.useState("");
   const [volume, setVolume] = React.useState(80);
+  const [bgKey, setBgKey] = React.useState(0);
   // const story = useStory();
 
   const {
@@ -26,6 +27,8 @@ function App() {
   } = useChannel();
 
   const togglePlaying = () => setIsPlaying((prev) => !prev);
+  const changeBackground = () => setBgKey((prev) => prev + 1);
+  const shouldShowSpinner = !videoTitle || videoTitle === VIDEO_DOWN_TITLE;
 
   useKeyPress({
     Space: togglePlaying,
@@ -34,14 +37,13 @@ function App() {
     ArrowLeft: selectPreviousChannel,
     ArrowUp: () => setVolume(volume < 100 ? volume + VOLUME_STEP : volume),
     ArrowDown: () => setVolume(volume > 0 ? volume - VOLUME_STEP : volume),
+    KeyG: changeBackground,
   });
 
   useAutoSwitchChannelWhenDown({
     isChannelDown: videoTitle === VIDEO_DOWN_TITLE,
     callback: selectRandomChannel,
   });
-
-  const shouldShowSpinner = !videoTitle || videoTitle === VIDEO_DOWN_TITLE;
 
   return (
     <Flex direction="column" style={{ height: "90vh" }}>
@@ -51,7 +53,7 @@ function App() {
         isPlaying={isPlaying}
         onVideoLoaded={(title) => setVideoTitle(title)}
       />
-      <Background key={activeChannel} />
+      <Background key={bgKey + activeChannel} />
       <NeonText as="h1">
         [Live #{activeChannel.substring(0, 3)}] -{" "}
         {shouldShowSpinner ? <Spinner /> : removeEmojis(videoTitle)}
@@ -73,6 +75,7 @@ function App() {
         selectRandomChannel={selectRandomChannel}
         selectNextChannel={selectNextChannel}
         selectPreviousChannel={selectPreviousChannel}
+        changeBackground={changeBackground}
       />
     </Flex>
   );

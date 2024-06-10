@@ -5,6 +5,11 @@
   border-radius: var(--border-radius-round);
   background-color: var(--button-color-background);
   transition: all ease var(--duration-normal);
+  color: var(--button-color-text);
+  font-size: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover,
   &:active {

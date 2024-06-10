@@ -16,6 +16,7 @@ interface ControlPanelProps {
   selectRandomChannel: () => void;
   selectNextChannel: () => void;
   selectPreviousChannel: () => void;
+  changeBackground: () => void;
 }
 
 function ControlPanel({
@@ -26,6 +27,7 @@ function ControlPanel({
   selectRandomChannel,
   selectNextChannel,
   selectPreviousChannel,
+  changeBackground,
 }: ControlPanelProps) {
   return (
     <Flex justify="space-between" className={styles.container}>
@@ -46,9 +48,14 @@ function ControlPanel({
           <Button icon={<NextIcon />} onClick={selectNextChannel} />
         </Tooltip>
       </Flex>
-      <Tooltip content="Press [ArrowUp/Down] to control volume">
-        <VolumeSlider value={volume} setValue={setVolume} />
-      </Tooltip>
+      <Flex justify="flex-end">
+        <Tooltip content="Press [G] to change background">
+          <Button icon={"⤾"} onClick={changeBackground} />
+        </Tooltip>
+        <Tooltip content="Press [ArrowUp/Down] to control volume">
+          <VolumeSlider value={volume} setValue={setVolume} />
+        </Tooltip>
+      </Flex>
     </Flex>
   );
 }
