@@ -14,7 +14,8 @@ import {
   VIDEO_DOWN_TITLE,
   BACKGROUND_UPDATE_TIMER,
 } from "./constants";
-import { removeEmojis } from "./utils";
+import { removeEmojis, playSound } from "./utils";
+import pageFlipSoundSrc from "./assets/sounds/page-flip-sound.mp3";
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(true);
@@ -31,7 +32,10 @@ function App() {
   } = useChannel();
 
   const togglePlaying = () => setIsPlaying((prev) => !prev);
-  const changeBackground = () => setBgKey((prev) => prev + 1);
+  const changeBackground = () => {
+    playSound(pageFlipSoundSrc);
+    setBgKey((prev) => prev + 1);
+  };
   const shouldShowSpinner = !videoTitle || videoTitle === VIDEO_DOWN_TITLE;
 
   useKeyPress({
