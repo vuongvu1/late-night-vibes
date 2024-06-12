@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   YouTubePlayer,
   ControlPanel,
@@ -9,7 +9,11 @@ import {
   Spinner,
 } from "./components";
 import { useKeyPress, useChannel, useAutoSwitchChannelWhenDown } from "./hooks";
-import { VOLUME_STEP, VIDEO_DOWN_TITLE } from "./constants";
+import {
+  VOLUME_STEP,
+  VIDEO_DOWN_TITLE,
+  BACKGROUND_UPDATE_TIMER,
+} from "./constants";
 import { removeEmojis } from "./utils";
 
 function App() {
@@ -44,6 +48,15 @@ function App() {
     isChannelDown: videoTitle === VIDEO_DOWN_TITLE,
     callback: selectRandomChannel,
   });
+
+  useEffect(() => {
+    const changeBackgroundTimer = setInterval(
+      () => changeBackground(),
+      BACKGROUND_UPDATE_TIMER
+    );
+
+    return () => clearInterval(changeBackgroundTimer);
+  }, []);
 
   return (
     <Flex direction="column" style={{ height: "90vh" }}>
