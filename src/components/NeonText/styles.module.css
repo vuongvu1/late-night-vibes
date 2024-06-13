@@ -11,17 +11,16 @@
   white-space: nowrap;
   overflow: hidden;
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
 .text {
   padding: 0;
   margin: 0;
-}
 
-[data-active="true"] {
-  animation: text-moving 15s steps(100) infinite;
+  &[data-active="true"] {
+    animation: text-moving 15s steps(100) infinite;
+  }
 }
 
 @keyframes text-moving {
