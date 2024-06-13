@@ -20,7 +20,8 @@
   width: 100%;
 
   &[data-active="true"] {
-    animation: text-moving 15s steps(100) infinite;
+    animation: text-moving 16s steps(100) infinite;
+    animation-delay: -8s;
   }
 }
 
