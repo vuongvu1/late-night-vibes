@@ -1,12 +1,12 @@
 .button {
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: var(--border-radius-round);
   background-color: var(--button-color-background);
   transition: all ease var(--duration-normal);
   color: var(--button-color-text);
-  font-size: 2em;
+  font-size: 3em;
   display: flex;
   justify-content: center;
   align-items: center;

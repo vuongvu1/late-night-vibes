@@ -1,12 +1,14 @@
 .container {
-  position: relative;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: var(--spacing-xs);
   transition: opacity ease var(--duration-normal);
   opacity: 0.8;
-  transform: rotate(270deg) translate(35%, 0);
+  transform: rotate(270deg);
+  bottom: 90px;
+  right: -30px;
 
   &:hover,
   &:active,
@@ -20,8 +22,8 @@
 
   background-color: var(--filled-color);
   transition: background-color ease var(--duration-normal);
-  width: var(--spacing-sm);
-  height: var(--spacing-md);
+  width: var(--spacing-md);
+  height: var(--spacing-lg);
   box-shadow: -1px 1px 1px white;
 }
 
@@ -45,8 +47,8 @@
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: var(--spacing-sm);
-  height: var(--spacing-md);
+  width: var(--spacing-md);
+  height: var(--spacing-lg);
   background-color: transparent;
 }
 

@@ -18,7 +18,7 @@ import { cleanText, playSound } from "./utils";
 import pageFlipSoundSrc from "./assets/sounds/page-flip-sound.mp3";
 
 function App() {
-  const [isPlaying, setIsPlaying] = React.useState(true);
+  const [isPlaying, setIsPlaying] = React.useState(false);
   const [videoTitle, setVideoTitle] = React.useState("");
   const [volume, setVolume] = React.useState(80);
   const [bgKey, setBgKey] = React.useState(0);
@@ -72,7 +72,7 @@ function App() {
         onVideoLoaded={(title) => setVideoTitle(title)}
       />
       <Background key={bgKey + activeChannel} />
-      <NeonText as="h1">
+      <NeonText as="h1" isActive={isPlaying}>
         [Live #{activeRadioNumber}]{" "}
         {shouldShowSpinner ? <Spinner /> : cleanText(videoTitle)}
       </NeonText>

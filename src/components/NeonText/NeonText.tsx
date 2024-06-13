@@ -4,11 +4,18 @@ import { NeonTextProps } from "./types";
 export const NeonText = ({
   as: Tag,
   children,
+  isActive,
   ...restProps
 }: NeonTextProps) => {
   return (
-    <Tag className={styles.neonText} {...restProps}>
-      {children}
-    </Tag>
+    <div className={`${styles.container} ${isActive ? styles.active : ""}`}>
+      <Tag
+        className={`${styles.text} ${isActive ? styles.active : ""}`}
+        data-active={isActive}
+        {...restProps}
+      >
+        {children}
+      </Tag>
+    </div>
   );
 };

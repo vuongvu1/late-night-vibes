@@ -1,35 +1,34 @@
-.neonText {
+.container {
   border: 0.2rem solid var(--border-color);
   border-radius: var(--border-radius-md);
-  padding: 0.4em;
+  padding: var(--spacing-md);
+  margin-block: var(--spacing-md);
   box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem var(--primary-color),
     0 0 0.8rem var(--primary-color), 0 0 2.8rem var(--primary-color),
     inset 0 0 1.3rem var(--primary-color);
   background-color: var(--background-transparent);
-  opacity: 1;
   pointer-events: none;
-  text-align: center;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  /* animation: flicker 2s infinite alternate; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* @keyframes flicker {
-  0%,
-  18%,
-  22%,
-  25%,
-  53%,
-  57%,
-  100% {
-    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px var(--primary-color),
-      0 0 80px var(--primary-color), 0 0 90px var(--primary-color), 0 0 100px var(--primary-color), 0 0 150px var(--primary-color);
-  }
+.text {
+  padding: 0;
+  margin: 0;
+}
 
-  20%,
-  24%,
-  55% {
-    text-shadow: none;
+[data-active="true"] {
+  animation: text-moving 15s steps(100) infinite;
+}
+
+@keyframes text-moving {
+  0% {
+    transform: translateX(100%);
   }
-} */
+  100% {
+    transform: translateX(-100%);
+  }
+}
