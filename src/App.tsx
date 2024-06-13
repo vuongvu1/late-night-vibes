@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
   YouTubePlayer,
   ControlPanel,
@@ -8,22 +8,16 @@ import {
   ChatBlock,
   Spinner,
 } from "./components";
-import { useKeyPress, useChannel, useAutoSwitchChannelWhenDown } from "./hooks";
 import {
-  VOLUME_STEP,
-  VIDEO_DOWN_TITLE,
-  BACKGROUND_UPDATE_TIMER,
-} from "./constants";
-import { cleanText, playSound } from "./utils";
-import pageFlipSoundSrc from "./assets/sounds/page-flip-sound.mp3";
+  useKeyPress,
+  useChannel,
+  useAutoSwitchChannelWhenDown,
+  usePlayer,
+} from "./hooks";
+import { VOLUME_STEP, VIDEO_DOWN_TITLE } from "./constants";
+import { cleanText } from "./utils";
 
 function App() {
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  const [videoTitle, setVideoTitle] = React.useState("");
-  const [volume, setVolume] = React.useState(80);
-  const [bgKey, setBgKey] = React.useState(0);
-  // const story = useStory();
-
   const {
     activeRadioNumber,
     activeChannel,
@@ -32,12 +26,17 @@ function App() {
     selectPreviousChannel,
   } = useChannel();
 
-  const togglePlaying = () => setIsPlaying((prev) => !prev);
-  const changeBackground = () => {
-    playSound(pageFlipSoundSrc);
-    setBgKey((prev) => prev + 1);
-  };
-  const shouldShowSpinner = !videoTitle || videoTitle === VIDEO_DOWN_TITLE;
+  const {
+    isPlaying,
+    togglePlaying,
+    videoTitle,
+    setVideoTitle,
+    volume,
+    setVolume,
+    bgKey,
+    changeBackground,
+    isLoading,
+  } = usePlayer();
 
   useKeyPress({
     Space: togglePlaying,
@@ -54,34 +53,19 @@ function App() {
     callback: selectRandomChannel,
   });
 
-  useEffect(() => {
-    const changeBackgroundTimer = setInterval(
-      () => changeBackground(),
-      BACKGROUND_UPDATE_TIMER
-    );
-
-    return () => clearInterval(changeBackgroundTimer);
-  }, []);
-
   return (
     <Flex direction="column" style={{ height: "90vh" }}>
       <YouTubePlayer
         videoId={activeChannel}
         volume={volume}
         isPlaying={isPlaying}
-        onVideoLoaded={(title) => setVideoTitle(title)}
+        onVideoLoaded={setVideoTitle}
       />
       <Background key={bgKey + activeChannel} />
       <NeonText as="h1" isActive={isPlaying}>
         [Live #{activeRadioNumber}]{" "}
-        {shouldShowSpinner ? <Spinner /> : cleanText(videoTitle)}
+        {isLoading ? <Spinner /> : cleanText(videoTitle)}
       </NeonText>
-
-      {/* {story ? (
-        <NeonText as="p">{JSON.stringify(story)}</NeonText>
-      ) : (
-        <Spinner />
-      )} */}
 
       <ChatBlock />
 
