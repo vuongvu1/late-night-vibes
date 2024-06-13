@@ -17,6 +17,7 @@
 .text {
   padding: 0;
   margin: 0;
+  width: 100%;
 
   &[data-active="true"] {
     animation: text-moving 15s steps(100) infinite;
