@@ -9,6 +9,9 @@
   opacity: 1;
   pointer-events: none;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   /* animation: flicker 2s infinite alternate; */
 }
 

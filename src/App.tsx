@@ -14,7 +14,7 @@ import {
   VIDEO_DOWN_TITLE,
   BACKGROUND_UPDATE_TIMER,
 } from "./constants";
-import { removeEmojis, playSound } from "./utils";
+import { cleanText, playSound } from "./utils";
 import pageFlipSoundSrc from "./assets/sounds/page-flip-sound.mp3";
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
   // const story = useStory();
 
   const {
+    activeRadioNumber,
     activeChannel,
     selectRandomChannel,
     selectNextChannel,
@@ -72,8 +73,8 @@ function App() {
       />
       <Background key={bgKey + activeChannel} />
       <NeonText as="h1">
-        [Live #{activeChannel.substring(0, 3)}] -{" "}
-        {shouldShowSpinner ? <Spinner /> : removeEmojis(videoTitle)}
+        [Live #{activeRadioNumber}]{" "}
+        {shouldShowSpinner ? <Spinner /> : cleanText(videoTitle)}
       </NeonText>
 
       {/* {story ? (
