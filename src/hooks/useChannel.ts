@@ -4,37 +4,33 @@ import data from "../data.json";
 const channels = data.channels;
 const getRandomIndex = () => Math.floor(Math.random() * channels.length);
 
-export const useChannel = (initialRadioNumber?: number = getRandomIndex()) => {
-  const [activeRadioNumber, setActiveRadioNumber] = useState(
-    initialRadioNumber + 1
-  );
+export const useChannel = (initialIndex: number = getRandomIndex()) => {
+  const [activeIndex, setActiveIndex] = useState(initialIndex);
   const [activeChannel, setActiveChannel] = useState<string>(
-    channels[initialRadioNumber]
+    channels[initialIndex]
   );
 
   const selectRandomChannel = () => {
     const randomIndex = getRandomIndex();
     setActiveChannel(channels[randomIndex]);
-    setActiveRadioNumber(randomIndex + 1);
+    setActiveIndex(randomIndex);
   };
 
   const selectNextChannel = () => {
-    const currentIndex = activeRadioNumber - 1;
-    const nextPosition = (currentIndex + 1) % channels.length;
+    const nextPosition = (activeIndex + 1) % channels.length;
     setActiveChannel(channels[nextPosition]);
-    setActiveRadioNumber(nextPosition + 1);
+    setActiveIndex(nextPosition);
   };
 
   const selectPreviousChannel = () => {
-    const currentIndex = activeRadioNumber - 1;
     const previousPosition =
-      (currentIndex - 1 + channels.length) % channels.length;
+      (activeIndex - 1 + channels.length) % channels.length;
     setActiveChannel(channels[previousPosition]);
-    setActiveRadioNumber(previousPosition + 1);
+    setActiveIndex(previousPosition);
   };
 
   return {
-    activeRadioNumber,
+    activeRadioNumber: activeIndex + 1,
     activeChannel,
     selectRandomChannel,
     selectNextChannel,
