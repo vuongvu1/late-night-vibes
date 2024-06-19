@@ -1,10 +1,7 @@
 .container {
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-sm);
   padding: var(--spacing-md);
   margin-block: var(--spacing-md);
-  box-shadow: 0 0 0.1rem #fff, 0 0 0.1rem #fff, 0 0 1rem var(--primary-color),
-    0 0 0.4rem var(--primary-color), 0 0 1.4rem var(--primary-color),
-    inset 0 0 0.6rem var(--primary-color);
   background-color: var(--background-transparent);
   pointer-events: none;
   white-space: nowrap;
