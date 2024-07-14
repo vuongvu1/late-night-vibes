@@ -28,7 +28,7 @@ function App() {
         {isLoading ? (
           <Spinner />
         ) : (
-          "Chill Radio with Relaxing Beats | Immerse Yourself in an 8-bit Pixel Art Gallery Experience"
+          "Chill Lofi Radio with Relaxing Beats | Immerse Yourself in an 8-bit Pixel Art Gallery Experience"
         )}
       </NeonText>
 
