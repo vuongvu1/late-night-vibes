@@ -1,17 +1,10 @@
-import {
-  YouTubePlayer,
-  ControlPanel,
-  Background,
-  NeonText,
-  Flex,
-  Spinner,
-} from "./components";
+import { YouTubePlayer, ControlPanel, Background, Flex } from "./components";
 import { useChannel, usePlayer } from "./hooks";
 
 function App() {
   const { activeChannel } = useChannel();
 
-  const { isPlaying, togglePlaying, setVideoTitle, volume, bgKey, isLoading } =
+  const { isPlaying, togglePlaying, setVideoTitle, volume, bgKey } =
     usePlayer();
 
   return (
@@ -23,14 +16,6 @@ function App() {
         onVideoLoaded={setVideoTitle}
       />
       <Background key={bgKey + activeChannel} />
-      <NeonText as="h1" isActive={isPlaying}>
-        [Live 24/7]{" "}
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          "Chill Lofi Radio with Relaxing Beats | Immerse Yourself in an 8-bit Pixel Art Gallery Experience"
-        )}
-      </NeonText>
 
       <ControlPanel
         isPlaying={isPlaying}
