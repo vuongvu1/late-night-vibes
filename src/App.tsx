@@ -1,56 +1,11 @@
-import {
-  YouTubePlayer,
-  ControlPanel,
-  Background,
-  NeonText,
-  Flex,
-  ChatBlock,
-  Spinner,
-} from "./components";
-import {
-  useKeyPress,
-  useChannel,
-  useAutoSwitchChannelWhenDown,
-  usePlayer,
-} from "./hooks";
-import { VOLUME_STEP, VIDEO_DOWN_TITLE } from "./constants";
-import { cleanText } from "./utils";
+import { YouTubePlayer, ControlPanel, Background, Flex } from "./components";
+import { useChannel, usePlayer } from "./hooks";
 
 function App() {
-  const {
-    activeRadioNumber,
-    activeChannel,
-    selectRandomChannel,
-    selectNextChannel,
-    selectPreviousChannel,
-  } = useChannel();
+  const { activeChannel } = useChannel();
 
-  const {
-    isPlaying,
-    togglePlaying,
-    videoTitle,
-    setVideoTitle,
-    volume,
-    setVolume,
-    bgKey,
-    changeBackground,
-    isLoading,
-  } = usePlayer();
-
-  useKeyPress({
-    Space: togglePlaying,
-    KeyR: selectRandomChannel,
-    ArrowRight: selectNextChannel,
-    ArrowLeft: selectPreviousChannel,
-    ArrowUp: () => setVolume(volume < 100 ? volume + VOLUME_STEP : volume),
-    ArrowDown: () => setVolume(volume > 0 ? volume - VOLUME_STEP : volume),
-    KeyG: changeBackground,
-  });
-
-  useAutoSwitchChannelWhenDown({
-    isChannelDown: videoTitle === VIDEO_DOWN_TITLE,
-    callback: selectRandomChannel,
-  });
+  const { isPlaying, togglePlaying, setVideoTitle, volume, bgKey } =
+    usePlayer();
 
   return (
     <Flex direction="column" style={{ height: "90vh" }}>
@@ -61,22 +16,16 @@ function App() {
         onVideoLoaded={setVideoTitle}
       />
       <Background key={bgKey + activeChannel} />
-      <NeonText as="h1" isActive={isPlaying}>
-        [Live #{activeRadioNumber}]{" "}
-        {isLoading ? <Spinner /> : cleanText(videoTitle)}
-      </NeonText>
-
-      <ChatBlock />
 
       <ControlPanel
         isPlaying={isPlaying}
         volume={volume}
-        setVolume={setVolume}
+        setVolume={() => {}}
         togglePlaying={togglePlaying}
-        selectRandomChannel={selectRandomChannel}
-        selectNextChannel={selectNextChannel}
-        selectPreviousChannel={selectPreviousChannel}
-        changeBackground={changeBackground}
+        selectRandomChannel={() => {}}
+        selectNextChannel={() => {}}
+        selectPreviousChannel={() => {}}
+        changeBackground={() => {}}
       />
     </Flex>
   );
