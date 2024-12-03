@@ -49,7 +49,7 @@ function App() {
 
   useAutoSwitchChannelWhenDown({
     isChannelDown: videoTitle === VIDEO_DOWN_TITLE,
-    callback: selectRandomChannel,
+    callback: selectNextChannel,
   });
 
   return (
