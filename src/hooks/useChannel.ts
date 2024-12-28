@@ -5,16 +5,28 @@ import buttonPressSound1Src from "../assets/sounds/button-press-sound-1.mp3";
 import buttonPressSound4Src from "../assets/sounds/button-press-sound-4.mp3";
 
 const channels = data.channels;
-const getRandomIndex = () => Math.floor(Math.random() * channels.length);
+const getRandomIndex = (exceptionIndex?: number): number => {
+  if (!exceptionIndex) {
+    return Math.floor(Math.random() * channels.length);
+  }
 
-export const useChannel = (initialIndex: number = getRandomIndex()) => {
+  const randomIndex = Math.floor(Math.random() * (channels.length - 1));
+  // If the random index is the same as the exception index, we need to get another one
+  return randomIndex === exceptionIndex
+    ? getRandomIndex(exceptionIndex)
+    : randomIndex;
+};
+
+const initialIndex = getRandomIndex();
+
+export const useChannel = () => {
   const [activeIndex, setActiveIndex] = useState(initialIndex);
   const [activeChannel, setActiveChannel] = useState<string>(
     channels[initialIndex]
   );
 
   const selectRandomChannel = () => {
-    const randomIndex = getRandomIndex();
+    const randomIndex = getRandomIndex(activeIndex);
     playSound(buttonPressSound4Src);
     setActiveChannel(channels[randomIndex]);
     setActiveIndex(randomIndex);
