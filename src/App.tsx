@@ -61,7 +61,7 @@ function App() {
         onVideoLoaded={setVideoTitle}
       />
       <Background key={bgKey + activeChannel} />
-      <NeonText as="h1" isActive={isPlaying}>
+      <NeonText as="h1" isActive={isPlaying} key={activeChannel}>
         [Live #{activeRadioNumber}]{" "}
         {isLoading ? <Spinner /> : cleanText(videoTitle)}
       </NeonText>
