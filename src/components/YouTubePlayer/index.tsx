@@ -12,7 +12,7 @@ type Props = {
 const initializePlayer = (
   ref: React.MutableRefObject<YT.Player | null>,
   videoId: string,
-  cb?: () => void
+  cb?: () => void,
 ) => {
   if (ref.current) {
     const currentVideoUrl = ref.current.getVideoUrl?.();
@@ -87,7 +87,9 @@ const YouTubePlayer: React.FC<Props> = ({
     }
   }, [volume]);
 
-  checkPlayerStatus();
+  useEffect(() => {
+    checkPlayerStatus();
+  }, [checkPlayerStatus]);
 
   return <div id="player" className={style.player} />;
 };

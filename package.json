@@ -7,32 +7,31 @@
     "dev": "vite",
     "start": "pnpm dev",
     "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@radix-ui/react-tooltip": "^1.0.7",
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
-    "@types/react": "19.0.2",
-    "@types/react-dom": "19.0.2",
-    "@types/youtube": "^0.0.50",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@vitejs/plugin-react": "^4.0.3",
-    "babel-plugin-react-compiler": "0.0.0-experimental-938cd9a-20240601",
-    "eslint": "^8.45.0",
-    "eslint-plugin-react-compiler": "0.0.0-experimental-51a85ea-20240601",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vite-plugin-pwa": "^0.21.1"
-  },
-  "overrides": {
-    "@types/react": "npm:types-react@rc",
-    "@types/react-dom": "npm:types-react-dom@rc"
+    "@eslint/js": "^9.39.2",
+    "@types/react": "19.2.9",
+    "@types/react-dom": "19.2.3",
+    "@types/youtube": "^0.1.2",
+    "@typescript-eslint/eslint-plugin": "^8.53.1",
+    "@typescript-eslint/parser": "^8.53.1",
+    "@vitejs/plugin-react": "^5.1.2",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-react-compiler": "19.1.0-rc.2",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.26",
+    "globals": "^17.1.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.53.1",
+    "vite": "^7.3.1",
+    "vite-plugin-pwa": "^1.2.0"
   }
 }
