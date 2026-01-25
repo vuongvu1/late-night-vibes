@@ -6,6 +6,7 @@ import {
   Flex,
   ChatBlock,
   Spinner,
+  OnlineCounter,
 } from "./components";
 import {
   useKeyPress,
@@ -54,6 +55,7 @@ function App() {
 
   return (
     <Flex direction="column" style={{ height: "90vh" }}>
+      <OnlineCounter />
       <YouTubePlayer
         videoId={activeChannel}
         volume={volume}
