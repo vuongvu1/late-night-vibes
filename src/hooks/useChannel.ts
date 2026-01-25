@@ -1,51 +1,81 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import data from "../data.json";
 import { playSound } from "../utils";
 import buttonPressSound1Src from "../assets/sounds/button-press-sound-1.mp3";
 import buttonPressSound4Src from "../assets/sounds/button-press-sound-4.mp3";
 
 const channels = data.channels;
+
 const getRandomIndex = (exceptionIndex?: number): number => {
-  if (!exceptionIndex) {
+  if (exceptionIndex === undefined) {
     return Math.floor(Math.random() * channels.length);
   }
 
   const randomIndex = Math.floor(Math.random() * (channels.length - 1));
-  // If the random index is the same as the exception index, we need to get another one
-  return randomIndex === exceptionIndex
-    ? getRandomIndex(exceptionIndex)
-    : randomIndex;
+  // Skip the exceptionIndex to ensure we get a different one
+  const normalizedIndex =
+    randomIndex >= exceptionIndex ? randomIndex + 1 : randomIndex;
+  return normalizedIndex;
 };
 
-const initialIndex = getRandomIndex();
+const getIndexFromUrl = (): number => {
+  const hash = window.location.hash; // e.g. "#1"
+  if (hash && hash.startsWith("#")) {
+    const index = parseInt(hash.slice(1), 10) - 1;
+    if (index >= 0 && index < channels.length) {
+      return index;
+    }
+  }
+  return -1;
+};
 
 export const useChannel = () => {
-  const [activeIndex, setActiveIndex] = useState(initialIndex);
-  const [activeChannel, setActiveChannel] = useState<string>(
-    channels[initialIndex]
-  );
+  const [activeIndex, setActiveIndex] = useState(() => {
+    const indexFromUrl = getIndexFromUrl();
+    return indexFromUrl !== -1 ? indexFromUrl : getRandomIndex();
+  });
 
-  const selectRandomChannel = () => {
+  const activeChannel = channels[activeIndex];
+
+  // Sync state to URL Hash
+  useEffect(() => {
+    const radioValue = `#${activeIndex + 1}`;
+    if (window.location.hash !== radioValue) {
+      window.history.pushState({ index: activeIndex }, "", radioValue);
+    }
+  }, [activeIndex]);
+
+  // Sync URL Hash to state
+  useEffect(() => {
+    const handlePopState = () => {
+      const index = getIndexFromUrl();
+      if (index !== -1) {
+        setActiveIndex(index);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  const selectRandomChannel = useCallback(() => {
     const randomIndex = getRandomIndex(activeIndex);
     playSound(buttonPressSound4Src);
-    setActiveChannel(channels[randomIndex]);
     setActiveIndex(randomIndex);
-  };
+  }, [activeIndex]);
 
-  const selectNextChannel = () => {
+  const selectNextChannel = useCallback(() => {
     const nextPosition = (activeIndex + 1) % channels.length;
     playSound(buttonPressSound1Src);
-    setActiveChannel(channels[nextPosition]);
     setActiveIndex(nextPosition);
-  };
+  }, [activeIndex]);
 
-  const selectPreviousChannel = () => {
+  const selectPreviousChannel = useCallback(() => {
     const previousPosition =
       (activeIndex - 1 + channels.length) % channels.length;
     playSound(buttonPressSound1Src);
-    setActiveChannel(channels[previousPosition]);
     setActiveIndex(previousPosition);
-  };
+  }, [activeIndex]);
 
   return {
     activeRadioNumber: activeIndex + 1,
