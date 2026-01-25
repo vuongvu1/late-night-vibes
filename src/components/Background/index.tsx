@@ -4,21 +4,30 @@ import styles from "./style.module.css";
 // @see https://vitejs.dev/guide/features#glob-import
 const modules = import.meta.glob(
   ["../../assets/gifs/*.gif", "../../assets/gifs/*.webp"],
-  { import: "default" }
+  { import: "default" },
 );
 const GIFS = Object.keys(modules).map((path) => modules[path]);
 
 function Background() {
   const [imageSrc, setImageSrc] = useState<string>();
+  const [fade, setFade] = useState(true);
 
   useEffect(() => {
-    GIFS[Math.floor(Math.random() * GIFS.length)]().then((image) => {
-      setImageSrc(image as string);
-    });
+    setFade(false);
+    const timeout = setTimeout(() => {
+      GIFS[Math.floor(Math.random() * GIFS.length)]().then((image) => {
+        setImageSrc(image as string);
+        setFade(true);
+      });
+    }, 500); // Wait for fade out
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div
+      className={`${styles.container} ${fade ? styles.fadeIn : styles.fadeOut}`}
+    >
       <img src={imageSrc} alt="foreground" className={styles.foreground}></img>
       <img src={imageSrc} alt="background" className={styles.background}></img>
     </div>

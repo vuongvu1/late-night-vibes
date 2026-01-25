@@ -2,14 +2,26 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-index-background);
+  transition: opacity 0.8s ease-in-out;
 }
 
-@keyframes fade-in {
+.fadeIn {
+  opacity: 1;
+}
+
+.fadeOut {
+  opacity: 0;
+}
+
+@keyframes pulse {
   0% {
-    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
   }
   100% {
-    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -19,13 +31,12 @@
   height: 100vh;
   object-fit: cover;
   z-index: -1;
-  filter: blur(0.55em) saturate(0.8) contrast(1) brightness(2);
-  animation: fade-in 4s ease-in-out;
+  filter: blur(0.6em) saturate(0.8) contrast(1.1) brightness(1.5);
+  animation: pulse 20s infinite ease-in-out;
 }
 
 .background {
   width: 100vw;
   height: 100vh;
   object-fit: contain;
-  animation: fade-in 2s ease-in-out;
 }

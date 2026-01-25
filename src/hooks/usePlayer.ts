@@ -1,39 +1,28 @@
-import { useState, useEffect } from "react";
-import { playSound } from "../utils";
-import { BACKGROUND_UPDATE_TIMER, VIDEO_DOWN_TITLE } from "../constants";
-import buttonPressSound2Src from "../assets/sounds/button-press-sound-2.mp3";
-import buttonPressSound3Src from "../assets/sounds/button-press-sound-3.mp3";
-import pageFlipSoundSrc from "../assets/sounds/page-flip-sound.mp3";
+import { useEffect } from "react";
+import { BACKGROUND_UPDATE_TIMER } from "../constants";
+import { useStore } from "../store";
 
 export const usePlayer = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [videoTitle, setVideoTitle] = useState("");
-  const [volume, setVolume] = useState(80);
-  const [bgKey, setBgKey] = useState(0);
-
-  const togglePlaying = () => {
-    playSound(buttonPressSound2Src);
-    setIsPlaying((prev) => !prev);
-  };
-
-  const changeVolumeWithSound = (value: number) => {
-    playSound(buttonPressSound3Src);
-    setVolume(value);
-  };
-
-  const changeBackground = () => {
-    playSound(pageFlipSoundSrc);
-    setBgKey((prev) => prev + 1);
-  };
+  const {
+    isPlaying,
+    togglePlaying,
+    videoTitle,
+    setVideoTitle,
+    volume,
+    setVolume,
+    bgKey,
+    changeBackground,
+    isLoading,
+  } = useStore();
 
   useEffect(() => {
     const changeBackgroundTimer = setInterval(
       () => changeBackground(),
-      BACKGROUND_UPDATE_TIMER
+      BACKGROUND_UPDATE_TIMER,
     );
 
     return () => clearInterval(changeBackgroundTimer);
-  }, []);
+  }, [changeBackground]);
 
   return {
     isPlaying,
@@ -41,9 +30,9 @@ export const usePlayer = () => {
     videoTitle,
     setVideoTitle,
     volume,
-    setVolume: changeVolumeWithSound,
+    setVolume,
     bgKey,
     changeBackground,
-    isLoading: !videoTitle || videoTitle === VIDEO_DOWN_TITLE,
+    isLoading,
   };
 };
