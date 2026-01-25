@@ -6,7 +6,6 @@ import buttonPressSound1Src from "../assets/sounds/button-press-sound-1.mp3";
 import buttonPressSound2Src from "../assets/sounds/button-press-sound-2.mp3";
 import buttonPressSound3Src from "../assets/sounds/button-press-sound-3.mp3";
 import buttonPressSound4Src from "../assets/sounds/button-press-sound-4.mp3";
-import pageFlipSoundSrc from "../assets/sounds/page-flip-sound.mp3";
 import { VIDEO_DOWN_TITLE } from "../constants";
 
 const channels = data.channels;
@@ -61,7 +60,6 @@ export const useStore = create<PlayerStore>((set, get) => ({
   },
 
   changeBackground: () => {
-    playSound(pageFlipSoundSrc);
     set((state) => ({ bgKey: state.bgKey + 1 }));
   },
 
