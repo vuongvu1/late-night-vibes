@@ -16,8 +16,10 @@ import {
 } from "./hooks";
 import { VOLUME_STEP, VIDEO_DOWN_TITLE } from "./constants";
 import { cleanText } from "./utils";
+import { useStore } from "./store";
 
 function App() {
+  const { toggleFullscreen } = useStore();
   const {
     activeRadioNumber,
     activeChannel,
@@ -46,6 +48,7 @@ function App() {
     ArrowUp: () => setVolume(volume < 100 ? volume + VOLUME_STEP : volume),
     ArrowDown: () => setVolume(volume > 0 ? volume - VOLUME_STEP : volume),
     KeyG: changeBackground,
+    KeyF: toggleFullscreen,
   });
 
   useAutoSwitchChannelWhenDown({

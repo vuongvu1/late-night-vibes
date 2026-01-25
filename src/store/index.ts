@@ -40,6 +40,7 @@ export const useStore = create<PlayerStore>((set, get) => ({
     return indexFromUrl !== -1 ? indexFromUrl : getRandomIndex();
   })(),
   isLoading: true,
+  isFullscreen: false,
 
   // Actions
   togglePlaying: () => {
@@ -85,4 +86,22 @@ export const useStore = create<PlayerStore>((set, get) => ({
   setActiveIndex: (activeIndex) => {
     set({ activeIndex });
   },
+
+  toggleFullscreen: () => {
+    playSound(buttonPressSound4Src);
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  },
+
+  setIsFullscreen: (isFullscreen) => set({ isFullscreen }),
 }));
+
+// Sync fullscreen state with document events
+document.addEventListener("fullscreenchange", () => {
+  useStore.getState().setIsFullscreen(!!document.fullscreenElement);
+});

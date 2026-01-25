@@ -4,9 +4,11 @@ import {
   NextIcon,
   PreviousIcon,
   ShuffleIcon,
+  FullscreenIcon,
 } from "../../assets/icons";
 import { Button, Flex, Tooltip, VolumeSlider } from "../../components";
 import styles from "./style.module.css";
+import { useStore } from "../../store";
 
 interface ControlPanelProps {
   isPlaying: boolean;
@@ -29,6 +31,7 @@ function ControlPanel({
   selectPreviousChannel,
 }: // changeBackground,
 ControlPanelProps) {
+  const { toggleFullscreen } = useStore();
   const togglePlayingWithSound = () => {
     togglePlaying();
   };
@@ -73,11 +76,11 @@ ControlPanelProps) {
         <Tooltip content="Press [ArrowRight] to play next channel">
           <Button icon={<NextIcon />} onClick={selectNextChannelWithSound} />
         </Tooltip>
+        <Tooltip content="Press [F] to toggle Fullscreen">
+          <Button icon={<FullscreenIcon />} onClick={toggleFullscreen} />
+        </Tooltip>
       </Flex>
-      <Flex justify="flex-end">
-        {/* <Tooltip content="Press [G] to change background">
-          <Button icon={"⤾"} onClick={changeBackground} />
-        </Tooltip> */}
+      <Flex justify="flex-end" gap="var(--spacing-sm)">
         <Tooltip content="Press [ArrowUp/Down] to control volume">
           <VolumeSlider value={volume} setValue={setVolumeWithSound} />
         </Tooltip>

@@ -14,6 +14,7 @@ export interface PlayerState {
   bgKey: number;
   activeIndex: number;
   isLoading: boolean;
+  isFullscreen: boolean;
 }
 
 export interface PlayerActions {
@@ -25,6 +26,8 @@ export interface PlayerActions {
   selectNextChannel: () => void;
   selectPreviousChannel: () => void;
   setActiveIndex: (index: number) => void;
+  toggleFullscreen: () => void;
+  setIsFullscreen: (val: boolean) => void;
 }
 
 export type PlayerStore = PlayerState & PlayerActions;
