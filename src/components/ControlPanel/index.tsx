@@ -5,6 +5,7 @@ import {
   PreviousIcon,
   ShuffleIcon,
   FullscreenIcon,
+  ChatIcon,
 } from "../../assets/icons";
 import { Button, Flex, Tooltip, VolumeSlider } from "../../components";
 import styles from "./style.module.css";
@@ -31,7 +32,7 @@ function ControlPanel({
   selectPreviousChannel,
 }: // changeBackground,
 ControlPanelProps) {
-  const { toggleFullscreen } = useStore();
+  const { toggleFullscreen, toggleChat } = useStore();
   const togglePlayingWithSound = () => {
     togglePlaying();
   };
@@ -78,6 +79,9 @@ ControlPanelProps) {
         </Tooltip>
         <Tooltip content="Press [F] to toggle Fullscreen">
           <Button icon={<FullscreenIcon />} onClick={toggleFullscreen} />
+        </Tooltip>
+        <Tooltip content="Press [C] to toggle Chat">
+          <Button icon={<ChatIcon />} onClick={toggleChat} />
         </Tooltip>
       </Flex>
       <Flex justify="flex-end" gap="var(--spacing-sm)">

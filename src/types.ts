@@ -15,6 +15,7 @@ export interface PlayerState {
   activeIndex: number;
   isLoading: boolean;
   isFullscreen: boolean;
+  isChatOpen: boolean;
 }
 
 export interface PlayerActions {
@@ -28,6 +29,14 @@ export interface PlayerActions {
   setActiveIndex: (index: number) => void;
   toggleFullscreen: () => void;
   setIsFullscreen: (val: boolean) => void;
+  toggleChat: () => void;
 }
 
 export type PlayerStore = PlayerState & PlayerActions;
+
+export interface Message {
+  id: number;
+  created_at: string;
+  username: string;
+  content: string;
+}

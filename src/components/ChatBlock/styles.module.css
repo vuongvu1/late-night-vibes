@@ -1,4 +1,125 @@
-.container {
-  height: 100%;
-  /* border: 1px solid red; */
+.chatContainer {
+  width: 100%;
+  max-width: 400px;
+  height: 400px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  margin-top: auto;
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacing-xs) var(--spacing-xs) 0 0;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  color: #fff;
+  opacity: 0.5;
+  cursor: pointer;
+  display: flex;
+  padding: 4px;
+  border-radius: 4px;
+  transition:
+    opacity 0.2s,
+    background 0.2s;
+}
+
+.closeButton:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.messagesList {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.messageItem {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.username {
+  font-size: 0.7rem;
+  font-weight: bold;
+  opacity: 0.6;
+  margin-bottom: 2px;
+  color: #0fa;
+}
+
+.content {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #fff;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.inputArea {
+  padding: var(--spacing-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #fff;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: #0fa;
+}
+
+.sendButton {
+  background: #0fa;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 0 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    opacity 0.2s,
+    transform 0.1s;
+}
+
+.sendButton:hover {
+  opacity: 0.9;
+}
+
+.sendButton:active {
+  transform: scale(0.95);
+}
+
+.sendButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

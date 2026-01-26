@@ -19,7 +19,7 @@ import { cleanText } from "./utils";
 import { useStore } from "./store";
 
 function App() {
-  const { toggleFullscreen } = useStore();
+  const { toggleFullscreen, isChatOpen, toggleChat } = useStore();
   const {
     activeRadioNumber,
     activeChannel,
@@ -49,6 +49,7 @@ function App() {
     ArrowDown: () => setVolume(volume > 0 ? volume - VOLUME_STEP : volume),
     KeyG: changeBackground,
     KeyF: toggleFullscreen,
+    KeyC: toggleChat,
   });
 
   useAutoSwitchChannelWhenDown({
@@ -71,7 +72,7 @@ function App() {
         {isLoading ? <Spinner /> : cleanText(videoTitle)}
       </NeonText>
 
-      <ChatBlock />
+      {isChatOpen && <ChatBlock />}
 
       <ControlPanel
         isPlaying={isPlaying}

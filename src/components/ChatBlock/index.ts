@@ -1,1 +1,1 @@
-export { ChatBlock } from "./ChatBlock";
+export { default as ChatBlock } from "./ChatBlock";

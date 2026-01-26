@@ -99,6 +99,12 @@ export const useStore = create<PlayerStore>((set, get) => ({
   },
 
   setIsFullscreen: (isFullscreen) => set({ isFullscreen }),
+
+  isChatOpen: true,
+  toggleChat: () => {
+    playSound(buttonPressSound4Src);
+    set((state) => ({ isChatOpen: !state.isChatOpen }));
+  },
 }));
 
 // Sync fullscreen state with document events
