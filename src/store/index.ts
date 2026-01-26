@@ -2,10 +2,10 @@ import { create } from "zustand";
 import { PlayerStore } from "../types";
 import data from "../data.json";
 import { playSound } from "../utils";
-import buttonPressSound1Src from "../assets/sounds/button-press-sound-1.mp3";
-import buttonPressSound2Src from "../assets/sounds/button-press-sound-2.mp3";
-import buttonPressSound3Src from "../assets/sounds/button-press-sound-3.mp3";
-import buttonPressSound4Src from "../assets/sounds/button-press-sound-4.mp3";
+import buttonPressSound1Src from "../assets/sounds/control/button-press-sound-1.mp3";
+import buttonPressSound2Src from "../assets/sounds/control/button-press-sound-2.mp3";
+import buttonPressSound3Src from "../assets/sounds/control/button-press-sound-3.mp3";
+import buttonPressSound4Src from "../assets/sounds/control/button-press-sound-4.mp3";
 import { VIDEO_DOWN_TITLE } from "../constants";
 
 const channels = data.channels;
