@@ -80,7 +80,7 @@ ControlPanelProps) {
         <Tooltip content="Press [F] to toggle Fullscreen">
           <Button icon={<FullscreenIcon />} onClick={toggleFullscreen} />
         </Tooltip>
-        <Tooltip content="Press [C] to toggle Chat">
+        <Tooltip content="Press [C] to toggle Chat/Comments">
           <Button icon={<ChatIcon />} onClick={toggleChat} />
         </Tooltip>
       </Flex>
