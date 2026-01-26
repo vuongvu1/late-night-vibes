@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { BACKGROUND_UPDATE_TIMER } from "../constants";
-import { useStore } from "../store";
+import { BACKGROUND_UPDATE_TIMER } from "@/constants";
+import { useStore } from "@/store";
 
 export const usePlayer = () => {
   const {

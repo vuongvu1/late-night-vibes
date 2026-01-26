@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { getStory } from "../services";
-import { StoryType } from "../types";
+import { getStory } from "@/services";
+import { StoryType } from "@/types";
 
 export function useStory(): StoryType | undefined {
   const [story, setStory] = useState<StoryType>();

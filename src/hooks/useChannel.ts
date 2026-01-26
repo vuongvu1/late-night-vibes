@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import data from "../data.json";
-import { useStore } from "../store";
+import data from "@/data.json";
+import { useStore } from "@/store";
 
 const channels = data.channels;
 
