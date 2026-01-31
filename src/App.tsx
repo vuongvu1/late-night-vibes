@@ -41,7 +41,7 @@ function App() {
   } = usePlayer();
 
   useKeyPress({
-    Space: togglePlaying,
+    Space: () => !isLoading && togglePlaying(),
     KeyR: selectRandomChannel,
     ArrowRight: selectNextChannel,
     ArrowLeft: selectPreviousChannel,
@@ -76,6 +76,7 @@ function App() {
 
       <ControlPanel
         isPlaying={isPlaying}
+        isLoading={isLoading}
         volume={volume}
         setVolume={setVolume}
         togglePlaying={togglePlaying}

@@ -13,6 +13,7 @@ import { useStore } from "../../store";
 
 interface ControlPanelProps {
   isPlaying: boolean;
+  isLoading?: boolean;
   volume: number;
   setVolume: (value: number) => void;
   togglePlaying: () => void;
@@ -24,16 +25,17 @@ interface ControlPanelProps {
 
 function ControlPanel({
   isPlaying,
+  isLoading,
   volume,
   setVolume,
   togglePlaying,
   selectRandomChannel,
   selectNextChannel,
   selectPreviousChannel,
-}: // changeBackground,
-ControlPanelProps) {
+}: ControlPanelProps) {
   const { toggleFullscreen, toggleChat } = useStore();
   const togglePlayingWithSound = () => {
+    if (isLoading) return;
     togglePlaying();
   };
 
@@ -56,10 +58,13 @@ ControlPanelProps) {
   return (
     <Flex justify="space-between" className={styles.container}>
       <Flex gap="var(--spacing-sm)" justify="flex-start">
-        <Tooltip content="Press [Space] to Play/Pause">
+        <Tooltip
+          content={isLoading ? "Loading..." : "Press [Space] to Play/Pause"}
+        >
           <Button
             icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
             onClick={togglePlayingWithSound}
+            disabled={isLoading}
           />
         </Tooltip>
         <Tooltip content="Press [R] to play a random channel">
