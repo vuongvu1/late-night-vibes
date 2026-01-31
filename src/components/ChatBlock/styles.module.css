@@ -17,8 +17,41 @@
 
 .header {
   display: flex;
-  justify-content: flex-end;
-  padding: var(--spacing-xs) var(--spacing-xs) 0 0;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.usernameInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.usernameLabel {
+  font-size: 0.75rem;
+  color: #fff;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+.usernameInput {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #0fa;
+  font-size: 0.8rem;
+  padding: 2px 4px;
+  width: 100%;
+  max-width: 120px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.usernameInput:focus {
+  border-color: #0fa;
 }
 
 .closeButton {
@@ -51,18 +84,38 @@
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
+.loadingMore {
+  text-align: center;
+  font-size: 0.7rem;
+  opacity: 0.5;
+  color: #fff;
+  padding: var(--spacing-xs) 0;
+}
+
 .messageItem {
   display: flex;
   flex-direction: column;
   max-width: 100%;
 }
 
+.messageMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+
 .username {
   font-size: 0.7rem;
   font-weight: bold;
   opacity: 0.6;
-  margin-bottom: 2px;
   color: #0fa;
+}
+
+.timestamp {
+  font-size: 0.6rem;
+  opacity: 0.4;
+  color: #fff;
 }
 
 .content {
