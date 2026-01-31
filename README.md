@@ -32,6 +32,16 @@ To build the project, run:
 pnpm build
 ```
 
+## Background Assets
+
+The app uses animated GIFs/WebPs for backgrounds when playing and static JPGs when stopped. To generate static frames from your animated assets, ensure you have [ImageMagick](https://imagemagick.org/) installed, then run:
+
+```sh
+pnpm generate-static
+```
+
+This will extract the first frame of every asset in `src/assets/gifs` and save it to `src/assets/static`.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

@@ -10,6 +10,7 @@
     "dev": "vite",
     "start": "pnpm dev",
     "build": "tsc && vite build",
+    "generate-static": "python3 scripts/generate_static.py",
     "lint": "eslint . --max-warnings 0",
     "preview": "vite preview"
   },
