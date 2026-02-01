@@ -7,3 +7,4 @@ export { default as FullscreenIcon } from "./Fullscreen";
 export { default as ChatIcon } from "./Chat";
 export { default as CloseIcon } from "./Close";
 export { MixerIcon } from "./Mixer";
+export { ResetIcon } from "./Reset";

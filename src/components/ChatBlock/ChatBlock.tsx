@@ -168,7 +168,7 @@ const ChatBlock: React.FC = () => {
           />
         </div>
         <button className={styles.closeButton} onClick={toggleChat}>
-          <CloseIcon width={16} />
+          <CloseIcon />
         </button>
       </div>
       <div

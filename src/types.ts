@@ -41,6 +41,8 @@ export interface PlayerActions {
   toggleChat: () => void;
   toggleSoundEffect: (id: string) => void;
   setSoundEffectVolume: (id: string, volume: number) => void;
+  resetSoundEffects: () => void;
+  randomizeSoundEffects: () => void;
 }
 
 export type PlayerStore = PlayerState & PlayerActions;

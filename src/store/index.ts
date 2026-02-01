@@ -113,6 +113,15 @@ export const useStore = create<PlayerStore>((set, get) => ({
   },
 
   toggleSoundEffect: (id: string) => {
+    const { soundEffects } = get();
+    const activeCount = soundEffects.filter((e) => e.isPlaying).length;
+    const effect = soundEffects.find((e) => e.id === id);
+
+    // If we're trying to turn it ON but already have 5 active, don't do it
+    if (effect && !effect.isPlaying && activeCount >= 5) {
+      return;
+    }
+
     set((state) => ({
       soundEffects: state.soundEffects.map((effect) =>
         effect.id === id ? { ...effect, isPlaying: !effect.isPlaying } : effect,
@@ -126,6 +135,33 @@ export const useStore = create<PlayerStore>((set, get) => ({
         effect.id === id ? { ...effect, volume } : effect,
       ),
     }));
+  },
+
+  resetSoundEffects: () => {
+    playSound(buttonPressSound1Src);
+    set((state) => ({
+      soundEffects: state.soundEffects.map((effect) => ({
+        ...effect,
+        isPlaying: false,
+      })),
+    }));
+  },
+
+  randomizeSoundEffects: () => {
+    playSound(buttonPressSound4Src);
+    const { soundEffects } = get();
+    // Turn everything off first
+    const cleanEffects = soundEffects.map((e) => ({ ...e, isPlaying: false }));
+
+    // Pick 3 to 5 random effects
+    const count = Math.floor(Math.random() * 3) + 3; // 3, 4, or 5
+    const shuffled = [...cleanEffects].sort(() => 0.5 - Math.random());
+
+    for (let i = 0; i < count; i++) {
+      shuffled[i].isPlaying = true;
+    }
+
+    set({ soundEffects: shuffled });
   },
 }));
 
