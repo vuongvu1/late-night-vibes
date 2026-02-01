@@ -6,6 +6,7 @@ import {
   ShuffleIcon,
   FullscreenIcon,
   ChatIcon,
+  MixerIcon,
 } from "../../assets/icons";
 import { Button, Flex, Tooltip, VolumeSlider } from "../../components";
 import styles from "./style.module.css";
@@ -21,6 +22,7 @@ interface ControlPanelProps {
   selectNextChannel: () => void;
   selectPreviousChannel: () => void;
   changeBackground: () => void;
+  toggleSoundMixer: () => void;
 }
 
 function ControlPanel({
@@ -32,6 +34,7 @@ function ControlPanel({
   selectRandomChannel,
   selectNextChannel,
   selectPreviousChannel,
+  toggleSoundMixer,
 }: ControlPanelProps) {
   const { toggleFullscreen, toggleChat } = useStore();
   const togglePlayingWithSound = () => {
@@ -87,6 +90,9 @@ function ControlPanel({
         </Tooltip>
         <Tooltip content="Press [C] to toggle Chat/Comments">
           <Button icon={<ChatIcon />} onClick={toggleChat} />
+        </Tooltip>
+        <Tooltip content="Sound Mixer">
+          <Button icon={<MixerIcon />} onClick={toggleSoundMixer} />
         </Tooltip>
       </Flex>
       <Flex justify="flex-end" gap="var(--spacing-sm)">

@@ -8,4 +8,5 @@ export { default as YouTubePlayer } from "./YouTubePlayer";
 export { NeonText } from "./NeonText";
 export { Spinner } from "./Spinner";
 export { ChatBlock } from "./ChatBlock";
+export { default as SoundEffectsPanel } from "./SoundEffectsPanel";
 export { default as OnlineCounter } from "./OnlineCounter";

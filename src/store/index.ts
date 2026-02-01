@@ -6,6 +6,7 @@ import buttonPressSound1Src from "@/assets/sounds/control/button-press-sound-1.m
 import buttonPressSound2Src from "@/assets/sounds/control/button-press-sound-2.mp3";
 import buttonPressSound3Src from "@/assets/sounds/control/button-press-sound-3.mp3";
 import buttonPressSound4Src from "@/assets/sounds/control/button-press-sound-4.mp3";
+import { SOUND_EFFECTS } from "@/assets/sounds/effect/effects";
 import { VIDEO_DOWN_TITLE } from "@/constants";
 
 const channels = data.channels;
@@ -41,6 +42,11 @@ export const useStore = create<PlayerStore>((set, get) => ({
   })(),
   isLoading: true,
   isFullscreen: false,
+  soundEffects: SOUND_EFFECTS.map((effect) => ({
+    ...effect,
+    volume: 50,
+    isPlaying: false,
+  })),
 
   // Actions
   togglePlaying: () => {
@@ -104,6 +110,22 @@ export const useStore = create<PlayerStore>((set, get) => ({
   toggleChat: () => {
     playSound(buttonPressSound4Src);
     set((state) => ({ isChatOpen: !state.isChatOpen }));
+  },
+
+  toggleSoundEffect: (id: string) => {
+    set((state) => ({
+      soundEffects: state.soundEffects.map((effect) =>
+        effect.id === id ? { ...effect, isPlaying: !effect.isPlaying } : effect,
+      ),
+    }));
+  },
+
+  setSoundEffectVolume: (id: string, volume: number) => {
+    set((state) => ({
+      soundEffects: state.soundEffects.map((effect) =>
+        effect.id === id ? { ...effect, volume } : effect,
+      ),
+    }));
   },
 }));
 

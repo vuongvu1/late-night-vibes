@@ -7,6 +7,14 @@ export type StoryType = {
   }[];
 };
 
+export interface SoundEffect {
+  id: string;
+  name: string;
+  file: string;
+  volume: number;
+  isPlaying: boolean;
+}
+
 export interface PlayerState {
   isPlaying: boolean;
   volume: number;
@@ -16,6 +24,7 @@ export interface PlayerState {
   isLoading: boolean;
   isFullscreen: boolean;
   isChatOpen: boolean;
+  soundEffects: SoundEffect[];
 }
 
 export interface PlayerActions {
@@ -30,6 +39,8 @@ export interface PlayerActions {
   toggleFullscreen: () => void;
   setIsFullscreen: (val: boolean) => void;
   toggleChat: () => void;
+  toggleSoundEffect: (id: string) => void;
+  setSoundEffectVolume: (id: string, volume: number) => void;
 }
 
 export type PlayerStore = PlayerState & PlayerActions;

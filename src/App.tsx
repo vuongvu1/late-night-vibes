@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   YouTubePlayer,
   ControlPanel,
@@ -7,12 +8,14 @@ import {
   ChatBlock,
   Spinner,
   OnlineCounter,
+  SoundEffectsPanel,
 } from "./components";
 import {
   useKeyPress,
   useChannel,
   useAutoSwitchChannelWhenDown,
   usePlayer,
+  useSoundEffects,
 } from "./hooks";
 import { VOLUME_STEP, VIDEO_DOWN_TITLE } from "./constants";
 import { cleanText } from "./utils";
@@ -20,6 +23,7 @@ import { useStore } from "./store";
 
 function App() {
   const { toggleFullscreen, isChatOpen, toggleChat } = useStore();
+  const [isMixerOpen, setIsMixerOpen] = useState(false);
   const {
     activeRadioNumber,
     activeChannel,
@@ -40,6 +44,8 @@ function App() {
     isLoading,
   } = usePlayer();
 
+  useSoundEffects();
+
   useKeyPress({
     Space: () => !isLoading && togglePlaying(),
     KeyR: selectRandomChannel,
@@ -57,6 +63,8 @@ function App() {
     callback: selectNextChannel,
   });
 
+  const toggleSoundMixer = () => setIsMixerOpen(!isMixerOpen);
+
   return (
     <Flex direction="column" style={{ height: "90vh" }}>
       <OnlineCounter />
@@ -73,6 +81,9 @@ function App() {
       </NeonText>
 
       {isChatOpen && <ChatBlock />}
+      {isMixerOpen && (
+        <SoundEffectsPanel onClose={() => setIsMixerOpen(false)} />
+      )}
 
       <ControlPanel
         isPlaying={isPlaying}
@@ -84,6 +95,7 @@ function App() {
         selectNextChannel={selectNextChannel}
         selectPreviousChannel={selectPreviousChannel}
         changeBackground={changeBackground}
+        toggleSoundMixer={toggleSoundMixer}
       />
     </Flex>
   );
