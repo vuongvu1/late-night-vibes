@@ -59,7 +59,7 @@
   border: none;
   color: #fff;
   opacity: 0.5;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   display: flex;
   padding: 4px;
   border-radius: 4px;
@@ -158,7 +158,7 @@
   border-radius: 6px;
   padding: 0 16px;
   font-weight: bold;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   transition:
     opacity 0.2s,
     transform 0.1s;
@@ -174,5 +174,5 @@
 
 .sendButton:disabled {
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: var(--cursor-pointer-disabled);
 }

@@ -82,7 +82,7 @@
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   position: relative;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   transition: background 0.3s ease;
 }
 
@@ -135,12 +135,12 @@
   height: 12px;
   background: #fff;
   border-radius: 50%;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .closeButton {
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   color: rgba(255, 255, 255, 0.5);
   display: flex;
   align-items: center;
@@ -162,7 +162,7 @@
 }
 
 .iconButton {
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   color: rgba(255, 255, 255, 0.4);
   display: flex;
   align-items: center;
@@ -194,6 +194,6 @@
 
 .toggle.disabled {
   opacity: 0.3;
-  cursor: not-allowed;
+  cursor: var(--cursor-pointer-disabled);
   filter: grayscale(1);
 }

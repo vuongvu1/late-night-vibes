@@ -1,5 +1,5 @@
 .button {
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   width: 50px;
   height: 50px;
   border-radius: var(--border-radius-round);
@@ -24,6 +24,6 @@
 
 .button:disabled {
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: var(--cursor-pointer-disabled);
   filter: grayscale(1);
 }
