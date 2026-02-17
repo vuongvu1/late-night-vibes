@@ -39,7 +39,7 @@ function Background() {
   const [fade, setFade] = useState(false);
 
   useEffect(() => {
-    setFade(false);
+    queueMicrotask(() => setFade(false));
     const timeout = setTimeout(() => {
       const randomKey =
         commonKeys[Math.floor(Math.random() * commonKeys.length)];

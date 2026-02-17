@@ -74,7 +74,7 @@ const ChatBlock: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchMessages();
+    queueMicrotask(() => void fetchMessages());
 
     const channel = supabase
       .channel("live-chat")
@@ -146,7 +146,7 @@ const ChatBlock: React.FC = () => {
         minute: "2-digit",
         hour12: false,
       }).format(date);
-    } catch (e) {
+    } catch {
       return "";
     }
   };
