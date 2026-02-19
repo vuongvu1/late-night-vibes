@@ -91,7 +91,7 @@ function ControlPanel({
         <Tooltip content="Press [C] to toggle Chat/Comments">
           <Button icon={<ChatIcon />} onClick={toggleChat} />
         </Tooltip>
-        <Tooltip content="Sound Mixer">
+        <Tooltip content="Press [M] to toggle Sound Mixer">
           <Button icon={<MixerIcon />} onClick={toggleSoundMixer} />
         </Tooltip>
       </Flex>

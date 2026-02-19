@@ -24,6 +24,7 @@ export interface PlayerState {
   isLoading: boolean;
   isFullscreen: boolean;
   isChatOpen: boolean;
+  isMixerOpen: boolean;
   soundEffects: SoundEffect[];
 }
 
@@ -39,6 +40,7 @@ export interface PlayerActions {
   toggleFullscreen: () => void;
   setIsFullscreen: (val: boolean) => void;
   toggleChat: () => void;
+  toggleMixer: () => void;
   toggleSoundEffect: (id: string) => void;
   setSoundEffectVolume: (id: string, volume: number) => void;
   resetSoundEffects: () => void;

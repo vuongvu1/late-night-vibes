@@ -112,6 +112,12 @@ export const useStore = create<PlayerStore>((set, get) => ({
     set((state) => ({ isChatOpen: !state.isChatOpen }));
   },
 
+  isMixerOpen: false,
+  toggleMixer: () => {
+    playSound(buttonPressSound4Src);
+    set((state) => ({ isMixerOpen: !state.isMixerOpen }));
+  },
+
   toggleSoundEffect: (id: string) => {
     const { soundEffects } = get();
     const activeCount = soundEffects.filter((e) => e.isPlaying).length;

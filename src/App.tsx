@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   YouTubePlayer,
   ControlPanel,
@@ -22,8 +21,8 @@ import { cleanText } from "./utils";
 import { useStore } from "./store";
 
 function App() {
-  const { toggleFullscreen, isChatOpen, toggleChat } = useStore();
-  const [isMixerOpen, setIsMixerOpen] = useState(false);
+  const { toggleFullscreen, isChatOpen, toggleChat, isMixerOpen, toggleMixer } =
+    useStore();
   const {
     activeRadioNumber,
     activeChannel,
@@ -56,14 +55,13 @@ function App() {
     KeyG: changeBackground,
     KeyF: toggleFullscreen,
     KeyC: toggleChat,
+    KeyM: toggleMixer,
   });
 
   useAutoSwitchChannelWhenDown({
     isChannelDown: videoTitle === VIDEO_DOWN_TITLE,
     callback: selectNextChannel,
   });
-
-  const toggleSoundMixer = () => setIsMixerOpen(!isMixerOpen);
 
   return (
     <Flex direction="column" style={{ height: "90vh" }}>
@@ -81,9 +79,7 @@ function App() {
       </NeonText>
 
       {isChatOpen && <ChatBlock />}
-      {isMixerOpen && (
-        <SoundEffectsPanel onClose={() => setIsMixerOpen(false)} />
-      )}
+      {isMixerOpen && <SoundEffectsPanel onClose={toggleMixer} />}
 
       <ControlPanel
         isPlaying={isPlaying}
@@ -95,7 +91,7 @@ function App() {
         selectNextChannel={selectNextChannel}
         selectPreviousChannel={selectPreviousChannel}
         changeBackground={changeBackground}
-        toggleSoundMixer={toggleSoundMixer}
+        toggleSoundMixer={toggleMixer}
       />
     </Flex>
   );
