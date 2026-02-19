@@ -2,4 +2,5 @@
   position: fixed;
   bottom: var(--spacing-md);
   width: 100%;
+  z-index: var(--z-index-controls);
 }

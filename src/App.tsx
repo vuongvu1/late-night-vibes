@@ -4,7 +4,7 @@ import {
   Background,
   NeonText,
   Flex,
-  ChatBlock,
+  ChatPanel,
   Spinner,
   OnlineCounter,
   SoundEffectsPanel,
@@ -78,7 +78,7 @@ function App() {
         {isLoading ? <Spinner /> : cleanText(videoTitle)}
       </NeonText>
 
-      {isChatOpen && <ChatBlock />}
+      {isChatOpen && <ChatPanel />}
       {isMixerOpen && <SoundEffectsPanel onClose={toggleMixer} />}
 
       <ControlPanel

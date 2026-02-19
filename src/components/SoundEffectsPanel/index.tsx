@@ -1,5 +1,6 @@
 import React from "react";
 import { useStore } from "../../store";
+import { useDraggable } from "../../hooks";
 import styles from "./style.module.css";
 import { Flex } from "../Flex";
 import { CloseIcon, ResetIcon, ShuffleIcon } from "../../assets/icons";
@@ -18,12 +19,29 @@ const SoundEffectsPanel: React.FC<SoundEffectsPanelProps> = ({ onClose }) => {
     randomizeSoundEffects,
   } = useStore();
 
+  const { position, isDragging, dragRef, handleMouseDown } = useDraggable({
+    initialX: window.innerWidth - 370, // Near right edge
+    initialY: 100,
+  });
+
   const activeCount = soundEffects.filter((e) => e.isPlaying).length;
   const isMaxReached = activeCount >= 5;
 
   return (
-    <div className={styles.panel}>
-      <Flex justify="space-between" align="center" className={styles.header}>
+    <div
+      ref={dragRef}
+      className={`${styles.panel} ${isDragging ? styles.dragging : ""}`}
+      style={{
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+      }}
+    >
+      <Flex
+        justify="space-between"
+        align="center"
+        className={styles.header}
+        onMouseDown={handleMouseDown}
+      >
         <Flex align="center" gap="var(--spacing-sm)">
           <span className={styles.title}>Sound Mixer</span>
           <span

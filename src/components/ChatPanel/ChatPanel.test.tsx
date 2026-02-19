@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ChatBlock from "./ChatBlock";
+import ChatPanel from "./ChatPanel";
 
 // Mock supabase
 const mockChannel = {
@@ -35,14 +35,14 @@ vi.mock("../../assets/icons", () => ({
   CloseIcon: () => <div>Close</div>,
 }));
 
-describe("ChatBlock", () => {
+describe("ChatPanel", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
   });
 
   it("should render the chat container", async () => {
-    const { container } = render(<ChatBlock />);
+    const { container } = render(<ChatPanel />);
     expect(container.firstChild).toBeInTheDocument();
 
     // Wait for effects to complete
@@ -50,13 +50,13 @@ describe("ChatBlock", () => {
   });
 
   it("should render username input", async () => {
-    render(<ChatBlock />);
+    render(<ChatPanel />);
     const usernameInput = await screen.findByPlaceholderText(/Anonymous\d+/);
     expect(usernameInput).toBeInTheDocument();
   });
 
   it("should render message input", async () => {
-    render(<ChatBlock />);
+    render(<ChatPanel />);
     const messageInput = await screen.findByPlaceholderText(
       "Say something nice...",
     );
@@ -64,26 +64,26 @@ describe("ChatBlock", () => {
   });
 
   it("should render send button", async () => {
-    render(<ChatBlock />);
+    render(<ChatPanel />);
     const sendButton = await screen.findByText("Send");
     expect(sendButton).toBeInTheDocument();
   });
 
   it("should render close button", async () => {
-    render(<ChatBlock />);
+    render(<ChatPanel />);
     const closeIcon = await screen.findByText("Close");
     expect(closeIcon).toBeInTheDocument();
   });
 
   it("should disable send button when input is empty", async () => {
-    render(<ChatBlock />);
+    render(<ChatPanel />);
     const sendButton = await screen.findByText("Send");
     expect(sendButton).toBeDisabled();
   });
 
   it("should enable send button when input has text", async () => {
     const user = userEvent.setup();
-    render(<ChatBlock />);
+    render(<ChatPanel />);
 
     const messageInput = screen.getByPlaceholderText("Say something nice...");
     await user.type(messageInput, "Hello!");
@@ -94,7 +94,7 @@ describe("ChatBlock", () => {
 
   it("should save username to localStorage", async () => {
     const user = userEvent.setup();
-    render(<ChatBlock />);
+    render(<ChatPanel />);
 
     const usernameInput = screen.getByPlaceholderText(/Anonymous\d+/);
     await user.type(usernameInput, "TestUser");
@@ -104,7 +104,7 @@ describe("ChatBlock", () => {
 
   it("should limit username to 20 characters", async () => {
     const user = userEvent.setup();
-    render(<ChatBlock />);
+    render(<ChatPanel />);
 
     const usernameInput = screen.getByPlaceholderText(
       /Anonymous\d+/,
@@ -115,7 +115,7 @@ describe("ChatBlock", () => {
   });
 
   it("should subscribe to live chat channel on mount", async () => {
-    render(<ChatBlock />);
+    render(<ChatPanel />);
 
     // Wait for all effects including channel subscription to complete
     await waitFor(async () => {
@@ -127,7 +127,7 @@ describe("ChatBlock", () => {
 
   it("should load saved username from localStorage", async () => {
     localStorage.setItem("chat_username", "SavedUser");
-    render(<ChatBlock />);
+    render(<ChatPanel />);
 
     const usernameInput = await screen.findByDisplayValue("SavedUser");
     expect(usernameInput).toBeInTheDocument();
@@ -135,7 +135,7 @@ describe("ChatBlock", () => {
 
   it("should handle form submission", async () => {
     const user = userEvent.setup();
-    render(<ChatBlock />);
+    render(<ChatPanel />);
 
     const messageInput = screen.getByPlaceholderText("Say something nice...");
     await user.type(messageInput, "Test message");

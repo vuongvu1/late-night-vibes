@@ -3,13 +3,14 @@ import { supabase } from "../../services/supabase";
 import { Message } from "../../types";
 import { CloseIcon } from "../../assets/icons";
 import { useStore } from "../../store";
+import { useDraggable } from "../../hooks";
 import styles from "./styles.module.css";
 
 const USERNAME_KEY = "chat_username";
 
 const PAGE_SIZE = 5;
 
-const ChatBlock: React.FC = () => {
+const ChatPanel: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [hasMore, setHasMore] = useState(true);
@@ -22,6 +23,10 @@ const ChatBlock: React.FC = () => {
   });
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { position, isDragging, dragRef, handleMouseDown } = useDraggable({
+    initialX: 20,
+    initialY: window.innerHeight - 520, // Position near bottom but visible
+  });
   const isInitialLoad = useRef(true);
 
   const fetchMessages = async () => {
@@ -154,8 +159,15 @@ const ChatBlock: React.FC = () => {
   const { toggleChat } = useStore();
 
   return (
-    <div className={styles.chatContainer}>
-      <div className={styles.header}>
+    <div
+      ref={dragRef}
+      className={`${styles.chatContainer} ${isDragging ? styles.dragging : ""}`}
+      style={{
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+      }}
+    >
+      <div className={styles.header} onMouseDown={handleMouseDown}>
         <div className={styles.usernameInputWrapper}>
           <span className={styles.usernameLabel}>Name:</span>
           <input
@@ -212,4 +224,4 @@ const ChatBlock: React.FC = () => {
   );
 };
 
-export default ChatBlock;
+export default ChatPanel;

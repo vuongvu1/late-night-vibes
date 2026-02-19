@@ -10,9 +10,13 @@
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  margin-top: auto;
-  margin-bottom: var(--spacing-xl);
-  position: relative;
+  position: fixed;
+  z-index: var(--z-index-draggable);
+}
+
+.chatContainer.dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 
 .header {
@@ -21,6 +25,11 @@
   align-items: center;
   padding: var(--spacing-sm) var(--spacing-md);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: grab;
+}
+
+.header:active {
+  cursor: grabbing;
 }
 
 .usernameInputWrapper {

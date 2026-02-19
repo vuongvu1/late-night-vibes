@@ -5,6 +5,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-sm);
   width: max-content;
+  z-index: var(--z-index-tooltip);
 }
 
 .content[data-state="open"] {

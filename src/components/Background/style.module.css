@@ -30,7 +30,7 @@
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  z-index: -1;
+  z-index: var(--z-index-background);
   filter: blur(0.6em) saturate(0.8) contrast(1.1) brightness(1.5);
   animation: pulse 20s infinite ease-in-out;
 }
