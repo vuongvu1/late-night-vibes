@@ -88,6 +88,7 @@
   width: 36px;
   height: 20px;
   background: var(--background-surface-strong);
+  border: none;
   border-radius: 10px;
   position: relative;
   cursor: var(--cursor-pointer);
@@ -175,6 +176,8 @@
 }
 
 .iconButton {
+  background: transparent;
+  border: none;
   cursor: var(--cursor-pointer);
   color: var(--text-color-subtle);
   display: flex;
@@ -188,6 +191,14 @@
 .iconButton:hover {
   color: var(--text-color);
   background: var(--background-surface-strong);
+}
+
+.closeButton:focus-visible,
+.iconButton:focus-visible,
+.toggle:focus-visible,
+.slider:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
 }
 
 .counter {

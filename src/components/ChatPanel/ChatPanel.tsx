@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useId } from "react";
 import { supabase } from "../../services/supabase";
 import { Message } from "../../types";
 import { CloseIcon } from "../../assets/icons";
@@ -21,6 +21,8 @@ const ChatPanel: React.FC = () => {
   const [defaultUsername] = useState(() => {
     return `User${Math.floor(Math.random() * 9000) + 1000}`;
   });
+  const usernameInputId = useId();
+  const messageInputId = useId();
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const { position, isDragging, dragRef, handleMouseDown } = useDraggable({
@@ -166,20 +168,29 @@ const ChatPanel: React.FC = () => {
         left: `${position.x}px`,
         top: `${position.y}px`,
       }}
+      onKeyDown={(e) => e.stopPropagation()}
     >
       <div className={styles.header} onMouseDown={handleMouseDown}>
         <div className={styles.usernameInputWrapper}>
-          <span className={styles.usernameLabel}>Name:</span>
+          <label className={styles.usernameLabel} htmlFor={usernameInputId}>
+            Name:
+          </label>
           <input
+            id={usernameInputId}
             className={styles.usernameInput}
             value={username}
             onChange={handleUsernameChange}
             placeholder={defaultUsername}
             maxLength={20}
-            onKeyDown={(e) => e.stopPropagation()}
+            aria-label="Chat username"
           />
         </div>
-        <button className={styles.closeButton} onClick={toggleChat}>
+        <button
+          className={styles.closeButton}
+          type="button"
+          onClick={toggleChat}
+          aria-label="Close chat panel"
+        >
           <CloseIcon />
         </button>
       </div>
@@ -187,8 +198,16 @@ const ChatPanel: React.FC = () => {
         className={styles.messagesList}
         ref={scrollRef}
         onScroll={handleScroll}
+        role="log"
+        aria-live="polite"
+        aria-relevant="additions text"
+        aria-label="Chat messages"
       >
-        {isLoadingMore && <div className={styles.loadingMore}>Loading...</div>}
+        {isLoadingMore && (
+          <div className={styles.loadingMore} role="status" aria-live="polite">
+            Loading older messages...
+          </div>
+        )}
         {messages.map((msg) => (
           <div key={msg.id} className={styles.messageItem}>
             <div className={styles.messageMeta}>
@@ -207,10 +226,12 @@ const ChatPanel: React.FC = () => {
         onKeyDown={(e) => e.stopPropagation()}
       >
         <input
+          id={messageInputId}
           className={styles.input}
           placeholder="Say something nice..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+          aria-label="Message"
         />
         <button
           className={styles.sendButton}

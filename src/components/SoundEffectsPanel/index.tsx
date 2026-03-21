@@ -35,6 +35,7 @@ const SoundEffectsPanel: React.FC<SoundEffectsPanelProps> = ({ onClose }) => {
         left: `${position.x}px`,
         top: `${position.y}px`,
       }}
+      onKeyDown={(e) => e.stopPropagation()}
     >
       <Flex
         justify="space-between"
@@ -55,25 +56,41 @@ const SoundEffectsPanel: React.FC<SoundEffectsPanelProps> = ({ onClose }) => {
 
         <div className={styles.headerActions}>
           <Tooltip content="Randomize (3-5 sounds)">
-            <div className={styles.iconButton} onClick={randomizeSoundEffects}>
+            <button
+              className={styles.iconButton}
+              type="button"
+              onClick={randomizeSoundEffects}
+              aria-label="Randomize sound effects"
+            >
               <ShuffleIcon />
-            </div>
+            </button>
           </Tooltip>
           <Tooltip content="Reset All">
-            <div className={styles.iconButton} onClick={resetSoundEffects}>
+            <button
+              className={styles.iconButton}
+              type="button"
+              onClick={resetSoundEffects}
+              aria-label="Reset all sound effects"
+            >
               <ResetIcon />
-            </div>
+            </button>
           </Tooltip>
         </div>
 
-        <div className={styles.closeButton} onClick={onClose}>
+        <button
+          className={styles.closeButton}
+          type="button"
+          onClick={onClose}
+          aria-label="Close sound mixer"
+        >
           <CloseIcon />
-        </div>
+        </button>
       </Flex>
 
       <div className={styles.scrollArea}>
         {soundEffects.map((effect) => {
           const isDisabled = isMaxReached && !effect.isPlaying;
+          const sliderId = `sound-effect-volume-${effect.id}`;
 
           return (
             <div
@@ -83,18 +100,26 @@ const SoundEffectsPanel: React.FC<SoundEffectsPanelProps> = ({ onClose }) => {
               }`}
             >
               <div className={styles.effectHeader}>
-                <span className={styles.effectName}>{effect.name}</span>
-                <div
+                <label className={styles.effectName} htmlFor={sliderId}>
+                  {effect.name}
+                </label>
+                <button
                   className={`${styles.toggle} ${
                     effect.isPlaying ? styles.active : ""
                   } ${isDisabled ? styles.disabled : ""}`}
+                  type="button"
                   onClick={() => !isDisabled && toggleSoundEffect(effect.id)}
+                  disabled={isDisabled}
+                  role="switch"
+                  aria-checked={effect.isPlaying}
+                  aria-label={`${effect.isPlaying ? "Disable" : "Enable"} ${effect.name}`}
                 >
                   <div className={styles.toggleCircle} />
-                </div>
+                </button>
               </div>
               <div className={styles.volumeContainer}>
                 <input
+                  id={sliderId}
                   type="range"
                   min="0"
                   max="100"
@@ -103,6 +128,8 @@ const SoundEffectsPanel: React.FC<SoundEffectsPanelProps> = ({ onClose }) => {
                     setSoundEffectVolume(effect.id, parseInt(e.target.value))
                   }
                   className={styles.slider}
+                  aria-label={`${effect.name} volume`}
+                  disabled={!effect.isPlaying}
                 />
                 <span
                   style={{
