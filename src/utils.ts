@@ -6,6 +6,7 @@ export const playSound = (soundUrl: string) => {
   }
 
   const audio = soundCache[soundUrl];
+  audio.volume = 0.3; // Set volume to 50%
   audio.currentTime = 0; // Reset to start for snappy response
   audio
     .play()

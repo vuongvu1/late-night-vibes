@@ -4,8 +4,15 @@
   --secondary-color: #333;
   --background-color: #242424;
   --background-transparent: #00000099;
+  --background-panel: rgb(0 0 0 / 40%);
+  --background-panel-strong: rgb(15 15 20 / 70%);
+  --background-surface-soft: rgb(255 255 255 / 5%);
+  --background-surface-strong: rgb(255 255 255 / 10%);
   --text-color: #fff;
   --text-color-hover: #646cff;
+  --text-color-muted: rgb(255 255 255 / 80%);
+  --text-color-subtle: rgb(255 255 255 / 40%);
+  --accent-color: #0fa;
 
   --button-color-text: #fff;
   --button-color-background: #1a1a1a;
@@ -48,6 +55,7 @@
 
   /* Border colors */
   --border-color: #e5e5e5;
+  --border-color-subtle: rgb(255 255 255 / 10%);
 
   /* Z-index layers */
   --z-index-background: -1;
@@ -68,6 +76,8 @@
   /* Other variables */
   --focus-shadow: 0 0 0 2px var(--border-color);
   --text-highlight-shadow: 0px 1px 2px rgb(0 0 0 / 80%);
+  --icon-button-padding: var(--spacing-xs);
+  --icon-button-radius: var(--border-radius-sm);
 
   /* Cursor */
   --cursor-default: url("/assets/cursor-default.svg") 0 0, auto;

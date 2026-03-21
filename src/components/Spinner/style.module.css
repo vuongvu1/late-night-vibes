@@ -5,7 +5,7 @@
 
 .spinner {
   display: inline-block;
-  border: 12px solid #f3f3f3;
+  border: 12px solid var(--border-color);
   border-top: 12px solid var(--primary-color);
   border-radius: var(--border-radius-round);
   animation: spin 2s linear infinite;

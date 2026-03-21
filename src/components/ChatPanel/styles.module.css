@@ -2,14 +2,14 @@
   width: 100%;
   max-width: 400px;
   height: 400px;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--background-panel);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color-subtle);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 50%);
   position: fixed;
   z-index: var(--z-index-draggable);
 }
@@ -24,7 +24,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-sm) var(--spacing-md);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-color-subtle);
   cursor: grab;
 }
 
@@ -35,13 +35,13 @@
 .usernameInputWrapper {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
   flex: 1;
 }
 
 .usernameLabel {
   font-size: 0.9rem;
-  color: #fff;
+  color: var(--text-color);
   opacity: 0.6;
   white-space: nowrap;
 }
@@ -49,10 +49,10 @@
 .usernameInput {
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: #0fa;
+  border-bottom: 1px solid var(--border-color-subtle);
+  color: var(--accent-color);
   font-size: 1rem;
-  line-height: 1.4;
+  line-height: var(--line-height-sm);
   padding: 4px 6px;
   width: 100%;
   max-width: 120px;
@@ -61,18 +61,18 @@
 }
 
 .usernameInput:focus {
-  border-color: #0fa;
+  border-color: var(--accent-color);
 }
 
 .closeButton {
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--text-color);
   opacity: 0.5;
   cursor: var(--cursor-pointer);
   display: flex;
-  padding: 4px;
-  border-radius: 4px;
+  padding: var(--icon-button-padding);
+  border-radius: var(--icon-button-radius);
   transition:
     opacity 0.2s,
     background 0.2s;
@@ -80,7 +80,7 @@
 
 .closeButton:hover {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--background-surface-strong);
 }
 
 .messagesList {
@@ -91,14 +91,14 @@
   flex-direction: column;
   gap: var(--spacing-sm);
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  scrollbar-color: var(--background-surface-strong) transparent;
 }
 
 .loadingMore {
   text-align: center;
   font-size: 0.9rem;
   opacity: 0.5;
-  color: #fff;
+  color: var(--text-color);
   padding: var(--spacing-xs) 0;
 }
 
@@ -112,67 +112,67 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 8px;
-  margin-bottom: 4px;
-  line-height: 1.4;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  line-height: var(--line-height-sm);
 }
 
 .username {
   font-size: 0.95rem;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   opacity: 0.6;
-  color: #0fa;
+  color: var(--accent-color);
 }
 
 .timestamp {
   font-size: 0.85rem;
   opacity: 0.4;
-  color: #fff;
+  color: var(--text-color);
   white-space: nowrap;
 }
 
 .content {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--background-surface-soft);
   padding: 10px 14px;
   border-radius: 8px;
   font-size: 1rem;
-  color: #fff;
-  line-height: 1.6;
+  color: var(--text-color);
+  line-height: var(--line-height-md);
   word-break: break-word;
 }
 
 .inputArea {
   padding: var(--spacing-md);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border-color-subtle);
   display: flex;
   gap: var(--spacing-sm);
 }
 
 .input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--background-surface-soft);
+  border: 1px solid var(--border-color-subtle);
   border-radius: 6px;
   padding: 10px 12px;
-  color: #fff;
+  color: var(--text-color);
   font-family: inherit;
   font-size: 1rem;
-  line-height: 1.4;
+  line-height: var(--line-height-sm);
   outline: none;
   transition: border-color 0.2s;
 }
 
 .input:focus {
-  border-color: #0fa;
+  border-color: var(--accent-color);
 }
 
 .sendButton {
-  background: #0fa;
+  background: var(--accent-color);
   color: #000;
   border: none;
   border-radius: 6px;
   padding: 0 16px;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   font-size: 1rem;
   cursor: var(--cursor-pointer);
   transition:

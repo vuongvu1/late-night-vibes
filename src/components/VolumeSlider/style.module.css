@@ -24,7 +24,7 @@
   transition: background-color ease var(--duration-normal);
   width: var(--spacing-md);
   height: var(--spacing-lg);
-  box-shadow: -1px 1px 1px white;
+  box-shadow: -1px 1px 1px var(--text-color);
 }
 
 .slider {

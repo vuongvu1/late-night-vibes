@@ -2,12 +2,12 @@
   position: fixed;
   width: 350px;
   max-height: 60vh;
-  background: rgba(15, 15, 20, 0.7);
+  background: var(--background-panel-strong);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color-subtle);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-md);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 50%);
   display: flex;
   flex-direction: column;
   z-index: var(--z-index-draggable);
@@ -20,7 +20,7 @@
 
 .header {
   margin-bottom: var(--spacing-md);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-color-subtle);
   padding-bottom: var(--spacing-sm);
   cursor: grab;
 }
@@ -30,10 +30,10 @@
 }
 
 .title {
-  color: #fff;
+  color: var(--text-color);
   font-size: 1.2rem;
-  font-weight: 600;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  font-weight: var(--font-weight-semibold);
+  text-shadow: 0 0 10px rgb(255 255 255 / 30%);
 }
 
 .scrollArea {
@@ -47,24 +47,24 @@
 }
 
 .scrollArea::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--background-surface-soft);
 }
 
 .scrollArea::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgb(255 255 255 / 20%);
   border-radius: 2px;
 }
 
 .effectItem {
   padding: var(--spacing-sm);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgb(255 255 255 / 3%);
   border-radius: var(--border-radius-md);
   margin-bottom: var(--spacing-sm);
   transition: all 0.2s ease;
 }
 
 .effectItem:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgb(255 255 255 / 6%);
 }
 
 .effectHeader {
@@ -75,19 +75,19 @@
 }
 
 .effectName {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-color-muted);
   font-size: 0.9rem;
 }
 
 .active .effectName {
-  color: #fff;
-  font-weight: 500;
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
 }
 
 .toggle {
   width: 36px;
   height: 20px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--background-surface-strong);
   border-radius: 10px;
   position: relative;
   cursor: var(--cursor-pointer);
@@ -95,15 +95,15 @@
 }
 
 .toggle.active {
-  background: var(--primary-color, #00d2ff);
-  box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+  background: var(--primary-color);
+  box-shadow: 0 0 10px rgb(100 108 255 / 40%);
 }
 
 .toggleCircle {
   width: 16px;
   height: 16px;
-  background: #fff;
-  border-radius: 50%;
+  background: var(--text-color);
+  border-radius: var(--border-radius-round);
   position: absolute;
   top: 2px;
   left: 2px;
@@ -131,7 +131,7 @@
 .slider {
   flex: 1;
   -webkit-appearance: none;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--background-surface-strong);
   height: 4px;
   border-radius: 2px;
   outline: none;
@@ -141,21 +141,21 @@
   -webkit-appearance: none;
   width: 12px;
   height: 12px;
-  background: #fff;
-  border-radius: 50%;
+  background: var(--text-color);
+  border-radius: var(--border-radius-round);
   cursor: var(--cursor-pointer);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgb(0 0 0 / 30%);
 }
 
 .closeButton {
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--text-color);
   opacity: 0.5;
   cursor: var(--cursor-pointer);
   display: flex;
-  padding: 4px;
-  border-radius: 4px;
+  padding: var(--icon-button-padding);
+  border-radius: var(--icon-button-radius);
   transition:
     opacity 0.2s,
     background 0.2s;
@@ -163,7 +163,7 @@
 
 .closeButton:hover {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--background-surface-strong);
 }
 
 .headerActions {
@@ -176,33 +176,33 @@
 
 .iconButton {
   cursor: var(--cursor-pointer);
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-color-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
-  border-radius: 4px;
+  padding: var(--icon-button-padding);
+  border-radius: var(--icon-button-radius);
   transition: all 0.2s ease;
 }
 
 .iconButton:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  background: var(--background-surface-strong);
 }
 
 .counter {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(255 255 255 / 50%);
   font-size: 0.85rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--background-surface-strong);
   padding: 2px 8px;
   border-radius: 10px;
   font-variant-numeric: tabular-nums;
 }
 
 .maxReached {
-  color: var(--primary-color, #00d2ff);
-  background: rgba(0, 210, 255, 0.1);
-  box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+  color: var(--primary-color);
+  background: rgb(0 255 170 / 10%);
+  box-shadow: 0 0 10px rgb(100 108 255 / 20%);
 }
 
 .toggle.disabled {

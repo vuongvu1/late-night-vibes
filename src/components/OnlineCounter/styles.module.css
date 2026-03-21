@@ -4,12 +4,12 @@
   right: 2rem;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(0, 0, 0, 0.4);
+  gap: var(--spacing-sm);
+  background: var(--background-panel);
   padding: 6px 12px;
   border-radius: 20px;
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color-subtle);
   z-index: var(--z-index-base);
   pointer-events: none;
 }
@@ -17,18 +17,18 @@
 .dot {
   width: 8px;
   height: 8px;
-  background-color: #0fa;
-  border-radius: 50%;
-  box-shadow: 0 0 10px #0fa;
+  background-color: var(--accent-color);
+  border-radius: var(--border-radius-round);
+  box-shadow: 0 0 10px var(--accent-color);
   animation: pulse 2s infinite ease-in-out;
 }
 
 .text {
-  color: #fff;
+  color: var(--text-color);
   font-family: inherit;
   font-size: 0.85rem;
   letter-spacing: 0.5px;
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 5px rgb(255 255 255 / 30%);
 }
 
 @keyframes pulse {
@@ -39,7 +39,7 @@
   50% {
     transform: scale(1.2);
     opacity: 1;
-    box-shadow: 0 0 15px #0fa;
+    box-shadow: 0 0 15px var(--accent-color);
   }
   100% {
     transform: scale(1);
