@@ -19,7 +19,7 @@ const ChatPanel: React.FC = () => {
     return localStorage.getItem(USERNAME_KEY) || "";
   });
   const [defaultUsername] = useState(() => {
-    return `Anonymous${Math.floor(Math.random() * 9000) + 1000}`;
+    return `User${Math.floor(Math.random() * 9000) + 1000}`;
   });
 
   const scrollRef = useRef<HTMLDivElement>(null);
