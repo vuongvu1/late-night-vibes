@@ -36,54 +36,61 @@ vi.mock("../../assets/icons", () => ({
 }));
 
 describe("ChatPanel", () => {
+  const renderChatPanel = async () => {
+    const view = render(<ChatPanel />);
+
+    await waitFor(() => {
+      expect(mockChannel.subscribe).toHaveBeenCalled();
+    });
+
+    return view;
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
   });
 
   it("should render the chat container", async () => {
-    const { container } = render(<ChatPanel />);
+    const { container } = await renderChatPanel();
     expect(container.firstChild).toBeInTheDocument();
-
-    // Wait for effects to complete
-    await screen.findByPlaceholderText(/Anonymous\d+/);
   });
 
   it("should render username input", async () => {
-    render(<ChatPanel />);
-    const usernameInput = await screen.findByPlaceholderText(/Anonymous\d+/);
+    await renderChatPanel();
+    const usernameInput = screen.getByLabelText("Chat username");
     expect(usernameInput).toBeInTheDocument();
   });
 
   it("should render message input", async () => {
-    render(<ChatPanel />);
-    const messageInput = await screen.findByPlaceholderText(
+    await renderChatPanel();
+    const messageInput = screen.getByPlaceholderText(
       "Say something nice...",
     );
     expect(messageInput).toBeInTheDocument();
   });
 
   it("should render send button", async () => {
-    render(<ChatPanel />);
-    const sendButton = await screen.findByText("Send");
+    await renderChatPanel();
+    const sendButton = screen.getByText("Send");
     expect(sendButton).toBeInTheDocument();
   });
 
   it("should render close button", async () => {
-    render(<ChatPanel />);
-    const closeIcon = await screen.findByText("Close");
+    await renderChatPanel();
+    const closeIcon = screen.getByText("Close");
     expect(closeIcon).toBeInTheDocument();
   });
 
   it("should disable send button when input is empty", async () => {
-    render(<ChatPanel />);
-    const sendButton = await screen.findByText("Send");
+    await renderChatPanel();
+    const sendButton = screen.getByText("Send");
     expect(sendButton).toBeDisabled();
   });
 
   it("should enable send button when input has text", async () => {
     const user = userEvent.setup();
-    render(<ChatPanel />);
+    await renderChatPanel();
 
     const messageInput = screen.getByPlaceholderText("Say something nice...");
     await user.type(messageInput, "Hello!");
@@ -94,9 +101,9 @@ describe("ChatPanel", () => {
 
   it("should save username to localStorage", async () => {
     const user = userEvent.setup();
-    render(<ChatPanel />);
+    await renderChatPanel();
 
-    const usernameInput = screen.getByPlaceholderText(/Anonymous\d+/);
+    const usernameInput = screen.getByLabelText("Chat username");
     await user.type(usernameInput, "TestUser");
 
     expect(localStorage.getItem("chat_username")).toBe("TestUser");
@@ -104,10 +111,10 @@ describe("ChatPanel", () => {
 
   it("should limit username to 20 characters", async () => {
     const user = userEvent.setup();
-    render(<ChatPanel />);
+    await renderChatPanel();
 
-    const usernameInput = screen.getByPlaceholderText(
-      /Anonymous\d+/,
+    const usernameInput = screen.getByLabelText(
+      "Chat username",
     ) as HTMLInputElement;
     await user.type(usernameInput, "a".repeat(30));
 
@@ -115,7 +122,7 @@ describe("ChatPanel", () => {
   });
 
   it("should subscribe to live chat channel on mount", async () => {
-    render(<ChatPanel />);
+    await renderChatPanel();
 
     // Wait for all effects including channel subscription to complete
     await waitFor(async () => {
@@ -127,15 +134,15 @@ describe("ChatPanel", () => {
 
   it("should load saved username from localStorage", async () => {
     localStorage.setItem("chat_username", "SavedUser");
-    render(<ChatPanel />);
+    await renderChatPanel();
 
-    const usernameInput = await screen.findByDisplayValue("SavedUser");
+    const usernameInput = screen.getByDisplayValue("SavedUser");
     expect(usernameInput).toBeInTheDocument();
   });
 
   it("should handle form submission", async () => {
     const user = userEvent.setup();
-    render(<ChatPanel />);
+    await renderChatPanel();
 
     const messageInput = screen.getByPlaceholderText("Say something nice...");
     await user.type(messageInput, "Test message");

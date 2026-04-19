@@ -9,8 +9,12 @@ type Props = {
   onVideoLoaded: (title: string) => void;
 };
 
+type PlayerWithTitle = YT.Player & {
+  videoTitle?: string;
+};
+
 const initializePlayer = (
-  ref: React.MutableRefObject<YT.Player | null>,
+  ref: React.MutableRefObject<PlayerWithTitle | null>,
   videoId: string,
   cb?: () => void,
 ) => {
@@ -23,7 +27,6 @@ const initializePlayer = (
     ref.current.destroy();
   }
 
-  // @ts-expect-error - property exists
   window.YT.ready(function () {
     ref.current = new window.YT.Player("player", {
       height: "auto",
@@ -51,7 +54,7 @@ const YouTubePlayer: React.FC<Props> = ({
   isPlaying,
   onVideoLoaded,
 }) => {
-  const playerRef = useRef<YT.Player | null>(null);
+  const playerRef = useRef<PlayerWithTitle | null>(null);
 
   const checkPlayerStatus = useCallback(() => {
     const player = playerRef.current;
@@ -60,10 +63,9 @@ const YouTubePlayer: React.FC<Props> = ({
       return;
     }
 
-    // @ts-expect-error - property exists
     const playerTitle = player.videoTitle;
 
-    if (player && !playerTitle) {
+    if (!playerTitle) {
       onVideoLoaded(VIDEO_DOWN_TITLE);
       return;
     }
