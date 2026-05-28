@@ -20,6 +20,7 @@ const SoundEffectsPanel: React.FC<SoundEffectsPanelProps> = ({ onClose }) => {
   } = useStore();
 
   const { position, isDragging, dragRef, handleMouseDown } = useDraggable({
+    storageKey: "mixer-panel-position",
     initialX: window.innerWidth - 370, // Near right edge
     initialY: 100,
   });

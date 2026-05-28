@@ -3,13 +3,36 @@ import { useState, useRef, useEffect, MouseEvent } from "react";
 interface UseDraggableOptions {
   initialX?: number;
   initialY?: number;
+  storageKey?: string;
 }
+
+const loadPosition = (
+  key: string | undefined,
+  fallback: { x: number; y: number }
+) => {
+  if (!key) return fallback;
+  try {
+    const stored = localStorage.getItem(key);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (typeof parsed.x === "number" && typeof parsed.y === "number") {
+        return parsed as { x: number; y: number };
+      }
+    }
+  } catch {
+    // ignore
+  }
+  return fallback;
+};
 
 export const useDraggable = ({
   initialX = 20,
   initialY = 100,
+  storageKey,
 }: UseDraggableOptions = {}) => {
-  const [position, setPosition] = useState({ x: initialX, y: initialY });
+  const [position, setPosition] = useState(() =>
+    loadPosition(storageKey, { x: initialX, y: initialY })
+  );
   const [isDragging, setIsDragging] = useState(false);
   const dragRef = useRef<HTMLDivElement>(null);
   const offsetRef = useRef({ x: 0, y: 0 });
@@ -54,6 +77,15 @@ export const useDraggable = ({
 
     const handleMouseUp = () => {
       setIsDragging(false);
+      if (storageKey) {
+        const rect = dragRef.current?.getBoundingClientRect();
+        if (rect) {
+          localStorage.setItem(
+            storageKey,
+            JSON.stringify({ x: rect.left, y: rect.top })
+          );
+        }
+      }
     };
 
     if (isDragging) {

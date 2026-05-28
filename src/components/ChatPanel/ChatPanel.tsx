@@ -26,6 +26,7 @@ const ChatPanel: React.FC = () => {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const { position, isDragging, dragRef, handleMouseDown } = useDraggable({
+    storageKey: "chat-panel-position",
     initialX: 20,
     initialY: window.innerHeight - 520, // Position near bottom but visible
   });
