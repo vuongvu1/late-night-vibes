@@ -32,6 +32,7 @@ const VolumeSlider = React.forwardRef<HTMLInputElement, Props>(
           onChange={(e) => setValue(Number(e.target.value))}
           onKeyDown={(e) => e.stopPropagation()}
           className={styles.slider}
+          aria-label="Volume"
           ref={ref}
           {...restProps}
         />

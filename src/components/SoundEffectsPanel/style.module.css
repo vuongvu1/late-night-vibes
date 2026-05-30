@@ -13,11 +13,6 @@
   z-index: var(--z-index-draggable);
 }
 
-.panel.dragging {
-  cursor: grabbing;
-  user-select: none;
-}
-
 .header {
   margin-bottom: var(--spacing-md);
   border-bottom: 1px solid var(--border-color-subtle);
@@ -31,7 +26,7 @@
 
 .title {
   color: var(--text-color);
-  font-size: 1.2rem;
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   text-shadow: 0 0 10px rgb(255 255 255 / 30%);
 }
@@ -52,19 +47,19 @@
 
 .scrollArea::-webkit-scrollbar-thumb {
   background: rgb(255 255 255 / 20%);
-  border-radius: 2px;
+  border-radius: var(--border-radius-pill);
 }
 
 .effectItem {
   padding: var(--spacing-sm);
-  background: rgb(255 255 255 / 3%);
+  background: var(--background-surface-soft);
   border-radius: var(--border-radius-md);
   margin-bottom: var(--spacing-sm);
-  transition: all 0.2s ease;
+  transition: background var(--duration-normal) ease;
 }
 
 .effectItem:hover {
-  background: rgb(255 255 255 / 6%);
+  background: var(--background-surface-strong);
 }
 
 .effectHeader {
@@ -76,7 +71,7 @@
 
 .effectName {
   color: var(--text-color-muted);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
 }
 
 .active .effectName {
@@ -89,10 +84,10 @@
   height: 20px;
   background: var(--background-surface-strong);
   border: none;
-  border-radius: 10px;
+  border-radius: var(--border-radius-pill);
   position: relative;
   cursor: var(--cursor-pointer);
-  transition: background 0.3s ease;
+  transition: background var(--duration-long) ease;
 }
 
 .toggle.active {
@@ -108,7 +103,7 @@
   position: absolute;
   top: 2px;
   left: 2px;
-  transition: transform 0.3s ease;
+  transition: transform var(--duration-long) ease;
 }
 
 .toggle.active .toggleCircle {
@@ -121,7 +116,7 @@
   gap: var(--spacing-sm);
   opacity: 0.5;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--duration-normal) ease;
 }
 
 .active .volumeContainer {
@@ -131,14 +126,16 @@
 
 .slider {
   flex: 1;
+  appearance: none;
   -webkit-appearance: none;
   background: var(--background-surface-strong);
   height: 4px;
-  border-radius: 2px;
+  border-radius: var(--border-radius-pill);
   outline: none;
 }
 
 .slider::-webkit-slider-thumb {
+  appearance: none;
   -webkit-appearance: none;
   width: 12px;
   height: 12px;
@@ -148,23 +145,20 @@
   box-shadow: 0 0 5px rgb(0 0 0 / 30%);
 }
 
+.percent {
+  font-size: var(--font-size-xs);
+  color: var(--text-color-subtle);
+  min-width: 25px;
+}
+
 .closeButton {
-  background: transparent;
-  border: none;
+  composes: iconButtonBase from "../shared/iconButton.module.css";
   color: var(--text-color);
   opacity: 0.5;
-  cursor: var(--cursor-pointer);
-  display: flex;
-  padding: var(--icon-button-padding);
-  border-radius: var(--icon-button-radius);
-  transition:
-    opacity 0.2s,
-    background 0.2s;
 }
 
 .closeButton:hover {
   opacity: 1;
-  background: var(--background-surface-strong);
 }
 
 .headerActions {
@@ -176,21 +170,12 @@
 }
 
 .iconButton {
-  background: transparent;
-  border: none;
-  cursor: var(--cursor-pointer);
+  composes: iconButtonBase from "../shared/iconButton.module.css";
   color: var(--text-color-subtle);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--icon-button-padding);
-  border-radius: var(--icon-button-radius);
-  transition: all 0.2s ease;
 }
 
 .iconButton:hover {
   color: var(--text-color);
-  background: var(--background-surface-strong);
 }
 
 .closeButton:focus-visible,
@@ -202,11 +187,11 @@
 }
 
 .counter {
-  color: rgb(255 255 255 / 50%);
-  font-size: 0.85rem;
+  color: var(--text-color-subtle);
+  font-size: var(--font-size-sm);
   background: var(--background-surface-strong);
   padding: 2px 8px;
-  border-radius: 10px;
+  border-radius: var(--border-radius-pill);
   font-variant-numeric: tabular-nums;
 }
 
@@ -220,4 +205,18 @@
   opacity: 0.3;
   cursor: var(--cursor-pointer-disabled);
   filter: grayscale(1);
+}
+
+/* Bottom sheet on phones: pin to the bottom edge, full width, drag disabled.
+   !important overrides the inline left/top set by useDraggable. */
+@media (max-width: 600px) {
+  .panel {
+    left: 0 !important;
+    top: auto !important;
+    right: 0;
+    width: 100%;
+    max-height: 70dvh;
+    border-radius: var(--border-radius-panel) var(--border-radius-panel) 0 0;
+    padding-bottom: max(var(--spacing-md), env(safe-area-inset-bottom));
+  }
 }

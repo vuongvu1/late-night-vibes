@@ -3,7 +3,7 @@ import { supabase } from "../../services/supabase";
 import { Message } from "../../types";
 import { CloseIcon } from "../../assets/icons";
 import { useStore } from "../../store";
-import { useDraggable } from "../../hooks";
+import DraggablePanel from "../DraggablePanel";
 import styles from "./styles.module.css";
 
 const USERNAME_KEY = "chat_username";
@@ -25,12 +25,9 @@ const ChatPanel: React.FC = () => {
   const messageInputId = useId();
 
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { position, isDragging, dragRef, handleMouseDown } = useDraggable({
-    storageKey: "chat-panel-position",
-    initialX: 20,
-    initialY: window.innerHeight - 520, // Position near bottom but visible
-  });
   const isInitialLoad = useRef(true);
+
+  const { toggleChat } = useStore();
 
   const fetchMessages = async () => {
     const { data, error } = await supabase
@@ -159,90 +156,93 @@ const ChatPanel: React.FC = () => {
     }
   };
 
-  const { toggleChat } = useStore();
-
   return (
-    <div
-      ref={dragRef}
-      className={`${styles.chatContainer} ${isDragging ? styles.dragging : ""}`}
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-      }}
-      onKeyDown={(e) => e.stopPropagation()}
+    <DraggablePanel
+      storageKey="chat-panel-position"
+      initialX={20}
+      initialY={window.innerHeight - 520} // Position near bottom but visible
+      className={styles.chatContainer}
     >
-      <div className={styles.header} onMouseDown={handleMouseDown}>
-        <div className={styles.usernameInputWrapper}>
-          <label className={styles.usernameLabel} htmlFor={usernameInputId}>
-            Name:
-          </label>
-          <input
-            id={usernameInputId}
-            className={styles.usernameInput}
-            value={username}
-            onChange={handleUsernameChange}
-            placeholder={defaultUsername}
-            maxLength={20}
-            aria-label="Chat username"
-          />
-        </div>
-        <button
-          className={styles.closeButton}
-          type="button"
-          onClick={toggleChat}
-          aria-label="Close chat panel"
-        >
-          <CloseIcon />
-        </button>
-      </div>
-      <div
-        className={styles.messagesList}
-        ref={scrollRef}
-        onScroll={handleScroll}
-        role="log"
-        aria-live="polite"
-        aria-relevant="additions text"
-        aria-label="Chat messages"
-      >
-        {isLoadingMore && (
-          <div className={styles.loadingMore} role="status" aria-live="polite">
-            Loading older messages...
-          </div>
-        )}
-        {messages.map((msg) => (
-          <div key={msg.id} className={styles.messageItem}>
-            <div className={styles.messageMeta}>
-              <span className={styles.username}>{msg.username}</span>
-              <span className={styles.timestamp}>
-                {formatTime(msg.created_at)}
-              </span>
+      {(handleMouseDown) => (
+        <>
+          <div className={styles.header} onMouseDown={handleMouseDown}>
+            <div className={styles.usernameInputWrapper}>
+              <label className={styles.usernameLabel} htmlFor={usernameInputId}>
+                Name:
+              </label>
+              <input
+                id={usernameInputId}
+                className={styles.usernameInput}
+                value={username}
+                onChange={handleUsernameChange}
+                placeholder={defaultUsername}
+                maxLength={20}
+                aria-label="Chat username"
+              />
             </div>
-            <div className={styles.content}>{msg.content}</div>
+            <button
+              className={styles.closeButton}
+              type="button"
+              onClick={toggleChat}
+              aria-label="Close chat panel"
+            >
+              <CloseIcon />
+            </button>
           </div>
-        ))}
-      </div>
-      <form
-        className={styles.inputArea}
-        onSubmit={handleSendMessage}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <input
-          id={messageInputId}
-          className={styles.input}
-          placeholder="Say something nice..."
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          aria-label="Message"
-        />
-        <button
-          className={styles.sendButton}
-          type="submit"
-          disabled={!inputValue.trim()}
-        >
-          Send
-        </button>
-      </form>
-    </div>
+          <div
+            className={styles.messagesList}
+            ref={scrollRef}
+            onScroll={handleScroll}
+            role="log"
+            aria-live="polite"
+            aria-relevant="additions text"
+            aria-label="Chat messages"
+          >
+            {isLoadingMore && (
+              <div
+                className={styles.loadingMore}
+                role="status"
+                aria-live="polite"
+              >
+                Loading older messages...
+              </div>
+            )}
+            {messages.map((msg) => (
+              <div key={msg.id} className={styles.messageItem}>
+                <div className={styles.messageMeta}>
+                  <span className={styles.username}>{msg.username}</span>
+                  <span className={styles.timestamp}>
+                    {formatTime(msg.created_at)}
+                  </span>
+                </div>
+                <div className={styles.content}>{msg.content}</div>
+              </div>
+            ))}
+          </div>
+          <form
+            className={styles.inputArea}
+            onSubmit={handleSendMessage}
+            onKeyDown={(e) => e.stopPropagation()}
+          >
+            <input
+              id={messageInputId}
+              className={styles.input}
+              placeholder="Say something nice..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              aria-label="Message"
+            />
+            <button
+              className={styles.sendButton}
+              type="submit"
+              disabled={!inputValue.trim()}
+            >
+              Send
+            </button>
+          </form>
+        </>
+      )}
+    </DraggablePanel>
   );
 };
 

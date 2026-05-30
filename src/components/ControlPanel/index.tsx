@@ -21,7 +21,6 @@ interface ControlPanelProps {
   selectRandomChannel: () => void;
   selectNextChannel: () => void;
   selectPreviousChannel: () => void;
-  changeBackground: () => void;
   toggleSoundMixer: () => void;
 }
 
@@ -37,26 +36,6 @@ function ControlPanel({
   toggleSoundMixer,
 }: ControlPanelProps) {
   const { toggleFullscreen, toggleChat } = useStore();
-  const togglePlayingWithSound = () => {
-    if (isLoading) return;
-    togglePlaying();
-  };
-
-  const selectRandomChannelWithSound = () => {
-    selectRandomChannel();
-  };
-
-  const selectPreviousChannelWithSound = () => {
-    selectPreviousChannel();
-  };
-
-  const selectNextChannelWithSound = () => {
-    selectNextChannel();
-  };
-
-  const setVolumeWithSound = (value: number) => {
-    setVolume(value);
-  };
 
   return (
     <Flex justify="space-between" className={styles.container}>
@@ -66,38 +45,61 @@ function ControlPanel({
         >
           <Button
             icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
-            onClick={togglePlayingWithSound}
+            onClick={togglePlaying}
             disabled={isLoading}
+            aria-label={isPlaying ? "Pause" : "Play"}
           />
         </Tooltip>
         <Tooltip content="Press [R] to play a random channel">
           <Button
             icon={<ShuffleIcon />}
-            onClick={selectRandomChannelWithSound}
+            onClick={selectRandomChannel}
+            aria-label="Play a random channel"
           />
         </Tooltip>
         <Tooltip content="Press [ArrowLeft] to play previous channel">
           <Button
             icon={<PreviousIcon />}
-            onClick={selectPreviousChannelWithSound}
+            onClick={selectPreviousChannel}
+            aria-label="Previous channel"
           />
         </Tooltip>
         <Tooltip content="Press [ArrowRight] to play next channel">
-          <Button icon={<NextIcon />} onClick={selectNextChannelWithSound} />
+          <Button
+            icon={<NextIcon />}
+            onClick={selectNextChannel}
+            aria-label="Next channel"
+          />
         </Tooltip>
         <Tooltip content="Press [F] to toggle Fullscreen">
-          <Button icon={<FullscreenIcon />} onClick={toggleFullscreen} />
+          <Button
+            icon={<FullscreenIcon />}
+            onClick={toggleFullscreen}
+            aria-label="Toggle fullscreen"
+          />
         </Tooltip>
         <Tooltip content="Press [C] to toggle Chat/Comments">
-          <Button icon={<ChatIcon />} onClick={toggleChat} />
+          <Button
+            icon={<ChatIcon />}
+            onClick={toggleChat}
+            aria-label="Toggle chat"
+          />
         </Tooltip>
         <Tooltip content="Press [M] to toggle Sound Mixer">
-          <Button icon={<MixerIcon />} onClick={toggleSoundMixer} />
+          <Button
+            icon={<MixerIcon />}
+            onClick={toggleSoundMixer}
+            aria-label="Toggle sound mixer"
+          />
         </Tooltip>
       </Flex>
-      <Flex justify="flex-end" gap="var(--spacing-sm)">
+      <Flex
+        justify="flex-end"
+        gap="var(--spacing-sm)"
+        className={styles.volumeWrap}
+      >
         <Tooltip content="Press [ArrowUp/Down] to control volume">
-          <VolumeSlider value={volume} setValue={setVolumeWithSound} />
+          <VolumeSlider value={volume} setValue={setVolume} />
         </Tooltip>
       </Flex>
     </Flex>

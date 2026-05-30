@@ -11,6 +11,20 @@ import { VIDEO_DOWN_TITLE } from "@/constants";
 
 const channels = data.channels;
 
+// Distinct UI click sounds, named by the actions they accompany.
+// Kept 1:1 with the previous per-action assignments.
+const SOUNDS = {
+  channel: buttonPressSound1Src, // next / previous / reset
+  play: buttonPressSound2Src, // play / pause toggle
+  volume: buttonPressSound3Src, // volume change
+  action: buttonPressSound4Src, // shuffle / fullscreen / chat / mixer / randomize
+} as const;
+
+// Mobile (≤600px) starts with chat collapsed so it doesn't cover the player;
+// guarded for non-browser (test) environments where it stays open.
+const getInitialChatOpen = () =>
+  typeof window !== "undefined" ? window.innerWidth > 600 : true;
+
 const getRandomIndex = (exceptionIndex?: number): number => {
   if (exceptionIndex === undefined) {
     return Math.floor(Math.random() * channels.length);
@@ -50,12 +64,12 @@ export const useStore = create<PlayerStore>((set, get) => ({
 
   // Actions
   togglePlaying: () => {
-    playSound(buttonPressSound2Src);
+    playSound(SOUNDS.play);
     set((state) => ({ isPlaying: !state.isPlaying }));
   },
 
   setVolume: (volume) => {
-    playSound(buttonPressSound3Src);
+    playSound(SOUNDS.volume);
     set({ volume });
   },
 
@@ -73,19 +87,19 @@ export const useStore = create<PlayerStore>((set, get) => ({
   selectRandomChannel: () => {
     const { activeIndex } = get();
     const randomIndex = getRandomIndex(activeIndex);
-    playSound(buttonPressSound4Src);
+    playSound(SOUNDS.action);
     set({ activeIndex: randomIndex });
   },
 
   selectNextChannel: () => {
     const { activeIndex } = get();
-    playSound(buttonPressSound1Src);
+    playSound(SOUNDS.channel);
     set({ activeIndex: (activeIndex + 1) % channels.length });
   },
 
   selectPreviousChannel: () => {
     const { activeIndex } = get();
-    playSound(buttonPressSound1Src);
+    playSound(SOUNDS.channel);
     set({ activeIndex: (activeIndex - 1 + channels.length) % channels.length });
   },
 
@@ -94,7 +108,7 @@ export const useStore = create<PlayerStore>((set, get) => ({
   },
 
   toggleFullscreen: () => {
-    playSound(buttonPressSound4Src);
+    playSound(SOUNDS.action);
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch((err) => {
         console.error(`Error attempting to enable fullscreen: ${err.message}`);
@@ -106,15 +120,15 @@ export const useStore = create<PlayerStore>((set, get) => ({
 
   setIsFullscreen: (isFullscreen) => set({ isFullscreen }),
 
-  isChatOpen: true,
+  isChatOpen: getInitialChatOpen(),
   toggleChat: () => {
-    playSound(buttonPressSound4Src);
+    playSound(SOUNDS.action);
     set((state) => ({ isChatOpen: !state.isChatOpen }));
   },
 
   isMixerOpen: false,
   toggleMixer: () => {
-    playSound(buttonPressSound4Src);
+    playSound(SOUNDS.action);
     set((state) => ({ isMixerOpen: !state.isMixerOpen }));
   },
 
@@ -144,7 +158,7 @@ export const useStore = create<PlayerStore>((set, get) => ({
   },
 
   resetSoundEffects: () => {
-    playSound(buttonPressSound1Src);
+    playSound(SOUNDS.channel);
     set((state) => ({
       soundEffects: state.soundEffects.map((effect) => ({
         ...effect,
@@ -154,7 +168,7 @@ export const useStore = create<PlayerStore>((set, get) => ({
   },
 
   randomizeSoundEffects: () => {
-    playSound(buttonPressSound4Src);
+    playSound(SOUNDS.action);
     const { soundEffects } = get();
     // Turn everything off first
     const cleanEffects = soundEffects.map((e) => ({ ...e, isPlaying: false }));

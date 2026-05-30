@@ -1,0 +1,5 @@
+.app {
+  /* dvh tracks the dynamic viewport so the layout isn't hidden behind the
+     mobile browser's URL bar */
+  height: 100dvh;
+}

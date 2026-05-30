@@ -1,7 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render as rtlRender, screen } from "@testing-library/react";
+import type { ReactElement, ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
+import * as RadixTooltip from "@radix-ui/react-tooltip";
 import ControlPanel from "./index";
+
+// Tooltip now relies on a single RadixTooltip.Provider mounted at the app root,
+// so component-level tests must supply one.
+const render = (ui: ReactElement) =>
+  rtlRender(ui, {
+    wrapper: ({ children }: { children: ReactNode }) => (
+      <RadixTooltip.Provider>{children}</RadixTooltip.Provider>
+    ),
+  });
 
 // Mock the store
 vi.mock("../../store", () => ({
@@ -33,7 +44,6 @@ describe("ControlPanel", () => {
     selectRandomChannel: vi.fn(),
     selectNextChannel: vi.fn(),
     selectPreviousChannel: vi.fn(),
-    changeBackground: vi.fn(),
     toggleSoundMixer: vi.fn(),
   };
 

@@ -1,12 +1,3 @@
-export type StoryType = {
-  personOne: string;
-  personTwo: string;
-  conversation: {
-    person: string;
-    content: string;
-  }[];
-};
-
 export interface SoundEffect {
   id: string;
   name: string;

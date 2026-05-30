@@ -1,3 +1,4 @@
+import * as RadixTooltip from "@radix-ui/react-tooltip";
 import {
   YouTubePlayer,
   ControlPanel,
@@ -19,6 +20,7 @@ import {
 import { VOLUME_STEP, VIDEO_DOWN_TITLE } from "./constants";
 import { cleanText } from "./utils";
 import { useStore } from "./store";
+import styles from "./App.module.css";
 
 function App() {
   const { toggleFullscreen, isChatOpen, toggleChat, isMixerOpen, toggleMixer } =
@@ -64,36 +66,37 @@ function App() {
   });
 
   return (
-    <Flex direction="column" style={{ height: "90vh" }}>
-      <OnlineCounter />
-      <YouTubePlayer
-        videoId={activeChannel}
-        volume={volume}
-        isPlaying={isPlaying}
-        onVideoLoaded={setVideoTitle}
-      />
-      <Background key={bgKey + activeChannel} />
-      <NeonText as="h1" isActive={isPlaying} key={activeChannel}>
-        [Live #{activeRadioNumber}]{" "}
-        {isLoading ? <Spinner /> : cleanText(videoTitle)}
-      </NeonText>
+    <RadixTooltip.Provider delayDuration={200}>
+      <Flex direction="column" className={styles.app}>
+        <OnlineCounter />
+        <YouTubePlayer
+          videoId={activeChannel}
+          volume={volume}
+          isPlaying={isPlaying}
+          onVideoLoaded={setVideoTitle}
+        />
+        <Background key={bgKey + activeChannel} />
+        <NeonText as="h1" isActive={isPlaying} key={activeChannel}>
+          [Live #{activeRadioNumber}]{" "}
+          {isLoading ? <Spinner /> : cleanText(videoTitle)}
+        </NeonText>
 
-      {isChatOpen && <ChatPanel />}
-      {isMixerOpen && <SoundEffectsPanel onClose={toggleMixer} />}
+        {isChatOpen && <ChatPanel />}
+        {isMixerOpen && <SoundEffectsPanel onClose={toggleMixer} />}
 
-      <ControlPanel
-        isPlaying={isPlaying}
-        isLoading={isLoading}
-        volume={volume}
-        setVolume={setVolume}
-        togglePlaying={togglePlaying}
-        selectRandomChannel={selectRandomChannel}
-        selectNextChannel={selectNextChannel}
-        selectPreviousChannel={selectPreviousChannel}
-        changeBackground={changeBackground}
-        toggleSoundMixer={toggleMixer}
-      />
-    </Flex>
+        <ControlPanel
+          isPlaying={isPlaying}
+          isLoading={isLoading}
+          volume={volume}
+          setVolume={setVolume}
+          togglePlaying={togglePlaying}
+          selectRandomChannel={selectRandomChannel}
+          selectNextChannel={selectNextChannel}
+          selectPreviousChannel={selectPreviousChannel}
+          toggleSoundMixer={toggleMixer}
+        />
+      </Flex>
+    </RadixTooltip.Provider>
   );
 }
 

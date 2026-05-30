@@ -1,6 +1,14 @@
 .container {
   position: fixed;
-  bottom: var(--spacing-md);
+  bottom: max(var(--spacing-md), env(safe-area-inset-bottom));
   width: 100%;
   z-index: var(--z-index-controls);
+}
+
+/* On phones the hardware volume keys are used, so hide the on-screen slider
+   and let the playback buttons take the full width. */
+@media (max-width: 600px) {
+  .volumeWrap {
+    display: none;
+  }
 }

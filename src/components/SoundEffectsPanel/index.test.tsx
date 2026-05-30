@@ -1,7 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render as rtlRender, screen } from "@testing-library/react";
+import type { ReactElement, ReactNode } from "react";
 import userEvent from "@testing-library/user-event";
+import * as RadixTooltip from "@radix-ui/react-tooltip";
 import SoundEffectsPanel from "./index";
+
+// The panel renders Tooltips, which require a RadixTooltip.Provider ancestor.
+const render = (ui: ReactElement) =>
+  rtlRender(ui, {
+    wrapper: ({ children }: { children: ReactNode }) => (
+      <RadixTooltip.Provider>{children}</RadixTooltip.Provider>
+    ),
+  });
 
 // Mock the store
 const mockSoundEffects = [

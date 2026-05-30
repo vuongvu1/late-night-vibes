@@ -1,6 +1,16 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render as rtlRender, screen } from "@testing-library/react";
+import type { ReactElement, ReactNode } from "react";
+import * as RadixTooltip from "@radix-ui/react-tooltip";
 import { Tooltip } from "./Tooltip";
+
+// Tooltip renders only a RadixTooltip.Root, so a Provider ancestor is required.
+const render = (ui: ReactElement) =>
+  rtlRender(ui, {
+    wrapper: ({ children }: { children: ReactNode }) => (
+      <RadixTooltip.Provider>{children}</RadixTooltip.Provider>
+    ),
+  });
 
 // Mock ResizeObserver
 beforeEach(() => {

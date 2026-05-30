@@ -93,7 +93,14 @@ const YouTubePlayer: React.FC<Props> = ({
     checkPlayerStatus();
   }, [checkPlayerStatus]);
 
-  return <div id="player" className={style.player} />;
+  return (
+    <div
+      id="player"
+      className={style.player}
+      role="region"
+      aria-label="Live radio player"
+    />
+  );
 };
 
 export default YouTubePlayer;

@@ -1,0 +1,20 @@
+/* Shared base for the transparent icon buttons in the draggable panels.
+   Consumed via CSS Modules `composes` so the close/action buttons stay in sync. */
+.iconButtonBase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: var(--cursor-pointer);
+  padding: var(--icon-button-padding);
+  border-radius: var(--icon-button-radius);
+  transition:
+    color var(--duration-normal),
+    opacity var(--duration-normal),
+    background var(--duration-normal);
+}
+
+.iconButtonBase:hover {
+  background: var(--background-surface-strong);
+}
