@@ -59,4 +59,18 @@ describe("Button", () => {
 
     expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
   });
+
+  it("should render a badge inside the button when the badge prop is provided", () => {
+    const mockOnClick = vi.fn();
+    render(<Button icon={<PlayIcon />} onClick={mockOnClick} badge="(2/5)" />);
+
+    expect(screen.getByRole("button")).toHaveTextContent("(2/5)");
+  });
+
+  it("should not render a badge when the badge prop is omitted", () => {
+    const mockOnClick = vi.fn();
+    render(<Button icon={<PlayIcon />} onClick={mockOnClick} />);
+
+    expect(screen.queryByText("(2/5)")).not.toBeInTheDocument();
+  });
 });

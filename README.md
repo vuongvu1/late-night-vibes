@@ -40,6 +40,16 @@ pnpm generate-static
 
 This will extract the first frame of every asset in `src/assets/gifs` and save it to `src/assets/static`.
 
+## Chat History Retention
+
+The live chat stores messages in a Supabase `messages` table. To keep the database within free-tier size limits, a Postgres trigger automatically trims the table to the **newest 500 messages** on every insert.
+
+The trigger lives in `supabase/migrations/20260602_trim_messages_to_500.sql`. It is **not** applied automatically from this repo — apply it once to your Supabase project, either by pasting the file's contents into the **Supabase SQL editor**, or with the Supabase CLI:
+
+```sh
+supabase db push
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

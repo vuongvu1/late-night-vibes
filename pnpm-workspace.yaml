@@ -8,3 +8,7 @@ ignoredBuiltDependencies:
 onlyBuiltDependencies:
   - sharp
   - workerd
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true

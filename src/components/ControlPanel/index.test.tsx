@@ -45,6 +45,7 @@ describe("ControlPanel", () => {
     selectNextChannel: vi.fn(),
     selectPreviousChannel: vi.fn(),
     toggleSoundMixer: vi.fn(),
+    activeSoundCount: 0,
   };
 
   beforeEach(() => {
@@ -151,6 +152,21 @@ describe("ControlPanel", () => {
       await user.click(mixerButton);
       expect(mockToggleMixer).toHaveBeenCalledTimes(1);
     }
+  });
+
+  it("should show the active sound count as a badge on the mixer button", () => {
+    render(<ControlPanel {...defaultProps} activeSoundCount={3} />);
+
+    const badge = screen.getByText("3");
+    const mixerButton = screen.getByText("Mixer").closest("button");
+    expect(mixerButton).toContainElement(badge);
+  });
+
+  it("should not show a sound count badge when no sounds are active", () => {
+    render(<ControlPanel {...defaultProps} activeSoundCount={0} />);
+
+    const mixerButton = screen.getByText("Mixer").closest("button");
+    expect(mixerButton).not.toHaveTextContent(/\d/);
   });
 
   it("should render volume slider with correct value", () => {

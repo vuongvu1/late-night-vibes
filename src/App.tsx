@@ -23,8 +23,15 @@ import { useStore } from "./store";
 import styles from "./App.module.css";
 
 function App() {
-  const { toggleFullscreen, isChatOpen, toggleChat, isMixerOpen, toggleMixer } =
-    useStore();
+  const {
+    toggleFullscreen,
+    isChatOpen,
+    toggleChat,
+    isMixerOpen,
+    toggleMixer,
+    soundEffects,
+  } = useStore();
+  const activeSoundCount = soundEffects.filter((e) => e.isPlaying).length;
   const {
     activeRadioNumber,
     activeChannel,
@@ -91,6 +98,7 @@ function App() {
           selectNextChannel={selectNextChannel}
           selectPreviousChannel={selectPreviousChannel}
           toggleSoundMixer={toggleMixer}
+          activeSoundCount={activeSoundCount}
         />
       </Flex>
     </RadixTooltip.Provider>
