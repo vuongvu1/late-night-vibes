@@ -1,3 +1,8 @@
+# pnpm 11.5+ makes ignored dependency build scripts a fatal error by default,
+# which fails CI at the install step. esbuild/sharp/workerd ship prebuilt
+# platform binaries, so their postinstall scripts aren't needed for the build —
+# keep this a warning (non-fatal) to restore the pre-11.5 behavior.
+strictDepBuilds: false
 ignoredBuiltDependencies:
   - esbuild
 onlyBuiltDependencies:
