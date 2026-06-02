@@ -2,6 +2,14 @@
 -- Keep only the newest 500 chat messages so the table size stays bounded
 -- (protects Supabase free-tier DB size). Applied once to the Supabase project
 -- via the SQL editor or `supabase db push`.
+--
+-- This migration also removes an earlier 100-message cap that existed only
+-- in the Supabase dashboard (trigger messages_trim_after_insert calling
+-- trim_messages_to_100), so the 500-message cap below is the single cap.
+
+-- Remove the previous 100-message cap, if present.
+drop trigger if exists messages_trim_after_insert on public.messages;
+drop function if exists public.trim_messages_to_100();
 
 -- Function: delete everything older than the newest 500 messages.
 create or replace function public.trim_messages()
