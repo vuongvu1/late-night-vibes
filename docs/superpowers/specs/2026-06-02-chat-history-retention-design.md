@@ -1,7 +1,7 @@
 # Chat History Retention — Auto-Trim to 500
 
 **Date:** 2026-06-02
-**Status:** Approved
+**Status:** Implemented (2026-06-02) — migration committed and applied to the live DB. See **Implementation Outcome** below.
 **Topic:** Bound the Supabase `messages` table so chat history can't grow without limit.
 
 ## Problem / Motivation
@@ -127,3 +127,21 @@ drop function if exists public.trim_messages();
 ## Open Questions
 
 None.
+
+## Implementation Outcome
+
+Implemented on 2026-06-02. One assumption above proved wrong on contact with the live DB:
+
+- The table was **not** unbounded. A pre-existing, dashboard-only trigger
+  (`messages_trim_after_insert` → `public.trim_messages_to_100()`) was already capping it
+  at **100** rows and shadowing the new 500-cap. It was not tracked in this repo.
+- The committed migration was therefore extended to **drop that old trigger/function
+  first**, so the 500-cap is the single source of truth (commit `a2bd209`):
+
+  ```sql
+  drop trigger if exists messages_trim_after_insert on public.messages;
+  drop function if exists public.trim_messages_to_100();
+  ```
+
+This reinforces the "Assumptions" caveat: the live Supabase schema is managed in the
+dashboard and must be verified there, not inferred from the repo.

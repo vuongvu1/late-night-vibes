@@ -1,5 +1,10 @@
 # Chat History Retention Implementation Plan
 
+> **Status: ✅ Implemented (2026-06-02).** All tasks below are complete. The migration
+> file, README note, and live-DB apply/verify are done — see commits `f9f5f78`,
+> `fdcf610`, and `a2bd209`, and the **Implementation Notes** at the bottom for what
+> verification surfaced (a pre-existing dashboard-only 100-message cap).
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Bound the Supabase `messages` table to the newest 500 rows via a Postgres `AFTER INSERT` trigger, so chat history can't grow without limit and DB stays within free-tier size.
@@ -31,7 +36,7 @@ Do not fabricate vitest tests for the SQL file — the verification query in Tas
 **Files:**
 - Create: `supabase/migrations/20260602_trim_messages_to_500.sql`
 
-- [ ] **Step 1: Create the migration file**
+- [x] **Step 1: Create the migration file**
 
 Create `supabase/migrations/20260602_trim_messages_to_500.sql` with exactly this content:
 
@@ -76,7 +81,7 @@ where id <= (
 );
 ```
 
-- [ ] **Step 2: Verify the file was written correctly**
+- [x] **Step 2: Verify the file was written correctly**
 
 Run: `grep -c "trim_messages_after_insert" supabase/migrations/20260602_trim_messages_to_500.sql`
 Expected: `2` (one in the `drop trigger`, one in the `create trigger`).
@@ -84,7 +89,7 @@ Expected: `2` (one in the `drop trigger`, one in the `create trigger`).
 Run: `grep -c "offset 500 limit 1" supabase/migrations/20260602_trim_messages_to_500.sql`
 Expected: `2` (one in the function, one in the one-time backlog trim).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add supabase/migrations/20260602_trim_messages_to_500.sql
@@ -103,7 +108,7 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 **Files:**
 - Modify: `README.md` (insert a new section between "Background Assets" and "Contributing")
 
-- [ ] **Step 1: Add the retention section**
+- [x] **Step 1: Add the retention section**
 
 Edit `README.md`. Find this exact text:
 
@@ -127,7 +132,7 @@ supabase db push
 ## Contributing
 ````
 
-- [ ] **Step 2: Verify the edit**
+- [x] **Step 2: Verify the edit**
 
 Run: `grep -c "Chat History Retention" README.md`
 Expected: `1`
@@ -135,7 +140,7 @@ Expected: `1`
 Run: `grep -c "## Contributing" README.md`
 Expected: `1` (the section was inserted before it, not duplicated).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add README.md
@@ -154,7 +159,7 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 > A human with access to the Supabase project performs these steps. Each block is
 > copy-pasted into the **SQL editor** and run.
 
-- [ ] **Step 1: RED — confirm the table is NOT capped yet**
+- [x] **Step 1: RED — confirm the table is NOT capped yet**
 
 Paste and run (inserts 600 rows in a transaction, then rolls back — leaves the real chat untouched):
 
@@ -169,7 +174,7 @@ rollback;
 Expected: count is **(current rows + 600)** — i.e. clearly **not** capped at 500
 (e.g. 600+ on a near-empty table). This proves no trimming exists yet.
 
-- [ ] **Step 2: Apply the migration**
+- [x] **Step 2: Apply the migration**
 
 Paste the entire contents of `supabase/migrations/20260602_trim_messages_to_500.sql`
 into the SQL editor and run it.
@@ -177,7 +182,7 @@ into the SQL editor and run it.
 Expected: "Success. No rows returned." The function and trigger are created, and any
 existing backlog beyond 500 rows is trimmed immediately.
 
-- [ ] **Step 3: GREEN — confirm the cap now holds**
+- [x] **Step 3: GREEN — confirm the cap now holds**
 
 Paste and run the same verification as Step 1:
 
@@ -191,7 +196,7 @@ rollback;
 
 Expected: count is exactly **500**. The trigger trimmed the insert down to the cap.
 
-- [ ] **Step 4: Live sanity check**
+- [x] **Step 4: Live sanity check**
 
 Paste and run:
 
@@ -202,7 +207,7 @@ select count(*) from public.messages;
 Expected: a number **≤ 500**. Confirms the one-time backlog trim took effect on the
 real table.
 
-- [ ] **Step 5: (Reference only) Rollback, if ever needed**
+- [x] **Step 5: (Reference only) Rollback, if ever needed**
 
 To fully remove the feature later:
 
@@ -228,3 +233,29 @@ drop function if exists public.trim_messages();
 **Placeholder scan:** No TBD/TODO/"handle edge cases". All SQL and commands are complete and literal.
 
 **Type/identifier consistency:** Function `public.trim_messages()`, trigger `trim_messages_after_insert`, table `public.messages`, cap `500`, file path `supabase/migrations/20260602_trim_messages_to_500.sql` — all identical across the migration, README, and verification steps.
+
+---
+
+## Implementation Notes (post-merge)
+
+What actually happened when Task 3 was run against the live Supabase project:
+
+- **A second, dashboard-only cap was discovered.** Verification (Task 3, Step 1) did
+  *not* show the expected "uncapped" count — the table was already being held at
+  **100** rows by a pre-existing trigger configured directly in the Supabase dashboard
+  (`messages_trim_after_insert` → `public.trim_messages_to_100()`), which lived outside
+  this repo. It shadowed the new 500-cap.
+- **The migration was extended to remove it** so the 500-cap is the single source of
+  truth. The committed `supabase/migrations/20260602_trim_messages_to_500.sql` now begins
+  with (added in commit `a2bd209`):
+
+  ```sql
+  -- Remove the previous 100-message cap, if present.
+  drop trigger if exists messages_trim_after_insert on public.messages;
+  drop function if exists public.trim_messages_to_100();
+  ```
+
+  This makes the migration accurate to the real DB and still idempotent/safe to re-run.
+- **Takeaway:** the live Supabase schema is managed in the dashboard, not fully tracked
+  in this repo. Assumptions about triggers/RLS must be verified against the live DB
+  before relying on them.
