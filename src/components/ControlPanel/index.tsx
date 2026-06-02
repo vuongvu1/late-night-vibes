@@ -22,6 +22,7 @@ interface ControlPanelProps {
   selectNextChannel: () => void;
   selectPreviousChannel: () => void;
   toggleSoundMixer: () => void;
+  activeSoundCount: number;
 }
 
 function ControlPanel({
@@ -34,8 +35,13 @@ function ControlPanel({
   selectNextChannel,
   selectPreviousChannel,
   toggleSoundMixer,
+  activeSoundCount,
 }: ControlPanelProps) {
   const { toggleFullscreen, toggleChat } = useStore();
+
+  // Show a quiet count badge on the mixer button only while sounds are mixing —
+  // keeps the button clean when nothing is active.
+  const soundMixerBadge = activeSoundCount > 0 ? activeSoundCount : undefined;
 
   return (
     <Flex justify="space-between" className={styles.container}>
@@ -89,6 +95,7 @@ function ControlPanel({
           <Button
             icon={<MixerIcon />}
             onClick={toggleSoundMixer}
+            badge={soundMixerBadge}
             aria-label="Toggle sound mixer"
           />
         </Tooltip>

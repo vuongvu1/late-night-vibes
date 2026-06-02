@@ -1,4 +1,5 @@
 .button {
+  position: relative;
   cursor: var(--cursor-pointer);
   width: 50px;
   height: 50px;
@@ -26,6 +27,24 @@
   opacity: 0.5;
   cursor: var(--cursor-pointer-disabled);
   filter: grayscale(1);
+}
+
+/* Subtle count badge (e.g. "(1/5)") pinned to the top-right corner. Deliberately
+   low-key — muted text on a faint surface — so it informs without shouting.
+   font-size is in rem so it ignores the button's 3em icon sizing. */
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  padding: 1px 6px;
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
+  color: var(--text-color-subtle);
+  background: var(--background-surface-strong);
+  border: 1px solid var(--border-color-subtle);
+  border-radius: var(--border-radius-pill);
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 /* Shrink the round buttons on phones so the 7-button dock fits without
