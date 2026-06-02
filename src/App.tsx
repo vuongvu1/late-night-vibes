@@ -40,8 +40,6 @@ function App() {
     setVideoTitle,
     volume,
     setVolume,
-    bgKey,
-    changeBackground,
     isLoading,
   } = usePlayer();
 
@@ -54,7 +52,6 @@ function App() {
     ArrowLeft: selectPreviousChannel,
     ArrowUp: () => setVolume(volume < 100 ? volume + VOLUME_STEP : volume),
     ArrowDown: () => setVolume(volume > 0 ? volume - VOLUME_STEP : volume),
-    KeyG: changeBackground,
     KeyF: toggleFullscreen,
     KeyC: toggleChat,
     KeyM: toggleMixer,
@@ -75,7 +72,7 @@ function App() {
           isPlaying={isPlaying}
           onVideoLoaded={setVideoTitle}
         />
-        <Background key={bgKey + activeChannel} />
+        <Background />
         <NeonText as="h1" isActive={isPlaying} key={activeChannel}>
           [Live #{activeRadioNumber}]{" "}
           {isLoading ? <Spinner /> : cleanText(videoTitle)}

@@ -1,36 +1,8 @@
 import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { useStore } from "@/store";
-
-const gifModules = import.meta.glob(
-  ["../../assets/gifs/*.gif", "../../assets/gifs/*.webp"],
-  { import: "default" },
-);
-
-const staticModules = import.meta.glob(["../../assets/static/*.jpg"], {
-  import: "default",
-});
-
-const gifPaths = Object.keys(gifModules);
-const gifDict = gifPaths.reduce(
-  (acc, path) => {
-    const filename = path.split("/").pop()?.split(".")[0];
-    if (filename) acc[filename] = path;
-    return acc;
-  },
-  {} as Record<string, string>,
-);
-
-const staticDict = Object.keys(staticModules).reduce(
-  (acc, path) => {
-    const filename = path.split("/").pop()?.split(".")[0];
-    if (filename) acc[filename] = path;
-    return acc;
-  },
-  {} as Record<string, string>,
-);
-
-const commonKeys = Object.keys(gifDict).filter((k) => staticDict[k]);
+import { FADE_MS } from "@/constants";
+import { getBackgroundAt, loadBackground } from "./schedule";
 
 function Background() {
   const { isPlaying } = useStore();
@@ -39,26 +11,43 @@ function Background() {
   const [fade, setFade] = useState(false);
 
   useEffect(() => {
-    queueMicrotask(() => setFade(false));
-    const timeout = setTimeout(() => {
-      const randomKey =
-        commonKeys[Math.floor(Math.random() * commonKeys.length)];
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
-      const gifImport = gifModules[
-        gifDict[randomKey]
-      ] as () => Promise<unknown>;
-      const staticImport = staticModules[
-        staticDict[randomKey]
-      ] as () => Promise<unknown>;
+    async function show(key: string) {
+      const { gif, static: staticImg } = await loadBackground(key);
+      if (cancelled) return;
+      setGifSrc(gif);
+      setStaticSrc(staticImg);
+      setFade(true);
+    }
 
-      Promise.all([gifImport(), staticImport()]).then(([gif, staticImg]) => {
-        setGifSrc(gif as string);
-        setStaticSrc(staticImg as string);
-        setFade(true);
-      });
-    }, 500);
+    function scheduleNext(msUntilNext: number) {
+      timeoutId = setTimeout(transition, msUntilNext);
+    }
 
-    return () => clearTimeout(timeout);
+    function transition() {
+      // Fade out, then swap to the new segment's image once it's hidden.
+      setFade(false);
+      timeoutId = setTimeout(async () => {
+        if (cancelled) return;
+        const { key, msUntilNext } = getBackgroundAt(Date.now());
+        await show(key);
+        if (cancelled) return;
+        scheduleNext(msUntilNext);
+      }, FADE_MS);
+    }
+
+    // Initial paint: pick whatever the global clock says is current right now.
+    const { key, msUntilNext } = getBackgroundAt(Date.now());
+    show(key).then(() => {
+      if (!cancelled) scheduleNext(msUntilNext);
+    });
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const currentSrc = isPlaying ? gifSrc : staticSrc;

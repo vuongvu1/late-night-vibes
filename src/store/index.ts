@@ -49,7 +49,6 @@ export const useStore = create<PlayerStore>((set, get) => ({
   isPlaying: false,
   volume: 80,
   videoTitle: "",
-  bgKey: 0,
   activeIndex: (() => {
     const indexFromUrl = getIndexFromUrl();
     return indexFromUrl !== -1 ? indexFromUrl : getRandomIndex();
@@ -78,10 +77,6 @@ export const useStore = create<PlayerStore>((set, get) => ({
       videoTitle,
       isLoading: !videoTitle || videoTitle === VIDEO_DOWN_TITLE,
     });
-  },
-
-  changeBackground: () => {
-    set((state) => ({ bgKey: state.bgKey + 1 }));
   },
 
   selectRandomChannel: () => {
