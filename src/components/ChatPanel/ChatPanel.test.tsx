@@ -9,6 +9,8 @@ const mockChannel = {
   subscribe: vi.fn(),
 };
 
+const mockInsert = vi.fn().mockResolvedValue({ error: null });
+
 vi.mock("../../services/supabase", () => ({
   supabase: {
     channel: vi.fn(() => mockChannel),
@@ -18,15 +20,16 @@ vi.mock("../../services/supabase", () => ({
       order: vi.fn().mockReturnThis(),
       limit: vi.fn().mockResolvedValue({ data: [], error: null }),
       lt: vi.fn().mockReturnThis(),
-      insert: vi.fn().mockResolvedValue({ error: null }),
+      insert: mockInsert,
     })),
   },
 }));
 
-// Mock the store
+// Mock the store — activeIndex 1 means the active channel is "Radio #2"
 vi.mock("../../store", () => ({
   useStore: vi.fn(() => ({
     toggleChat: vi.fn(),
+    activeIndex: 1,
   })),
 }));
 
@@ -152,5 +155,22 @@ describe("ChatPanel", () => {
 
     // Input should be cleared after sending
     expect(messageInput).toHaveValue("");
+  });
+
+  it("should append the active radio channel to the username when sending", async () => {
+    const user = userEvent.setup();
+    await renderChatPanel();
+
+    const usernameInput = screen.getByLabelText("Chat username");
+    await user.type(usernameInput, "Alice");
+
+    const messageInput = screen.getByPlaceholderText("Say something nice...");
+    await user.type(messageInput, "Hello there");
+
+    await user.click(screen.getByText("Send"));
+
+    expect(mockInsert).toHaveBeenCalledWith([
+      { username: "Alice (Radio #2)", content: "Hello there" },
+    ]);
   });
 });

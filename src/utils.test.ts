@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { cleanText } from "./utils";
+import { cleanText, formatTimestamp } from "./utils";
 
 describe("cleanText", () => {
   it("should remove multiple spaces and replace them with single spaces", () => {
@@ -54,5 +54,16 @@ describe("cleanText", () => {
     const input = "   \n\n   ";
     const result = cleanText(input);
     expect(result).toBe("");
+  });
+});
+
+describe("formatTimestamp", () => {
+  it("should format an ISO date string as day, short month and 24h time (no year)", () => {
+    const result = formatTimestamp("2026-06-03T11:46:00");
+    expect(result).toMatch(/^\d{1,2} \w{3}, \d{2}:\d{2}$/);
+  });
+
+  it("should return an empty string for an invalid date", () => {
+    expect(formatTimestamp("not-a-date")).toBe("");
   });
 });

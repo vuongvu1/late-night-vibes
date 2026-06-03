@@ -3,6 +3,7 @@ import { supabase } from "../../services/supabase";
 import { Message } from "../../types";
 import { CloseIcon } from "../../assets/icons";
 import { useStore } from "../../store";
+import { formatTimestamp } from "../../utils";
 import DraggablePanel from "../DraggablePanel";
 import styles from "./styles.module.css";
 
@@ -27,7 +28,7 @@ const ChatPanel: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const isInitialLoad = useRef(true);
 
-  const { toggleChat } = useStore();
+  const { toggleChat, activeIndex } = useStore();
 
   const fetchMessages = async () => {
     const { data, error } = await supabase
@@ -122,7 +123,9 @@ const ChatPanel: React.FC = () => {
     if (!inputValue.trim()) return;
 
     const content = inputValue.trim();
-    const finalUsername = username.trim() || defaultUsername;
+    const baseUsername = username.trim() || defaultUsername;
+    // Tag each message with the channel the sender is on, e.g. "User123 (Radio #2)"
+    const finalUsername = `${baseUsername} (Radio #${activeIndex + 1})`;
     setInputValue("");
 
     const { error } = await supabase.from("messages").insert([
@@ -141,19 +144,6 @@ const ChatPanel: React.FC = () => {
     const value = e.target.value.slice(0, 20);
     setUsername(value);
     localStorage.setItem(USERNAME_KEY, value);
-  };
-
-  const formatTime = (dateStr: string) => {
-    try {
-      const date = new Date(dateStr);
-      return new Intl.DateTimeFormat("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }).format(date);
-    } catch {
-      return "";
-    }
   };
 
   return (
@@ -212,7 +202,7 @@ const ChatPanel: React.FC = () => {
                 <div className={styles.messageMeta}>
                   <span className={styles.username}>{msg.username}</span>
                   <span className={styles.timestamp}>
-                    {formatTime(msg.created_at)}
+                    {formatTimestamp(msg.created_at)}
                   </span>
                 </div>
                 <div className={styles.content}>{msg.content}</div>

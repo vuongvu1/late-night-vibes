@@ -13,6 +13,21 @@ export const playSound = (soundUrl: string) => {
     .catch((error) => console.error("Error playing the sound:", error));
 };
 
+export const formatTimestamp = (dateStr: string) => {
+  try {
+    const date = new Date(dateStr);
+    return new Intl.DateTimeFormat("en-GB", {
+      day: "numeric",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).format(date);
+  } catch {
+    return "";
+  }
+};
+
 export const cleanText = (text: string) => {
   return text
     .replace(/[+*\n]|^\d+/g, " ")
