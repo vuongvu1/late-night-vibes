@@ -2,15 +2,27 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-index-background);
-  transition: opacity 0.8s ease-in-out;
 }
 
-.fadeIn {
-  opacity: 1;
+.layer {
+  position: absolute;
+  inset: 0;
+  /* Keep each layer's blurred + sharp pair as one atomic composite so stacked
+     layers crossfade cleanly by DOM order (newest on top). */
+  isolation: isolate;
+  /* A new layer dissolves in over the one beneath it — the previous image stays
+     fully opaque underneath, so there is no dark dip between backgrounds.
+     Duration matches FADE_MS in src/constants.ts. */
+  animation: fadeIn 0.8s ease-in-out;
 }
 
-.fadeOut {
-  opacity: 0;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes pulse {
