@@ -8,14 +8,15 @@ export const NeonText = ({
   ...restProps
 }: NeonTextProps) => {
   return (
-    <div className={`${styles.container} ${isActive ? styles.active : ""}`}>
-      <Tag
-        className={`${styles.text} ${isActive ? styles.active : ""}`}
-        data-active={isActive}
-        {...restProps}
-      >
-        {children}
-      </Tag>
+    <div className={styles.container}>
+      <div className={styles.track} data-active={isActive}>
+        <Tag className={styles.content} data-active={isActive} {...restProps}>
+          {children}
+        </Tag>
+        <Tag className={styles.content} aria-hidden="true">
+          {children}
+        </Tag>
+      </div>
     </div>
   );
 };

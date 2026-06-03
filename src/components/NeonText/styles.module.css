@@ -13,23 +13,36 @@
   box-shadow: 0 4px 15px rgb(0 0 0 / 30%);
 }
 
-.text {
-  padding: 0;
-  margin: 0;
-  width: 100%;
+.track {
+  display: flex;
+  flex-shrink: 0; /* don't let the flex container squish the marquee */
+  width: max-content;
   color: var(--text-color);
 
   &[data-active="true"] {
-    animation: text-moving 16s steps(100) infinite;
-    animation-delay: -8s;
+    animation: marquee 15s steps(90) infinite;
   }
 }
 
-@keyframes text-moving {
+.content {
+  flex-shrink: 0;
+  min-width: 100vw; /* short titles still span a full viewport */
+  padding: 0;
+  padding-right: var(--spacing-xl); /* space between repeats, baked into each copy */
+  margin: 0;
+}
+
+@keyframes marquee {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%); /* shift exactly one copy → seamless */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track[data-active="true"] {
+    animation: none;
   }
 }

@@ -3,13 +3,13 @@ import { render, screen } from "@testing-library/react";
 import { NeonText } from "./NeonText";
 
 describe("NeonText", () => {
-  it("should render children correctly", () => {
+  it("should render children correctly (duplicated for the seamless marquee)", () => {
     render(
       <NeonText as="h1" isActive={false}>
         Hello World
       </NeonText>,
     );
-    expect(screen.getByText("Hello World")).toBeInTheDocument();
+    expect(screen.getAllByText("Hello World")).toHaveLength(2);
   });
 
   it("should render with the specified HTML tag", () => {
@@ -71,5 +71,25 @@ describe("NeonText", () => {
     );
     const textElement = container.querySelector("span");
     expect(textElement).toHaveAttribute("data-active", "true");
+  });
+
+  it("should render a single aria-hidden clone for the seamless marquee", () => {
+    const { container } = render(
+      <NeonText as="span" isActive={true}>
+        Marquee
+      </NeonText>,
+    );
+    const clones = container.querySelectorAll('[aria-hidden="true"]');
+    expect(clones).toHaveLength(1);
+    expect(clones[0]).toHaveTextContent("Marquee");
+  });
+
+  it("should keep pass-through props on the primary copy only", () => {
+    render(
+      <NeonText as="div" data-testid="custom-neon" isActive={false}>
+        Custom Props
+      </NeonText>,
+    );
+    expect(screen.getAllByTestId("custom-neon")).toHaveLength(1);
   });
 });
