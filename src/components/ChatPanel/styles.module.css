@@ -210,14 +210,23 @@
    imperative width/height set by the hooks. */
 @media (max-width: 600px) {
   .chatContainer {
+    /* biome-ignore lint/complexity/noImportantStyles: deliberate override of inline styles set by drag/resize hooks on mobile */
     top: var(--mobile-dialog-top) !important;
+    /* biome-ignore lint/complexity/noImportantStyles: deliberate override of inline styles set by drag/resize hooks on mobile */
     bottom: var(--mobile-dialog-bottom) !important;
+    /* biome-ignore lint/complexity/noImportantStyles: deliberate override of inline styles set by drag/resize hooks on mobile */
     left: var(--spacing-sm) !important;
+    /* biome-ignore lint/complexity/noImportantStyles: deliberate override of inline styles set by drag/resize hooks on mobile */
     right: var(--spacing-sm) !important;
+    /* biome-ignore lint/complexity/noImportantStyles: deliberate override of inline styles set by drag/resize hooks on mobile */
     width: auto !important;
+    /* biome-ignore lint/complexity/noImportantStyles: deliberate override of inline styles set by drag/resize hooks on mobile */
     height: auto !important;
+    /* biome-ignore lint/complexity/noImportantStyles: deliberate override of inline styles set by drag/resize hooks on mobile */
     max-width: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: deliberate override of inline styles set by drag/resize hooks on mobile */
     max-height: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: deliberate override of inline styles set by drag/resize hooks on mobile */
     resize: none !important;
   }
 }

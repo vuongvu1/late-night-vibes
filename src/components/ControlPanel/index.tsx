@@ -1,16 +1,16 @@
 import {
-  PlayIcon,
-  PauseIcon,
+  ChatIcon,
+  FullscreenIcon,
+  MixerIcon,
   NextIcon,
+  PauseIcon,
+  PlayIcon,
   PreviousIcon,
   ShuffleIcon,
-  FullscreenIcon,
-  ChatIcon,
-  MixerIcon,
 } from "../../assets/icons";
 import { Button, Flex, Tooltip, VolumeSlider } from "../../components";
-import styles from "./style.module.css";
 import { useStore } from "../../store";
+import styles from "./style.module.css";
 
 interface ControlPanelProps {
   isPlaying: boolean;

@@ -1,4 +1,5 @@
-import React, { CSSProperties } from "react";
+import type React from "react";
+import type { CSSProperties } from "react";
 import styles from "./style.module.css";
 
 interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {

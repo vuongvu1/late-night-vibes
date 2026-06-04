@@ -1,12 +1,12 @@
 export { default as Background } from "./Background";
 export { default as Button } from "./Button";
+export { ChatPanel } from "./ChatPanel";
 export { default as ControlPanel } from "./ControlPanel";
 export { Flex } from "./Flex";
+export { NeonText } from "./NeonText";
+export { default as OnlineCounter } from "./OnlineCounter";
+export { default as SoundEffectsPanel } from "./SoundEffectsPanel";
+export { Spinner } from "./Spinner";
 export { Tooltip } from "./Tooltip";
 export { default as VolumeSlider } from "./VolumeSlider";
 export { default as YouTubePlayer } from "./YouTubePlayer";
-export { NeonText } from "./NeonText";
-export { Spinner } from "./Spinner";
-export { ChatPanel } from "./ChatPanel";
-export { default as SoundEffectsPanel } from "./SoundEffectsPanel";
-export { default as OnlineCounter } from "./OnlineCounter";

@@ -1,4 +1,4 @@
-import { useLayoutEffect, RefObject } from "react";
+import { type RefObject, useLayoutEffect } from "react";
 import { MOBILE_BREAKPOINT } from "../constants";
 
 interface Size {

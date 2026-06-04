@@ -27,6 +27,7 @@ export const useChannel = () => {
   useEffect(() => {
     const handlePopState = () => {
       const hash = window.location.hash;
+      // biome-ignore lint/complexity/useOptionalChain: unsafe auto-fix would change truthiness semantics for empty string; explicit guard is clearer
       if (hash && hash.startsWith("#")) {
         const index = parseInt(hash.slice(1), 10) - 1;
         if (index >= 0 && index < channels.length) {

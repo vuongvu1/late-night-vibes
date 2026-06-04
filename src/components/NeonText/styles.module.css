@@ -28,7 +28,9 @@
   flex-shrink: 0;
   min-width: 100vw; /* short titles still span a full viewport */
   padding: 0;
-  padding-right: var(--spacing-xl); /* space between repeats, baked into each copy */
+  padding-right: var(
+    --spacing-xl
+  ); /* space between repeats, baked into each copy */
   margin: 0;
 }
 

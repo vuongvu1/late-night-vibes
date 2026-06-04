@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, act } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { FADE_MS } from "@/constants";
 
 // Paused tab: the static image is the one that gets shown.

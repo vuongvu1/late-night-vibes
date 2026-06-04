@@ -1,26 +1,26 @@
 import * as RadixTooltip from "@radix-ui/react-tooltip";
+import styles from "./App.module.css";
 import {
-  YouTubePlayer,
-  ControlPanel,
   Background,
-  NeonText,
-  Flex,
   ChatPanel,
-  Spinner,
+  ControlPanel,
+  Flex,
+  NeonText,
   OnlineCounter,
   SoundEffectsPanel,
+  Spinner,
+  YouTubePlayer,
 } from "./components";
+import { VIDEO_DOWN_TITLE, VOLUME_STEP } from "./constants";
 import {
-  useKeyPress,
-  useChannel,
   useAutoSwitchChannelWhenDown,
+  useChannel,
+  useKeyPress,
   usePlayer,
   useSoundEffects,
 } from "./hooks";
-import { VOLUME_STEP, VIDEO_DOWN_TITLE } from "./constants";
-import { cleanText } from "./utils";
 import { useStore } from "./store";
-import styles from "./App.module.css";
+import { cleanText } from "./utils";
 
 function App() {
   const {

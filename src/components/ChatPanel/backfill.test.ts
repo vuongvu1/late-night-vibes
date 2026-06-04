@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { shouldBackfill } from "./backfill";
 
 describe("shouldBackfill", () => {
@@ -24,8 +24,8 @@ describe("shouldBackfill", () => {
   it("does not backfill an unmeasured (zero-height) container", () => {
     // jsdom reports 0 for layout metrics; this guard keeps the effect inert
     // in tests and avoids trying to fill a container with no height.
-    expect(shouldBackfill({ scrollHeight: 0, clientHeight: 0 }, true, false)).toBe(
-      false,
-    );
+    expect(
+      shouldBackfill({ scrollHeight: 0, clientHeight: 0 }, true, false),
+    ).toBe(false);
   });
 });

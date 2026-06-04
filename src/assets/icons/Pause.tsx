@@ -1,5 +1,7 @@
-import { SVGProps } from "react";
+import type { SVGProps } from "react";
+
 const SvgComponent = (props: SVGProps<SVGSVGElement>) => (
+  // biome-ignore lint/a11y/noSvgWithoutTitle: decorative icon; accessible label provided by parent Button tooltip
   <svg width={24} fill="none" viewBox="0 0 9 9" {...props}>
     <path fill="#fff" d="M2 1h2v7H2zM5 1h2v7H5z" />
   </svg>

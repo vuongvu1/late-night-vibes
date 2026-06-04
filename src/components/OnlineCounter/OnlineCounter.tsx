@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../../services/supabase";
 import styles from "./styles.module.css";
 

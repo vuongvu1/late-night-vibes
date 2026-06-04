@@ -1,4 +1,5 @@
 export const MixerIcon = () => (
+  // biome-ignore lint/a11y/noSvgWithoutTitle: decorative icon; accessible label provided by parent Button tooltip
   <svg
     width="24"
     height="24"

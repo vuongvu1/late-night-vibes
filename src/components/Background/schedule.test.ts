@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { commonKeys, cycleMs, segments, getBackgroundAt } from "./schedule";
-import { MIN_INTERVAL_MIN, MAX_INTERVAL_MIN } from "@/constants";
+import { describe, expect, it } from "vitest";
+import { MAX_INTERVAL_MIN, MIN_INTERVAL_MIN } from "@/constants";
+import { commonKeys, cycleMs, getBackgroundAt, segments } from "./schedule";
 
 const MINUTE_MS = 60 * 1000;
 

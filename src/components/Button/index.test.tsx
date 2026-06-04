@@ -1,8 +1,8 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Button from "./index";
+import { describe, expect, it, vi } from "vitest";
 import { PlayIcon } from "@/assets/icons";
+import Button from "./index";
 
 describe("Button", () => {
   it("should render the button with icon", () => {

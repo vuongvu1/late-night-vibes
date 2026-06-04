@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./style.module.css";
-import { useStore } from "@/store";
 import { FADE_MS } from "@/constants";
+import { useStore } from "@/store";
 import { getBackgroundAt, loadBackground } from "./schedule";
+import styles from "./style.module.css";
 
 type Layer = { id: number; gif: string; static: string };
 

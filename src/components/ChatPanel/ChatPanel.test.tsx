@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import ChatPanel from "./ChatPanel";
 
 // Mock supabase
@@ -67,9 +67,7 @@ describe("ChatPanel", () => {
 
   it("should render message input", async () => {
     await renderChatPanel();
-    const messageInput = screen.getByPlaceholderText(
-      "Say something nice...",
-    );
+    const messageInput = screen.getByPlaceholderText("Say something nice...");
     expect(messageInput).toBeInTheDocument();
   });
 

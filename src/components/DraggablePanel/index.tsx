@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { useDraggable, useResizable } from "../../hooks";
 import styles from "./style.module.css";
 
@@ -43,6 +43,7 @@ const DraggablePanel: React.FC<DraggablePanelProps> = ({
   useResizable(dragRef, sizeStorageKey);
 
   return (
+    // biome-ignore lint/a11y/noStaticElementInteractions: draggable panel container; onKeyDown prevents key events from propagating to global shortcuts while panel is focused
     <div
       ref={dragRef}
       className={`${className ?? ""} ${isDragging ? styles.dragging : ""}`}
