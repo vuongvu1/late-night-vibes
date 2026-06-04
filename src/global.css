@@ -91,6 +91,11 @@
   /* Minimum touch target for interactive elements on touch devices */
   --touch-target-min: 44px;
 
+  /* Mobile dialog band: fixed panels sit below the title and above the
+     controls. Approximate constants — tuned to clear NeonText / ControlPanel. */
+  --mobile-dialog-top: 6.5rem;
+  --mobile-dialog-bottom: calc(5rem + env(safe-area-inset-bottom));
+
   /* Cursor */
   --cursor-default: url("/assets/cursor-default.svg") 0 0, auto;
   --cursor-pointer: url("/assets/cursor-hand-note.svg") 0 0, pointer;

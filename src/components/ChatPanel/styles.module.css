@@ -1,7 +1,10 @@
 .chatContainer {
-  width: 100%;
-  max-width: 400px;
+  width: 400px;
   height: 400px;
+  min-width: 300px;
+  min-height: 280px;
+  max-width: 90vw;
+  max-height: 85vh;
   background: var(--background-panel);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color-subtle);
@@ -12,6 +15,7 @@
   box-shadow: 0 8px 32px rgb(0 0 0 / 50%);
   position: fixed;
   z-index: var(--z-index-draggable);
+  resize: both;
 }
 
 .chatContainer.dragging {
@@ -199,4 +203,21 @@
 .sendButton:disabled {
   opacity: 0.5;
   cursor: var(--cursor-pointer-disabled);
+}
+
+/* Phones: pin to a fixed band below the title and above the control bar.
+   Drag/resize disabled; !important overrides the inline left/top and the
+   imperative width/height set by the hooks. */
+@media (max-width: 600px) {
+  .chatContainer {
+    top: var(--mobile-dialog-top) !important;
+    bottom: var(--mobile-dialog-bottom) !important;
+    left: var(--spacing-sm) !important;
+    right: var(--spacing-sm) !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: none !important;
+    max-height: none !important;
+    resize: none !important;
+  }
 }
