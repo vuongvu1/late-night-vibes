@@ -21,10 +21,11 @@ React 19 + TypeScript, built with Vite, deployed as a static SPA on Cloudflare W
 
 ```sh
 pnpm dev            # start the dev server
-pnpm build          # tsc && vite build
+pnpm build          # tsgo && vite build
 pnpm test           # run vitest
-pnpm lint           # eslint . --max-warnings 0
-pnpm type-check     # tsc --noEmit
+pnpm lint           # biome check (lint + format check + import sort; fails on warnings)
+pnpm format         # biome check --write (apply lint fixes + formatting)
+pnpm type-check     # tsgo --noEmit
 pnpm preview        # build + wrangler dev (local production preview)
 pnpm deploy         # build + wrangler deploy
 pnpm generate-static # extract first frame of each animated bg (needs ImageMagick `magick`)
@@ -32,7 +33,7 @@ pnpm generate-static # extract first frame of each animated bg (needs ImageMagic
 
 > **pnpm gotcha:** on some local setups the `pnpm` wrapper throws a corepack error. If
 > that happens, run the underlying tool directly with `npx` (e.g. `npx vitest`,
-> `npx tsc --noEmit`, `npx eslint .`) instead of the `pnpm` script.
+> `npx tsgo --noEmit`, `npx biome check`) instead of the `pnpm` script.
 
 Tests live next to source as `*.test.ts(x)`. Run a single file with `npx vitest run <path>`.
 
