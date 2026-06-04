@@ -11,3 +11,6 @@ export const MAX_INTERVAL_MIN = 5;
 export const SCHEDULE_SEED = 0x9e3779b9;
 // Crossfade duration, matches the opacity transition in Background/style.module.css.
 export const FADE_MS = 800;
+
+// Phone/mobile layout breakpoint, mirroring the 600px @media value used in CSS.
+export const MOBILE_BREAKPOINT = 600;
