@@ -1,6 +1,6 @@
 /*
  * Responsive breakpoints (used as @media max-width values throughout):
- *   - 600px : phone / mobile layout (panels become bottom sheets, volume hidden)
+ *   - 600px : phone / mobile layout (panels become a fixed full-band dialog, volume hidden)
  *   - 380px : small phone fine-tuning
  * Responsive code is intentionally CSS-only (no JS matchMedia) so the jsdom
  * test suite stays green. See CLAUDE.md.
