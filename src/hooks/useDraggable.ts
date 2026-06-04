@@ -97,7 +97,7 @@ export const useDraggable = ({
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging]);
+  }, [isDragging, storageKey]);
 
   return {
     position,
