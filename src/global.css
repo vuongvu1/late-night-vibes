@@ -1,6 +1,6 @@
 /*
  * Responsive breakpoints (used as @media max-width values throughout):
- *   - 600px : phone / mobile layout (panels become bottom sheets, volume hidden)
+ *   - 600px : phone / mobile layout (panels become a fixed full-band dialog, volume hidden)
  *   - 380px : small phone fine-tuning
  * Responsive code is intentionally CSS-only (no JS matchMedia) so the jsdom
  * test suite stays green. See CLAUDE.md.
@@ -90,6 +90,11 @@
 
   /* Minimum touch target for interactive elements on touch devices */
   --touch-target-min: 44px;
+
+  /* Mobile dialog band: fixed panels sit below the title and above the
+     controls. Approximate constants — tuned to clear NeonText / ControlPanel. */
+  --mobile-dialog-top: 6.5rem;
+  --mobile-dialog-bottom: calc(5rem + env(safe-area-inset-bottom));
 
   /* Cursor */
   --cursor-default: url("/assets/cursor-default.svg") 0 0, auto;

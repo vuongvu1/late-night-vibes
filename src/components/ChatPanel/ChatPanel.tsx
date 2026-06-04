@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef, useId } from "react";
+import React, { useState, useEffect, useRef, useId, useCallback } from "react";
 import { supabase } from "../../services/supabase";
 import { Message } from "../../types";
 import { CloseIcon } from "../../assets/icons";
 import { useStore } from "../../store";
 import { formatTimestamp } from "../../utils";
 import DraggablePanel from "../DraggablePanel";
+import { shouldBackfill } from "./backfill";
 import styles from "./styles.module.css";
 
 const USERNAME_KEY = "chat_username";
@@ -16,6 +17,8 @@ const ChatPanel: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  // Bumped whenever the messages list is resized, to re-check backfill.
+  const [resizeTick, setResizeTick] = useState(0);
   const [username, setUsername] = useState(() => {
     return localStorage.getItem(USERNAME_KEY) || "";
   });
@@ -45,7 +48,7 @@ const ChatPanel: React.FC = () => {
     }
   };
 
-  const loadMore = async () => {
+  const loadMore = useCallback(async () => {
     if (!hasMore || isLoadingMore || messages.length === 0) return;
 
     const scrollContainer = scrollRef.current;
@@ -77,7 +80,7 @@ const ChatPanel: React.FC = () => {
       }, 0);
     }
     setIsLoadingMore(false);
-  };
+  }, [hasMore, isLoadingMore, messages]);
 
   useEffect(() => {
     queueMicrotask(() => void fetchMessages());
@@ -111,6 +114,28 @@ const ChatPanel: React.FC = () => {
       }
     }
   }, [messages, isLoadingMore]);
+
+  // The scroll-to-top trigger below only fires when the list overflows. Watch
+  // the list's size so expanding the panel (which can remove the scrollbar)
+  // re-checks whether older messages still need backfilling.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => setResizeTick((t) => t + 1));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Backfill older messages whenever the list can't scroll but more exist —
+  // re-runs on new messages (loadMore identity changes), load-state changes,
+  // and panel resizes (resizeTick), loading page by page until the list
+  // overflows or the history is exhausted.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el && shouldBackfill(el, hasMore, isLoadingMore)) {
+      loadMore();
+    }
+  }, [loadMore, hasMore, isLoadingMore, resizeTick]);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (e.currentTarget.scrollTop === 0) {
@@ -149,6 +174,7 @@ const ChatPanel: React.FC = () => {
   return (
     <DraggablePanel
       storageKey="chat-panel-position"
+      sizeStorageKey="chat-panel-size"
       initialX={20}
       initialY={window.innerHeight - 520} // Position near bottom but visible
       className={styles.chatContainer}
