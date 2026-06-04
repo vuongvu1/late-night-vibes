@@ -149,6 +149,7 @@ const ChatPanel: React.FC = () => {
   return (
     <DraggablePanel
       storageKey="chat-panel-position"
+      sizeStorageKey="chat-panel-size"
       initialX={20}
       initialY={window.innerHeight - 520} // Position near bottom but visible
       className={styles.chatContainer}

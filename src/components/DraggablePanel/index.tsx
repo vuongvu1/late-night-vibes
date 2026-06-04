@@ -1,10 +1,12 @@
 import React from "react";
-import { useDraggable } from "../../hooks";
+import { useDraggable, useResizable } from "../../hooks";
 import styles from "./style.module.css";
 
 interface DraggablePanelProps {
   /** localStorage key used to persist the panel's position. */
   storageKey: string;
+  /** localStorage key used to persist the panel's size. */
+  sizeStorageKey: string;
   initialX?: number;
   initialY?: number;
   /** Panel-specific class (size, background, position context). */
@@ -14,18 +16,20 @@ interface DraggablePanelProps {
    * element should act as the drag handle (typically the header).
    */
   children: (
-    handleMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void
+    handleMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void,
   ) => React.ReactNode;
 }
 
 /**
  * Shared wrapper for the draggable Chat and Sound Mixer panels: owns the drag
- * state/positioning and key-event isolation, leaving each panel to render its
- * own header and content. Dragging is desktop-only; on mobile the panels are
- * pinned as bottom sheets via CSS, which overrides the inline position.
+ * state/positioning, size persistence, and key-event isolation, leaving each
+ * panel to render its own header and content. Drag and native resize are
+ * desktop-only; on mobile the panels are pinned as a fixed full-band dialog via
+ * CSS, which overrides the inline position and size.
  */
 const DraggablePanel: React.FC<DraggablePanelProps> = ({
   storageKey,
+  sizeStorageKey,
   initialX,
   initialY,
   className,
@@ -36,6 +40,7 @@ const DraggablePanel: React.FC<DraggablePanelProps> = ({
     initialX,
     initialY,
   });
+  useResizable(dragRef, sizeStorageKey);
 
   return (
     <div

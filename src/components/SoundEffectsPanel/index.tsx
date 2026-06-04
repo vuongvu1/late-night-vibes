@@ -25,6 +25,7 @@ const SoundEffectsPanel: React.FC<SoundEffectsPanelProps> = ({ onClose }) => {
   return (
     <DraggablePanel
       storageKey="mixer-panel-position"
+      sizeStorageKey="mixer-panel-size"
       initialX={window.innerWidth - 370} // Near right edge
       initialY={100}
       className={styles.panel}
