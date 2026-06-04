@@ -15,6 +15,9 @@ tools with native/Rust-based equivalents:
 
 ## Context
 
+- **`@/*` path alias:** resolved at type-check time via `tsconfig.json` `paths`,
+  and at build/test time via Vite's and Vitest's own `resolve.alias` (the two
+  are independent).
 - **Type-check today:** `type-check` = `tsc --noEmit`; `build` = `tsc && vite
   build`. Because `tsconfig.json` sets `"noEmit": true`, the `tsc` in `build` is
   purely a type-check gate — Vite (esbuild/Babel) does all emit. tsc never
@@ -55,10 +58,23 @@ build time via `babel-plugin-react-compiler` in the Vite config — only the
 - Scripts:
   - `type-check`: `tsc --noEmit` → **`tsgo --noEmit`**
   - `build`: `tsc && vite build` → **`tsgo && vite build`**
-- **No tsconfig changes.** `tsgo` reads the same `tsconfig.json`. The
-  `references: [{ path: "./tsconfig.node.json" }]` field only takes effect in
-  `-b` build mode, which we don't use, so `tsgo --noEmit` checks the same set
-  (`src`, `global.d.ts`) as `tsc --noEmit` does today.
+- **One small `tsconfig.json` change is required** (discovered during
+  implementation). tsgo is TypeScript 7, which **removed the `baseUrl` option**
+  and rejects non-relative `paths`. The current config has `"baseUrl": "."` and
+  `"@/*": ["src/*"]`, which `tsc` (TS 6) tolerates but `tsgo` errors on
+  (`TS5102`, `TS5090`). Fix: **remove `baseUrl`** and change the mapping to
+  `"@/*": ["./src/*"]`. This is behavior-preserving:
+  - `paths` without `baseUrl` is supported by `tsc` since TS 5.0, so the `tsc`
+    fallback stays green.
+  - Vite **and** Vitest resolve `@` via their own `resolve.alias`
+    (`path.resolve(__dirname, "./src")`), independent of tsconfig — so the build
+    and tests are unaffected.
+  - The `@/*` alias and its usages in source are unchanged; only the tsconfig
+    mapping string changes.
+- The `references: [{ path: "./tsconfig.node.json" }]` field only takes effect
+  in `-b` build mode, which we don't use, so `tsgo --noEmit` checks the same set
+  (`src`, `global.d.ts`) as `tsc --noEmit` does today. `tsconfig.node.json` is
+  unchanged.
 - Keep `typescript` in devDependencies (editor/LSP + fallback).
 
 ### 2. Lint + format → Biome

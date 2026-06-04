@@ -27,7 +27,11 @@
 - **`eslint.config.js`** (delete) — replaced by Biome.
 - **`src/hooks/useResizable.ts`** (modify, lines 49–55) — remove a now-stale `eslint-disable` comment referencing the dropped `react-compiler` rule.
 - **`CLAUDE.md`** (modify, lines 24–35) — update the commands block + pnpm-gotcha example to Biome/tsgo.
-- `tsconfig.json` / `tsconfig.node.json` — **unchanged** (tsgo reads them as-is).
+- **`tsconfig.json`** (modify) — tsgo (TS7) removed `baseUrl` and rejects
+  non-relative `paths`; remove `baseUrl` and change `"@/*": ["src/*"]` →
+  `"@/*": ["./src/*"]`. Behavior-preserving (Vite/Vitest resolve `@` via their
+  own alias; `tsc` fallback supports `paths` without `baseUrl`).
+- `tsconfig.node.json` — **unchanged**.
 - README.md — **unchanged** (it does not name `eslint`/`tsc`; only `pnpm build`/`pnpm dev`, which keep working).
 
 ---
@@ -36,6 +40,7 @@
 
 **Files:**
 - Modify: `package.json` (scripts `type-check`, `build`; add devDependency)
+- Modify: `tsconfig.json` (remove `baseUrl`, make `@/*` path relative — required by tsgo)
 
 - [ ] **Step 1: Install the tsgo binary**
 
@@ -60,7 +65,23 @@ In `package.json`, change these two scripts:
 "build": "tsgo && vite build",
 "type-check": "tsgo --noEmit",
 ```
-Leave `typescript` in `devDependencies` (editor/LSP + fallback). Do not change `tsconfig.json`.
+Leave `typescript` in `devDependencies` (editor/LSP + fallback).
+
+- [ ] **Step 2b: Make tsconfig tsgo-compatible**
+
+tsgo is TypeScript 7: it removed `baseUrl` and rejects non-relative `paths` (errors `TS5102`/`TS5090`). In `tsconfig.json` `compilerOptions`:
+```jsonc
+// before
+"baseUrl": ".",
+"paths": {
+  "@/*": ["src/*"]
+}
+// after  (remove baseUrl entirely; make the path relative)
+"paths": {
+  "@/*": ["./src/*"]
+}
+```
+This is behavior-preserving: `tsc` (the retained fallback) supports `paths` without `baseUrl` since TS 5.0, and Vite/Vitest resolve `@` via their own `resolve.alias` (not tsconfig). Leave `tsconfig.node.json` untouched.
 
 - [ ] **Step 3: Verify tsgo type-checks the project cleanly**
 
@@ -97,7 +118,7 @@ Expected: tsgo passes, Vite build completes and writes `dist/`.
 - [ ] **Step 6: Commit**
 
 ```bash
-git add package.json pnpm-lock.yaml
+git add package.json pnpm-lock.yaml tsconfig.json
 git commit -m "build: type-check with tsgo instead of tsc"
 ```
 
