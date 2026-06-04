@@ -50,6 +50,17 @@ export const useResizable = (
       el.style.height = `${saved.height}px`;
     }
 
+    const persistSize = () => {
+      const rect = el.getBoundingClientRect();
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify({
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+        }),
+      );
+    };
+
     let isInitialCallback = true;
     let timer: ReturnType<typeof setTimeout> | undefined;
 
@@ -65,21 +76,18 @@ export const useResizable = (
 
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
-        const rect = el.getBoundingClientRect();
-        localStorage.setItem(
-          storageKey,
-          JSON.stringify({
-            width: Math.round(rect.width),
-            height: Math.round(rect.height),
-          }),
-        );
+        persistSize();
+        timer = undefined;
       }, SIZE_PERSIST_DEBOUNCE_MS);
     });
 
     observer.observe(el);
 
     return () => {
-      if (timer) clearTimeout(timer);
+      if (timer) {
+        clearTimeout(timer);
+        persistSize(); // flush the pending write so the last resize isn't lost
+      }
       observer.disconnect();
     };
   }, [ref, storageKey]);

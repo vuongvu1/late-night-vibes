@@ -76,4 +76,18 @@ describe("useResizable", () => {
 
     expect(localStorage.getItem("panel-size")).toBeNull();
   });
+
+  it("flushes the pending size to storage on unmount", () => {
+    const ref = { current: el };
+    const { unmount } = renderHook(() => useResizable(ref, "panel-size"));
+
+    fireResize?.(); // initial — ignored
+    fireResize?.(); // real resize — schedules a debounced write
+    unmount(); // cleanup must flush synchronously, before the debounce fires
+
+    expect(JSON.parse(localStorage.getItem("panel-size")!)).toEqual({
+      width: 640,
+      height: 480,
+    });
+  });
 });
