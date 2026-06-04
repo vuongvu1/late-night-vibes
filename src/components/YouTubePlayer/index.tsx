@@ -95,7 +95,6 @@ const YouTubePlayer: React.FC<Props> = ({
   }, [checkPlayerStatus]);
 
   return (
-    // biome-ignore lint/a11y/useSemanticElements: YouTube IFrame API requires a specific div#player target; cannot change to <section>
     <div
       id="player"
       className={style.player}

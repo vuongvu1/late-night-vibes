@@ -59,7 +59,6 @@ describe("useResizable", () => {
     fireResize?.(); // a real user resize
     vi.advanceTimersByTime(200); // flush the debounce
 
-    // biome-ignore lint/style/noNonNullAssertion: test assertion — localStorage key is guaranteed present at this point
     expect(JSON.parse(localStorage.getItem("panel-size")!)).toEqual({
       width: 640,
       height: 480,
@@ -86,7 +85,6 @@ describe("useResizable", () => {
     fireResize?.(); // real resize — schedules a debounced write
     unmount(); // cleanup must flush synchronously, before the debounce fires
 
-    // biome-ignore lint/style/noNonNullAssertion: test assertion — localStorage key is guaranteed present after resize+unmount
     expect(JSON.parse(localStorage.getItem("panel-size")!)).toEqual({
       width: 640,
       height: 480,

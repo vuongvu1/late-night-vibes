@@ -43,7 +43,6 @@ const DraggablePanel: React.FC<DraggablePanelProps> = ({
   useResizable(dragRef, sizeStorageKey);
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: draggable panel container; onKeyDown prevents key events from propagating to global shortcuts while panel is focused
     <div
       ref={dragRef}
       className={`${className ?? ""} ${isDragging ? styles.dragging : ""}`}

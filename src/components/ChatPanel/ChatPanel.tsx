@@ -185,7 +185,6 @@ const ChatPanel: React.FC = () => {
     >
       {(handleMouseDown) => (
         <>
-          {/* biome-ignore lint/a11y/noStaticElementInteractions: drag-handle div; mouse interaction is intentional for dragging the panel */}
           <div className={styles.header} onMouseDown={handleMouseDown}>
             <div className={styles.usernameInputWrapper}>
               <label className={styles.usernameLabel} htmlFor={usernameInputId}>
