@@ -47,10 +47,7 @@ export const useResizable = (
     const saved = loadSize(storageKey);
     if (saved) {
       // Restore the saved size by writing to the DOM node directly. Refs are
-      // React's sanctioned escape hatch for imperative DOM, but the React
-      // Compiler lint can't tell this RefObject argument from an arbitrary
-      // mutable arg, so it false-positives on the style writes below.
-      // eslint-disable-next-line react-compiler/react-compiler
+      // React's sanctioned escape hatch for imperative DOM access.
       el.style.width = `${saved.width}px`;
       el.style.height = `${saved.height}px`;
     }
