@@ -94,13 +94,21 @@ const YouTubePlayer: React.FC<Props> = ({
     checkPlayerStatus();
   }, [checkPlayerStatus]);
 
+  // Wrap the YT target in a React-owned container the YouTube IFrame API never
+  // touches. `new YT.Player("player")` replaces the inner #player div with an
+  // <iframe> out-of-band; if React held that node as a host sibling, a later
+  // Suspense reveal of a preceding sibling (e.g. the lazy OnlineCounter) would
+  // call insertBefore() against a node no longer in the DOM and throw. The
+  // wrapper is layout-neutral via `display: contents`, so visuals are unchanged.
   return (
-    <div
-      id="player"
-      className={style.player}
-      role="region"
-      aria-label="Live radio player"
-    />
+    <div className={style.playerContainer}>
+      <div
+        id="player"
+        className={style.player}
+        role="region"
+        aria-label="Live radio player"
+      />
+    </div>
   );
 };
 

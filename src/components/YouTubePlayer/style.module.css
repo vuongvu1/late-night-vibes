@@ -1,3 +1,9 @@
+/* Layout-neutral: the inner #player div behaves as a direct flex child, but
+   React owns this wrapper as the stable host node (see index.tsx). */
+.playerContainer {
+  display: contents;
+}
+
 .player {
   display: none;
 }

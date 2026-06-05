@@ -1,12 +1,11 @@
 import * as RadixTooltip from "@radix-ui/react-tooltip";
+import { lazy, Suspense } from "react";
 import styles from "./App.module.css";
 import {
   Background,
-  ChatPanel,
   ControlPanel,
   Flex,
   NeonText,
-  OnlineCounter,
   SoundEffectsPanel,
   Spinner,
   YouTubePlayer,
@@ -21,6 +20,13 @@ import {
 } from "./hooks";
 import { useStore } from "./store";
 import { cleanText } from "./utils";
+
+// Lazy-loaded so @supabase/supabase-js (their only heavy dependency) is split
+// into an on-demand chunk instead of the initial bundle.
+const OnlineCounter = lazy(
+  () => import("./components/OnlineCounter/OnlineCounter"),
+);
+const ChatPanel = lazy(() => import("./components/ChatPanel/ChatPanel"));
 
 function App() {
   const {
@@ -72,7 +78,9 @@ function App() {
   return (
     <RadixTooltip.Provider delayDuration={200}>
       <Flex direction="column" className={styles.app}>
-        <OnlineCounter />
+        <Suspense fallback={null}>
+          <OnlineCounter />
+        </Suspense>
         <YouTubePlayer
           videoId={activeChannel}
           volume={volume}
@@ -85,7 +93,11 @@ function App() {
           {isLoading ? <Spinner /> : cleanText(videoTitle)}
         </NeonText>
 
-        {isChatOpen && <ChatPanel />}
+        {isChatOpen && (
+          <Suspense fallback={null}>
+            <ChatPanel />
+          </Suspense>
+        )}
         {isMixerOpen && <SoundEffectsPanel onClose={toggleMixer} />}
 
         <ControlPanel

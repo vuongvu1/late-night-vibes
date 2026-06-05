@@ -15,6 +15,24 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rolldownOptions: {
+      output: {
+        // Split React into its own long-cached vendor chunk. Supabase is kept
+        // out of the entry chunk by lazy-loading its consumers (see App.tsx),
+        // so it lands in an on-demand chunk automatically.
+        codeSplitting: {
+          groups: [
+            {
+              name: "react-vendor",
+              test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+              priority: 1,
+            },
+          ],
+        },
+      },
+    },
+  },
   plugins: [
     react({
       babel: {
