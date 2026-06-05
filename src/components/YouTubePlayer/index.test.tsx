@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import YouTubePlayer from "./index";
 
 // Mock window.YT
@@ -15,6 +15,7 @@ const mockPlayer = {
 beforeEach(() => {
   // Setup YT mock
   (globalThis as unknown as { window: { YT: unknown } }).window.YT = {
+    // biome-ignore lint/complexity/useArrowFunction: vi.fn() mock used as constructor via `new YT.Player()`; arrow functions cannot be constructors
     Player: vi.fn(function () {
       return mockPlayer;
     }),

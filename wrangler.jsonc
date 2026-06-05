@@ -8,7 +8,5 @@
   "assets": {
     "not_found_handling": "single-page-application"
   },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "compatibility_flags": ["nodejs_compat"]
 }

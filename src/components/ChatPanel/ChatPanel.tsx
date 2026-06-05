@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef, useId, useCallback } from "react";
-import { supabase } from "../../services/supabase";
-import { Message } from "../../types";
+import type React from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { CloseIcon } from "../../assets/icons";
+import { supabase } from "../../services/supabase";
 import { useStore } from "../../store";
+import type { Message } from "../../types";
 import { formatTimestamp } from "../../utils";
 import DraggablePanel from "../DraggablePanel";
 import { shouldBackfill } from "./backfill";
@@ -82,6 +83,7 @@ const ChatPanel: React.FC = () => {
     setIsLoadingMore(false);
   }, [hasMore, isLoadingMore, messages]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally runs once on mount; fetchMessages identity changes would cause infinite re-subscription
   useEffect(() => {
     queueMicrotask(() => void fetchMessages());
 
@@ -102,6 +104,7 @@ const ChatPanel: React.FC = () => {
   }, []);
 
   // Auto-scroll to bottom on initial load and new messages
+  // biome-ignore lint/correctness/useExhaustiveDependencies: messages dep is intentional — effect must re-run when messages update to auto-scroll
   useEffect(() => {
     if (scrollRef.current && !isLoadingMore) {
       const isAtBottom =
@@ -130,6 +133,7 @@ const ChatPanel: React.FC = () => {
   // re-runs on new messages (loadMore identity changes), load-state changes,
   // and panel resizes (resizeTick), loading page by page until the list
   // overflows or the history is exhausted.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: resizeTick dep is intentional — must re-run when panel resizes to backfill messages
   useEffect(() => {
     const el = scrollRef.current;
     if (el && shouldBackfill(el, hasMore, isLoadingMore)) {

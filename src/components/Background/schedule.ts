@@ -1,8 +1,4 @@
-import {
-  MIN_INTERVAL_MIN,
-  MAX_INTERVAL_MIN,
-  SCHEDULE_SEED,
-} from "@/constants";
+import { MAX_INTERVAL_MIN, MIN_INTERVAL_MIN, SCHEDULE_SEED } from "@/constants";
 
 const gifModules = import.meta.glob(
   ["../../assets/gifs/*.gif", "../../assets/gifs/*.webp"],

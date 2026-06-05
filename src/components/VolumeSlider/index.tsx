@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./style.module.css";
 import { VOLUME_STEP } from "../../constants";
+import styles from "./style.module.css";
 
 type Props = {
   value: number;
@@ -11,10 +11,11 @@ const VolumeSlider = React.forwardRef<HTMLInputElement, Props>(
   ({ value, setValue, ...restProps }: Props, ref) => {
     return (
       <div className={styles.container}>
+        {/* noArrayIndexKey: static fixed-size array; items never reorder, index keys are stable */}
         {new Array(VOLUME_STEP).fill("").map((_, index) => (
           <div
-            className={styles.block}
             key={index}
+            className={styles.block}
             style={
               {
                 "--filled-color":
@@ -38,7 +39,7 @@ const VolumeSlider = React.forwardRef<HTMLInputElement, Props>(
         />
       </div>
     );
-  }
+  },
 );
 
 export default VolumeSlider;

@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render as rtlRender, screen } from "@testing-library/react";
-import type { ReactElement, ReactNode } from "react";
-import userEvent from "@testing-library/user-event";
 import * as RadixTooltip from "@radix-ui/react-tooltip";
+import { render as rtlRender, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import type { ReactElement, ReactNode } from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import ControlPanel from "./index";
 
 // Tooltip now relies on a single RadixTooltip.Provider mounted at the app root,

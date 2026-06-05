@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import type React from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { VIDEO_DOWN_TITLE } from "../../constants";
 import style from "./style.module.css";
 
@@ -27,7 +28,7 @@ const initializePlayer = (
     ref.current.destroy();
   }
 
-  window.YT.ready(function () {
+  window.YT.ready(() => {
     ref.current = new window.YT.Player("player", {
       height: "auto",
       width: "100%",

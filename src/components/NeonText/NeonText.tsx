@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { NeonTextProps } from "./types";
+import type { NeonTextProps } from "./types";
 
 export const NeonText = ({
   as: Tag,

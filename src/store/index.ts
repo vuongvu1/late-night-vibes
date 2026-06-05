@@ -1,13 +1,13 @@
 import { create } from "zustand";
-import { PlayerStore } from "@/types";
-import data from "@/data.json";
-import { playSound } from "@/utils";
 import buttonPressSound1Src from "@/assets/sounds/control/button-press-sound-1.mp3";
 import buttonPressSound2Src from "@/assets/sounds/control/button-press-sound-2.mp3";
 import buttonPressSound3Src from "@/assets/sounds/control/button-press-sound-3.mp3";
 import buttonPressSound4Src from "@/assets/sounds/control/button-press-sound-4.mp3";
 import { SOUND_EFFECTS } from "@/assets/sounds/effect/effects";
 import { VIDEO_DOWN_TITLE } from "@/constants";
+import data from "@/data.json";
+import type { PlayerStore } from "@/types";
+import { playSound } from "@/utils";
 
 const channels = data.channels;
 
@@ -35,6 +35,7 @@ const getRandomIndex = (exceptionIndex?: number): number => {
 
 const getIndexFromUrl = (): number => {
   const hash = window.location.hash;
+  // biome-ignore lint/complexity/useOptionalChain: unsafe auto-fix would change truthiness semantics for empty string; explicit guard is clearer
   if (hash && hash.startsWith("#")) {
     const index = parseInt(hash.slice(1), 10) - 1;
     if (index >= 0 && index < channels.length) {

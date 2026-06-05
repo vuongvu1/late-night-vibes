@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useSoundEffects } from "./useSoundEffects";
 
 // Mock Audio
@@ -11,6 +11,7 @@ const mockAudio = {
   paused: true,
 };
 
+// biome-ignore lint/complexity/useArrowFunction: vi.fn() mock used as constructor via `new Audio()`; arrow functions cannot be constructors
 globalThis.Audio = vi.fn(function () {
   return mockAudio;
 }) as unknown as typeof Audio;

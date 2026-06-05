@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import * as RadixTooltip from "@radix-ui/react-tooltip";
 import { render as rtlRender, screen } from "@testing-library/react";
 import type { ReactElement, ReactNode } from "react";
-import * as RadixTooltip from "@radix-ui/react-tooltip";
+import { beforeEach, describe, expect, it } from "vitest";
 import { Tooltip } from "./Tooltip";
 
 // Tooltip renders only a RadixTooltip.Root, so a Provider ancestor is required.
@@ -25,7 +25,7 @@ describe("Tooltip", () => {
   it("should render the children", () => {
     render(
       <Tooltip content="Tooltip text">
-        <button>Hover me</button>
+        <button type="button">Hover me</button>
       </Tooltip>,
     );
     expect(screen.getByText("Hover me")).toBeInTheDocument();
@@ -34,7 +34,9 @@ describe("Tooltip", () => {
   it("should render the tooltip trigger", () => {
     render(
       <Tooltip content="Tooltip text">
-        <button data-testid="trigger">Hover me</button>
+        <button type="button" data-testid="trigger">
+          Hover me
+        </button>
       </Tooltip>,
     );
     expect(screen.getByTestId("trigger")).toBeInTheDocument();
@@ -43,7 +45,7 @@ describe("Tooltip", () => {
   it("should render children and trigger", () => {
     render(
       <Tooltip content="Tooltip text">
-        <button>Hover me</button>
+        <button type="button">Hover me</button>
       </Tooltip>,
     );
 
@@ -57,7 +59,7 @@ describe("Tooltip", () => {
     );
     render(
       <Tooltip content={customContent}>
-        <button>Hover me</button>
+        <button type="button">Hover me</button>
       </Tooltip>,
     );
 

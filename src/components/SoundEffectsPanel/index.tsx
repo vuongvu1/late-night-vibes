@@ -1,10 +1,10 @@
-import React from "react";
+import type React from "react";
+import { CloseIcon, ResetIcon, ShuffleIcon } from "../../assets/icons";
 import { useStore } from "../../store";
 import DraggablePanel from "../DraggablePanel";
-import styles from "./style.module.css";
 import { Flex } from "../Flex";
-import { CloseIcon, ResetIcon, ShuffleIcon } from "../../assets/icons";
 import { Tooltip } from "../Tooltip";
+import styles from "./style.module.css";
 
 interface SoundEffectsPanelProps {
   onClose: () => void;
@@ -122,7 +122,10 @@ const SoundEffectsPanel: React.FC<SoundEffectsPanelProps> = ({ onClose }) => {
                       max="100"
                       value={effect.volume}
                       onChange={(e) =>
-                        setSoundEffectVolume(effect.id, parseInt(e.target.value))
+                        setSoundEffectVolume(
+                          effect.id,
+                          parseInt(e.target.value, 10),
+                        )
                       }
                       className={styles.slider}
                       aria-label={`${effect.name} volume`}

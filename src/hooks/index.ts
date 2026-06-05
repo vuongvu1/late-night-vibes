@@ -1,7 +1,7 @@
-export { useKeyPress } from "./useKeyPress";
-export { useChannel } from "./useChannel";
 export { useAutoSwitchChannelWhenDown } from "./useAutoSwitchChannelWhenDown";
-export { usePlayer } from "./usePlayer";
-export { useSoundEffects } from "./useSoundEffects";
+export { useChannel } from "./useChannel";
 export { useDraggable } from "./useDraggable";
+export { useKeyPress } from "./useKeyPress";
+export { usePlayer } from "./usePlayer";
 export { useResizable } from "./useResizable";
+export { useSoundEffects } from "./useSoundEffects";

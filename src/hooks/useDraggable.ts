@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, MouseEvent } from "react";
+import { type MouseEvent, useEffect, useRef, useState } from "react";
 
 interface UseDraggableOptions {
   initialX?: number;
@@ -8,7 +8,7 @@ interface UseDraggableOptions {
 
 const loadPosition = (
   key: string | undefined,
-  fallback: { x: number; y: number }
+  fallback: { x: number; y: number },
 ) => {
   if (!key) return fallback;
   try {
@@ -31,7 +31,7 @@ export const useDraggable = ({
   storageKey,
 }: UseDraggableOptions = {}) => {
   const [position, setPosition] = useState(() =>
-    loadPosition(storageKey, { x: initialX, y: initialY })
+    loadPosition(storageKey, { x: initialX, y: initialY }),
   );
   const [isDragging, setIsDragging] = useState(false);
   const dragRef = useRef<HTMLDivElement>(null);
@@ -82,7 +82,7 @@ export const useDraggable = ({
         if (rect) {
           localStorage.setItem(
             storageKey,
-            JSON.stringify({ x: rect.left, y: rect.top })
+            JSON.stringify({ x: rect.left, y: rect.top }),
           );
         }
       }
