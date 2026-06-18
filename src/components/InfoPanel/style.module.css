@@ -1,0 +1,118 @@
+/* Sized and styled to match the OnlineCounter badge it sits next to. */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: var(--text-color);
+  background: var(--background-panel);
+  border: 1px solid var(--border-color-subtle);
+  border-radius: var(--border-radius-round);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+.trigger svg {
+  width: 16px;
+  height: 16px;
+}
+
+.content {
+  width: 300px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: var(--background-panel-strong);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color-subtle);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 50%);
+  color: var(--text-color);
+  z-index: var(--z-index-dropdown);
+}
+
+.content[data-state="open"] {
+  animation: fadeIn var(--duration-normal) ease-out;
+}
+
+.content[data-state="closed"] {
+  animation: fadeOut var(--duration-normal) ease-in;
+}
+
+.section + .section {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-color-subtle);
+}
+
+.heading {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.blurb {
+  margin: 0;
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+}
+
+.shortcutList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.shortcutRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-md);
+}
+
+.key {
+  flex: none;
+  min-width: 2.25em;
+  padding: 2px var(--spacing-xs);
+  text-align: center;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  background: var(--background-surface-soft);
+  border: 1px solid var(--border-color-subtle);
+  border-radius: var(--border-radius-sm);
+}
+
+.description {
+  flex: 1;
+}
+
+.arrow {
+  fill: var(--background-panel-strong);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

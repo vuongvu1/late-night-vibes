@@ -154,6 +154,18 @@ describe("ControlPanel", () => {
     }
   });
 
+  it("should show the action in a tooltip without a keyboard-shortcut hint", async () => {
+    const user = userEvent.setup();
+    render(<ControlPanel {...defaultProps} />);
+
+    await user.hover(screen.getByRole("button", { name: "Play" }));
+
+    // Radix renders tooltip content more than once (visible + a11y copies).
+    const tooltips = await screen.findAllByText("Play / Pause");
+    expect(tooltips.length).toBeGreaterThan(0);
+    expect(screen.queryByText(/Press \[/)).not.toBeInTheDocument();
+  });
+
   it("should show the active sound count as a badge on the mixer button", () => {
     render(<ControlPanel {...defaultProps} activeSoundCount={3} />);
 

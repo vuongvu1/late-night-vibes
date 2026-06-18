@@ -21,6 +21,7 @@
     "deploy": "pnpm run build && wrangler deploy"
   },
   "dependencies": {
+    "@radix-ui/react-popover": "^1.1.17",
     "@radix-ui/react-tooltip": "^1.2.10",
     "@supabase/supabase-js": "^2.108.2",
     "react": "19.2.7",

@@ -1,6 +1,7 @@
 export { default as ChatIcon } from "./Chat";
 export { default as CloseIcon } from "./Close";
 export { default as FullscreenIcon } from "./Fullscreen";
+export { default as InfoIcon } from "./Info";
 export { MixerIcon } from "./Mixer";
 export { default as NextIcon } from "./Next";
 export { default as PauseIcon } from "./Pause";

@@ -5,6 +5,7 @@ import {
   Background,
   ControlPanel,
   Flex,
+  InfoPanel,
   NeonText,
   SoundEffectsPanel,
   Spinner,
@@ -18,6 +19,7 @@ import {
   usePlayer,
   useSoundEffects,
 } from "./hooks";
+import type { ShortcutCode } from "./shortcuts";
 import { useStore } from "./store";
 import { cleanText } from "./utils";
 
@@ -58,7 +60,10 @@ function App() {
 
   useSoundEffects();
 
-  useKeyPress({
+  // Keyed by the shortcut `code`s declared in src/shortcuts.ts. The `satisfies`
+  // check keeps this map and that list in lockstep — adding a shortcut there
+  // without a handler here (or vice versa) fails the type check.
+  const shortcutHandlers = {
     Space: () => !isLoading && togglePlaying(),
     KeyR: selectRandomChannel,
     ArrowRight: selectNextChannel,
@@ -68,7 +73,9 @@ function App() {
     KeyF: toggleFullscreen,
     KeyC: toggleChat,
     KeyM: toggleMixer,
-  });
+  } satisfies Record<ShortcutCode, () => void>;
+
+  useKeyPress(shortcutHandlers);
 
   useAutoSwitchChannelWhenDown({
     isChannelDown: videoTitle === VIDEO_DOWN_TITLE,
@@ -78,9 +85,12 @@ function App() {
   return (
     <RadixTooltip.Provider delayDuration={200}>
       <Flex direction="column" className={styles.app}>
-        <Suspense fallback={null}>
-          <OnlineCounter />
-        </Suspense>
+        <div className={styles.topRow}>
+          <Suspense fallback={null}>
+            <OnlineCounter />
+          </Suspense>
+          <InfoPanel />
+        </div>
         <YouTubePlayer
           videoId={activeChannel}
           volume={volume}

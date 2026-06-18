@@ -46,9 +46,7 @@ function ControlPanel({
   return (
     <Flex justify="space-between" className={styles.container}>
       <Flex gap="var(--spacing-sm)" justify="flex-start">
-        <Tooltip
-          content={isLoading ? "Loading..." : "Press [Space] to Play/Pause"}
-        >
+        <Tooltip content={isLoading ? "Loading..." : "Play / Pause"}>
           <Button
             icon={isPlaying ? <PauseIcon /> : <PlayIcon />}
             onClick={togglePlaying}
@@ -56,42 +54,42 @@ function ControlPanel({
             aria-label={isPlaying ? "Pause" : "Play"}
           />
         </Tooltip>
-        <Tooltip content="Press [R] to play a random channel">
+        <Tooltip content="Random channel">
           <Button
             icon={<ShuffleIcon />}
             onClick={selectRandomChannel}
             aria-label="Play a random channel"
           />
         </Tooltip>
-        <Tooltip content="Press [ArrowLeft] to play previous channel">
+        <Tooltip content="Previous channel">
           <Button
             icon={<PreviousIcon />}
             onClick={selectPreviousChannel}
             aria-label="Previous channel"
           />
         </Tooltip>
-        <Tooltip content="Press [ArrowRight] to play next channel">
+        <Tooltip content="Next channel">
           <Button
             icon={<NextIcon />}
             onClick={selectNextChannel}
             aria-label="Next channel"
           />
         </Tooltip>
-        <Tooltip content="Press [F] to toggle Fullscreen">
+        <Tooltip content="Toggle fullscreen">
           <Button
             icon={<FullscreenIcon />}
             onClick={toggleFullscreen}
             aria-label="Toggle fullscreen"
           />
         </Tooltip>
-        <Tooltip content="Press [C] to toggle Chat/Comments">
+        <Tooltip content="Toggle chat">
           <Button
             icon={<ChatIcon />}
             onClick={toggleChat}
             aria-label="Toggle chat"
           />
         </Tooltip>
-        <Tooltip content="Press [M] to toggle Sound Mixer">
+        <Tooltip content="Toggle sound mixer">
           <Button
             icon={<MixerIcon />}
             onClick={toggleSoundMixer}
@@ -105,7 +103,7 @@ function ControlPanel({
         gap="var(--spacing-sm)"
         className={styles.volumeWrap}
       >
-        <Tooltip content="Press [ArrowUp/Down] to control volume">
+        <Tooltip content="Volume">
           <VolumeSlider value={volume} setValue={setVolume} />
         </Tooltip>
       </Flex>

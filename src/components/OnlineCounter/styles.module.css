@@ -1,7 +1,4 @@
 .container {
-  position: fixed;
-  top: 6rem;
-  right: 2rem;
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -10,7 +7,6 @@
   border-radius: 20px;
   backdrop-filter: blur(8px);
   border: 1px solid var(--border-color-subtle);
-  z-index: var(--z-index-base);
   pointer-events: none;
 }
 

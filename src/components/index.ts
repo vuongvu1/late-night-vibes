@@ -6,6 +6,7 @@ export { default as Background } from "./Background";
 export { default as Button } from "./Button";
 export { default as ControlPanel } from "./ControlPanel";
 export { Flex } from "./Flex";
+export { default as InfoPanel } from "./InfoPanel";
 export { NeonText } from "./NeonText";
 export { default as SoundEffectsPanel } from "./SoundEffectsPanel";
 export { Spinner } from "./Spinner";
