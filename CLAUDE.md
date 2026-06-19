@@ -56,6 +56,23 @@ Tests live next to source as `*.test.ts(x)`. Run a single file with `npx vitest 
   so every visitor sees the same image at the same wall-clock moment (seed/timings in
   `src/constants.ts`). Don't reintroduce per-client randomness here.
 
+### Adding a background
+
+Backgrounds are discovered by glob, not a manifest — `schedule.ts` pairs
+`src/assets/gifs/<name>.{gif,webp}` with `src/assets/static/<name>.jpg` by **base
+filename**. A background is only eligible when **both** files exist with the same name.
+To add one:
+
+1. Drop the animated source in `src/assets/gifs/` named `vibe-<N>.gif` (or `.webp`),
+   where `<N>` is the next free sequential number (zero-padded to 3+ digits, e.g.
+   `vibe-400.gif`). The rotation is name-keyed, so the filename must follow this
+   convention — not the original download name.
+2. Run `pnpm generate-static` — it extracts frame `[0]` of every gif/webp that lacks a
+   matching `.jpg` into `src/assets/static/` (needs ImageMagick `magick`). Existing
+   statics are skipped, so only the new one is generated.
+3. That's it — no code/JSON edit. `commonKeys` picks it up at build time. (`src/data.json`
+   is YouTube channels, unrelated to backgrounds.)
+
 ### Component conventions
 
 - `Button` (`src/components/Button/index.tsx`) takes an `icon` and forwards button props;
