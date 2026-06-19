@@ -64,8 +64,9 @@ filename**. A background is only eligible when **both** files exist with the sam
 To add one:
 
 1. Drop the animated source in `src/assets/gifs/` named `vibe-<N>.gif` (or `.webp`),
-   where `<N>` is the next free sequential number (zero-padded to 3+ digits, e.g.
-   `vibe-400.gif`). The rotation is name-keyed, so the filename must follow this
+   zero-padded to 3+ digits (e.g. `vibe-400.gif`). For `<N>`, **reuse the lowest
+   free number first** — fill any gap left by a removed background before extending
+   past the current max. The rotation is name-keyed, so the filename must follow this
    convention — not the original download name.
 2. Run `pnpm generate-static` — it extracts frame `[0]` of every gif/webp that lacks a
    matching `.jpg` into `src/assets/static/` (needs ImageMagick `magick`). Existing
