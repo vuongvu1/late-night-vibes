@@ -1,4 +1,5 @@
 export { default as ChatIcon } from "./Chat";
+export { default as ChevronDownIcon } from "./ChevronDown";
 export { default as CloseIcon } from "./Close";
 export { default as FullscreenIcon } from "./Fullscreen";
 export { default as InfoIcon } from "./Info";

@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import ChatPanel from "./ChatPanel";
@@ -36,6 +36,7 @@ vi.mock("../../store", () => ({
 // Mock icons
 vi.mock("../../assets/icons", () => ({
   CloseIcon: () => <div>Close</div>,
+  ChevronDownIcon: () => <div>ChevronDown</div>,
 }));
 
 describe("ChatPanel", () => {
@@ -170,5 +171,37 @@ describe("ChatPanel", () => {
     expect(mockInsert).toHaveBeenCalledWith([
       { username: "Alice (Radio #2)", content: "Hello there" },
     ]);
+  });
+
+  it("shows a scroll-to-bottom button when scrolled up and hides it on click", async () => {
+    await renderChatPanel();
+    const list = screen.getByLabelText("Chat messages");
+
+    // jsdom has no layout, so fake a tall list the user has scrolled up in.
+    Object.defineProperty(list, "scrollHeight", {
+      configurable: true,
+      value: 1000,
+    });
+    Object.defineProperty(list, "clientHeight", {
+      configurable: true,
+      value: 300,
+    });
+    list.scrollTop = 0;
+
+    expect(
+      screen.queryByLabelText("Scroll to latest messages"),
+    ).not.toBeInTheDocument();
+
+    fireEvent.scroll(list);
+
+    const button = await screen.findByLabelText("Scroll to latest messages");
+    expect(button).toBeInTheDocument();
+
+    fireEvent.click(button);
+
+    expect(list.scrollTop).toBe(1000);
+    expect(
+      screen.queryByLabelText("Scroll to latest messages"),
+    ).not.toBeInTheDocument();
   });
 });

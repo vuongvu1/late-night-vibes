@@ -153,6 +153,41 @@
   word-break: break-word;
 }
 
+.scrollToBottom {
+  position: absolute;
+  right: var(--spacing-md);
+  bottom: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--border-color-subtle);
+  border-radius: 50%;
+  background: var(--background-surface-strong);
+  color: var(--text-color);
+  cursor: var(--cursor-pointer);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 40%);
+  opacity: 0.85;
+  transition:
+    opacity 0.2s,
+    transform 0.1s;
+}
+
+.scrollToBottom:hover {
+  opacity: 1;
+}
+
+.scrollToBottom:active {
+  transform: scale(0.92);
+}
+
+.scrollToBottom:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
 .inputArea {
   padding: var(--spacing-md);
   border-top: 1px solid var(--border-color-subtle);

@@ -1,6 +1,13 @@
 import type React from "react";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { CloseIcon } from "../../assets/icons";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { ChevronDownIcon, CloseIcon } from "../../assets/icons";
 import { supabase } from "../../services/supabase";
 import { useStore } from "../../store";
 import type { Message } from "../../types";
@@ -13,11 +20,18 @@ const USERNAME_KEY = "chat_username";
 
 const PAGE_SIZE = 5;
 
+// Treat "within 100px of the bottom" as at-bottom for auto-scroll decisions.
+const SCROLL_BOTTOM_THRESHOLD = 100;
+const isNearBottom = (el: HTMLElement) =>
+  el.scrollHeight - el.scrollTop <= el.clientHeight + SCROLL_BOTTOM_THRESHOLD;
+
 const ChatPanel: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  // Shown when the user has scrolled up away from the latest message.
+  const [showScrollButton, setShowScrollButton] = useState(false);
   // Bumped whenever the messages list is resized, to re-check backfill.
   const [resizeTick, setResizeTick] = useState(0);
   const [username, setUsername] = useState(() => {
@@ -30,7 +44,10 @@ const ChatPanel: React.FC = () => {
   const messageInputId = useId();
 
   const scrollRef = useRef<HTMLDivElement>(null);
-  const isInitialLoad = useRef(true);
+  // Whether to keep the list pinned to the bottom as new content renders.
+  // Starts true so the panel opens at the latest message; flipped by the
+  // user scrolling away from / back to the bottom.
+  const stickToBottom = useRef(true);
 
   const { toggleChat, activeIndex } = useStore();
 
@@ -54,6 +71,7 @@ const ChatPanel: React.FC = () => {
 
     const scrollContainer = scrollRef.current;
     const previousScrollHeight = scrollContainer?.scrollHeight || 0;
+    const wasSticky = stickToBottom.current;
 
     setIsLoadingMore(true);
     const oldestTimestamp = messages[0].created_at;
@@ -72,13 +90,17 @@ const ChatPanel: React.FC = () => {
       const newBatch = data.reverse();
       setMessages((prev) => [...newBatch, ...prev]);
 
-      // Maintain scroll position after state update
-      setTimeout(() => {
-        if (scrollContainer) {
-          scrollContainer.scrollTop =
-            scrollContainer.scrollHeight - previousScrollHeight;
-        }
-      }, 0);
+      // Sticky (backfill while following) → the layout effect re-pins to the
+      // bottom after the new messages render. Otherwise (user scrolled to the
+      // top to read history) → restore their reading position.
+      if (!wasSticky) {
+        setTimeout(() => {
+          if (scrollContainer) {
+            scrollContainer.scrollTop =
+              scrollContainer.scrollHeight - previousScrollHeight;
+          }
+        }, 0);
+      }
     }
     setIsLoadingMore(false);
   }, [hasMore, isLoadingMore, messages]);
@@ -103,18 +125,18 @@ const ChatPanel: React.FC = () => {
     };
   }, []);
 
-  // Auto-scroll to bottom on initial load and new messages
+  // Keep the list pinned to the bottom while the user is following along
+  // (initial load, backfill, incoming messages). useLayoutEffect runs after
+  // layout, so scrollHeight already reflects the just-rendered messages — no
+  // setTimeout race against the browser laying out the new rows.
   // biome-ignore lint/correctness/useExhaustiveDependencies: messages dep is intentional — effect must re-run when messages update to auto-scroll
-  useEffect(() => {
-    if (scrollRef.current && !isLoadingMore) {
-      const isAtBottom =
-        scrollRef.current.scrollHeight - scrollRef.current.scrollTop <=
-        scrollRef.current.clientHeight + 100;
+  useLayoutEffect(() => {
+    const el = scrollRef.current;
+    if (!el || isLoadingMore) return;
 
-      if (isInitialLoad.current || isAtBottom) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-        isInitialLoad.current = false;
-      }
+    if (stickToBottom.current) {
+      el.scrollTop = el.scrollHeight;
+      setShowScrollButton(false);
     }
   }, [messages, isLoadingMore]);
 
@@ -142,8 +164,21 @@ const ChatPanel: React.FC = () => {
   }, [loadMore, hasMore, isLoadingMore, resizeTick]);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    if (e.currentTarget.scrollTop === 0) {
+    const el = e.currentTarget;
+    if (el.scrollTop === 0) {
       loadMore();
+    }
+    const atBottom = isNearBottom(el);
+    stickToBottom.current = atBottom;
+    setShowScrollButton(!atBottom);
+  };
+
+  const scrollToBottom = () => {
+    const el = scrollRef.current;
+    if (el) {
+      stickToBottom.current = true;
+      el.scrollTop = el.scrollHeight;
+      setShowScrollButton(false);
     }
   };
 
@@ -239,6 +274,16 @@ const ChatPanel: React.FC = () => {
               </div>
             ))}
           </div>
+          {showScrollButton && (
+            <button
+              className={styles.scrollToBottom}
+              type="button"
+              onClick={scrollToBottom}
+              aria-label="Scroll to latest messages"
+            >
+              <ChevronDownIcon />
+            </button>
+          )}
           <form
             className={styles.inputArea}
             onSubmit={handleSendMessage}

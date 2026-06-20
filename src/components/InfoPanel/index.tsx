@@ -30,9 +30,7 @@ function InfoPanel() {
         >
           <section className={styles.section}>
             <h2 className={styles.heading}>About</h2>
-            <p className={styles.blurb}>
-              Late Night Vibes | where lonely souls tune in together.
-            </p>
+            <p className={styles.blurb}>Late Night Vibes - for lonely souls.</p>
           </section>
 
           <section className={styles.section}>
