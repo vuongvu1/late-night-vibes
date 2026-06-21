@@ -240,10 +240,24 @@
   cursor: var(--cursor-pointer-disabled);
 }
 
-/* Phones: pin to a fixed band below the title and above the control bar.
-   Drag/resize disabled; !important overrides the inline left/top and the
-   imperative width/height set by the hooks. */
-@media (max-width: 600px) {
+/* Touch devices: meet the 44px minimum tap target on the icon buttons. */
+@media (hover: none) and (pointer: coarse) {
+  .closeButton {
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+  }
+  .scrollToBottom {
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+  }
+}
+
+/* Phones (portrait by width, landscape by short height): pin to a fixed band
+   below the title and above the control bar. Without the max-height case a
+   landscape phone (>600px wide) would keep the draggable desktop panel, which
+   overlaps the control bar and can't be moved on touch. Drag/resize disabled;
+   !important overrides the inline left/top and the imperative width/height. */
+@media (max-width: 600px), (max-height: 600px) and (pointer: coarse) {
   .chatContainer {
     top: var(--mobile-dialog-top) !important;
     bottom: var(--mobile-dialog-bottom) !important;
@@ -251,6 +265,10 @@
     right: var(--spacing-sm) !important;
     width: auto !important;
     height: auto !important;
+    /* Clear the desktop min-height/width or a short landscape band can't shrink
+       below it and the panel spills over the control bar. */
+    min-width: 0 !important;
+    min-height: 0 !important;
     max-width: none !important;
     max-height: none !important;
     resize: none !important;

@@ -18,3 +18,11 @@
 .iconButtonBase:hover {
   background: var(--background-surface-strong);
 }
+
+/* Touch devices: meet the 44px minimum tap target (icon stays centered). */
+@media (hover: none) and (pointer: coarse) {
+  .iconButtonBase {
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+  }
+}

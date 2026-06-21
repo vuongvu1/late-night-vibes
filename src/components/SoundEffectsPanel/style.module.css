@@ -213,10 +213,50 @@
   filter: grayscale(1);
 }
 
-/* Phones: pin to a fixed band below the title and above the control bar,
-   matching the chat panel. Drag/resize disabled; !important overrides the
-   inline left/top and the imperative width/height set by the hooks. */
-@media (max-width: 600px) {
+/* Touch devices: enlarge the tap/drag targets without changing the visuals.
+   - The 36x20 toggle gets a transparent ::before that extends its hit area to
+     the 44px minimum (it's already position: relative).
+   - The 4px slider track is too thin to grab; give the input a 44px-tall hit
+     area with a transparent background, keep the visible track thin via the
+     runnable-track pseudo, and enlarge the thumb. */
+@media (hover: none) and (pointer: coarse) {
+  .toggle::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+  }
+
+  .slider {
+    height: var(--touch-target-min);
+    background: transparent;
+  }
+  .slider::-webkit-slider-runnable-track {
+    height: 4px;
+    background: var(--background-surface-strong);
+    border-radius: var(--border-radius-pill);
+  }
+  .slider::-moz-range-track {
+    height: 4px;
+    background: var(--background-surface-strong);
+    border-radius: var(--border-radius-pill);
+  }
+  .slider::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    margin-top: -8px;
+  }
+  .slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Phones (portrait by width, landscape by short height): pin to a fixed band
+   below the title and above the control bar, matching the chat panel. The
+   max-height case keeps landscape phones (>600px wide) from showing the
+   draggable desktop panel, which overlaps the control bar and can't be moved
+   on touch. Drag/resize disabled; !important overrides the hooks' inline. */
+@media (max-width: 600px), (max-height: 600px) and (pointer: coarse) {
   .panel {
     top: var(--mobile-dialog-top) !important;
     bottom: var(--mobile-dialog-bottom) !important;
@@ -224,6 +264,10 @@
     right: var(--spacing-sm) !important;
     width: auto !important;
     height: auto !important;
+    /* Clear the desktop min-height/width so a short landscape band can shrink
+       below it instead of spilling over the control bar. */
+    min-width: 0 !important;
+    min-height: 0 !important;
     max-width: none !important;
     max-height: none !important;
     resize: none !important;

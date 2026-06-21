@@ -19,6 +19,14 @@
   height: 16px;
 }
 
+/* Touch devices: grow the 30px trigger to the 44px minimum tap target. */
+@media (hover: none) and (pointer: coarse) {
+  .trigger {
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+  }
+}
+
 .content {
   width: 300px;
   max-width: 90vw;
