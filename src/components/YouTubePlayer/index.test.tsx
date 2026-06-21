@@ -158,6 +158,31 @@ describe("YouTubePlayer", () => {
     ).not.toThrow();
   });
 
+  it("updates the title when the player reports a state change", () => {
+    // On a channel swap the new title isn't on the player yet, so the title
+    // arrives via a later state-change event. Re-reading it then is what keeps
+    // the displayed title in sync with the channel.
+    const onVideoLoaded = vi.fn();
+    render(<YouTubePlayer {...defaultProps} onVideoLoaded={onVideoLoaded} />);
+
+    const { events } = (
+      globalThis as unknown as {
+        window: {
+          YT: {
+            Player: { mock: { calls: [string, { events: YT.Events }][] } };
+          };
+        };
+      }
+    ).window.YT.Player.mock.calls[0][1];
+
+    onVideoLoaded.mockClear();
+    mockPlayer.videoTitle = "New Channel Title";
+    events.onStateChange?.({} as YT.OnStateChangeEvent);
+
+    expect(onVideoLoaded).toHaveBeenCalledWith("New Channel Title");
+    mockPlayer.videoTitle = "Test Video"; // restore for other tests
+  });
+
   it("does not crash when the YouTube IFrame API failed to load", () => {
     // Simulate the iframe_api script being blocked/timed out: window.YT is
     // never defined. The component must degrade gracefully, not throw.

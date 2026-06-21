@@ -215,7 +215,8 @@ const ChatPanel: React.FC = () => {
       storageKey="chat-panel-position"
       sizeStorageKey="chat-panel-size"
       initialX={20}
-      initialY={window.innerHeight - 520} // Position near bottom but visible
+      // Near the bottom, but never above the top title bar on short windows.
+      initialY={Math.max(170, window.innerHeight - 520)}
       className={styles.chatContainer}
     >
       {(handleMouseDown) => (

@@ -27,7 +27,7 @@ const SoundEffectsPanel: React.FC<SoundEffectsPanelProps> = ({ onClose }) => {
       storageKey="mixer-panel-position"
       sizeStorageKey="mixer-panel-size"
       initialX={window.innerWidth - 370} // Near right edge
-      initialY={100}
+      initialY={170} // Below the fixed top-right info/counter buttons
       className={styles.panel}
     >
       {(handleMouseDown) => (

@@ -109,6 +109,11 @@ const YouTubePlayer: React.FC<Props> = ({
         },
         events: {
           onReady: () => checkStatusRef.current(),
+          // After a channel swap (loadVideoById/cueVideoById) the new title
+          // isn't on the player yet, so the immediate status check reads the
+          // old one. The player fires a state change once the new video's data
+          // is ready — re-read the title then so it tracks the channel.
+          onStateChange: () => checkStatusRef.current(),
         },
       });
     });

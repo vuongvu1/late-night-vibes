@@ -25,6 +25,14 @@ const SOUNDS = {
 const getInitialChatOpen = () =>
   typeof window !== "undefined" ? window.innerWidth > 600 : true;
 
+const VOLUME_KEY = "volume";
+// Restore the last volume from storage, falling back to 80. Guarded so a
+// corrupt/out-of-range value can't break startup.
+const getInitialVolume = (): number => {
+  const stored = Number(localStorage.getItem(VOLUME_KEY));
+  return Number.isFinite(stored) && stored >= 0 && stored <= 100 ? stored : 80;
+};
+
 const getRandomIndex = (exceptionIndex?: number): number => {
   if (exceptionIndex === undefined) {
     return Math.floor(Math.random() * channels.length);
@@ -48,7 +56,7 @@ const getIndexFromUrl = (): number => {
 export const useStore = create<PlayerStore>((set, get) => ({
   // State
   isPlaying: false,
-  volume: 80,
+  volume: getInitialVolume(),
   videoTitle: "",
   activeIndex: (() => {
     const indexFromUrl = getIndexFromUrl();
@@ -70,6 +78,7 @@ export const useStore = create<PlayerStore>((set, get) => ({
 
   setVolume: (volume) => {
     playSound(SOUNDS.volume);
+    localStorage.setItem(VOLUME_KEY, String(volume));
     set({ volume });
   },
 
