@@ -44,14 +44,14 @@ export default defineConfig({
       includeAssets: [
         "/assets/favicon.svg",
         "/assets/favicon.ico",
-        "/assets/robots.txt",
+        "/robots.txt",
         "/assets/apple-touch-icon.png",
       ],
       manifest: {
         name: "Lofi Pixel Radio",
         short_name: "LofiPixelRadio",
         description:
-          "Enjoy a variety of live lofi radio channels through an exquisite online player.",
+          "Lofi radio for late nights — study, chill, sleep.",
         theme_color: "#242424",
         background_color: "#242424",
         display: "standalone",

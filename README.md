@@ -2,7 +2,7 @@
 
 Let's play 👉 [▶️](https://late-night-vibes.vuongvu.workers.dev/)
 
-Enjoy a variety of live lofi radio channels through an exquisite online player.
+Lofi radio for late nights — study, chill, sleep.
 
 ## Features
 
