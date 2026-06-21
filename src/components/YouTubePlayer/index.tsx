@@ -28,6 +28,13 @@ const initializePlayer = (
     ref.current.destroy();
   }
 
+  // The iframe_api script can be blocked by an ad-blocker/CSP, time out, or
+  // simply not be ready yet on a slow connection. Bail out instead of throwing
+  // on `window.YT.ready` — the effect re-runs and retries once it loads.
+  if (typeof window.YT === "undefined" || !window.YT.ready) {
+    return;
+  }
+
   window.YT.ready(() => {
     ref.current = new window.YT.Player("player", {
       height: "auto",

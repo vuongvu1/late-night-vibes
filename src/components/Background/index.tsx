@@ -87,8 +87,8 @@ function Background() {
         const src = isPlaying ? layer.gif : layer.static;
         return (
           <div key={layer.id} className={styles.layer}>
-            <img src={src} alt="foreground" className={styles.foreground}></img>
-            <img src={src} alt="background" className={styles.background}></img>
+            <img src={src} alt="" className={styles.foreground}></img>
+            <img src={src} alt="" className={styles.background}></img>
           </div>
         );
       })}

@@ -52,7 +52,11 @@ export default defineConfig({
         short_name: "LofiPixelRadio",
         description:
           "Enjoy a variety of live lofi radio channels through an exquisite online player.",
-        theme_color: "#ffffff",
+        theme_color: "#242424",
+        background_color: "#242424",
+        display: "standalone",
+        start_url: "/",
+        orientation: "portrait-primary",
         icons: [
           {
             src: "assets/windows11/SmallTile.scale-100.png",

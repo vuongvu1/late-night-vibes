@@ -1,13 +1,20 @@
 import { MAX_INTERVAL_MIN, MIN_INTERVAL_MIN, SCHEDULE_SEED } from "@/constants";
 
+// `eager` + `?url` inlines a single { path -> url-string } map at build time
+// instead of emitting ~1000 tiny per-asset JS wrapper modules (one import()
+// stub each). Those wrappers used to be precached wholesale by the service
+// worker on install — a request storm on first mobile load. The image bytes
+// stay lazy: only an <img src> actually fetches them.
 const gifModules = import.meta.glob(
   ["../../assets/gifs/*.gif", "../../assets/gifs/*.webp"],
-  { import: "default" },
-);
+  { eager: true, query: "?url", import: "default" },
+) as Record<string, string>;
 
 const staticModules = import.meta.glob(["../../assets/static/*.jpg"], {
+  eager: true,
+  query: "?url",
   import: "default",
-});
+}) as Record<string, string>;
 
 const toDict = (modules: Record<string, unknown>) =>
   Object.keys(modules).reduce(
@@ -92,12 +99,16 @@ export const getBackgroundAt = (
   };
 };
 
-/** Dynamically import the gif + static sources for a given key. */
+/**
+ * Resolve the gif + static source URLs for a given key. The URLs are inlined at
+ * build time (see the eager `?url` glob above), so this is synchronous work —
+ * kept async to preserve the callers' `await loadBackground(...)` contract. The
+ * image bytes are only fetched when an <img src> points at the returned URL.
+ */
 export const loadBackground = async (
   key: string,
 ): Promise<{ gif: string; static: string }> => {
-  const gifImport = gifModules[gifDict[key]] as () => Promise<string>;
-  const staticImport = staticModules[staticDict[key]] as () => Promise<string>;
-  const [gif, staticImg] = await Promise.all([gifImport(), staticImport()]);
+  const gif = gifModules[gifDict[key]];
+  const staticImg = staticModules[staticDict[key]];
   return { gif, static: staticImg };
 };

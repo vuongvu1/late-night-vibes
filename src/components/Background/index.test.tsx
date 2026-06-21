@@ -51,13 +51,15 @@ describe("Background", () => {
     expect(images).toHaveLength(2);
   });
 
-  it("should have correct alt attributes", async () => {
+  it("marks the background images as decorative (empty alt)", async () => {
     const Background = (await import("./index")).default;
     const { container } = render(<Background />);
     await flush();
     const images = container.querySelectorAll("img");
-    expect(images[0]).toHaveAttribute("alt", "foreground");
-    expect(images[1]).toHaveAttribute("alt", "background");
+    // Purely decorative rotating visuals — empty alt so screen readers skip
+    // them instead of announcing "foreground"/"background" on every transition.
+    expect(images[0]).toHaveAttribute("alt", "");
+    expect(images[1]).toHaveAttribute("alt", "");
   });
 
   it("should show the static image while paused", async () => {

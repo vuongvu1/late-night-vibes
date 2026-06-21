@@ -73,4 +73,16 @@ describe("YouTubePlayer", () => {
     const playerDiv = container.querySelector("#player");
     expect(playerDiv?.id).toBe("player");
   });
+
+  it("does not crash when the YouTube IFrame API failed to load", () => {
+    // Simulate the iframe_api script being blocked/timed out: window.YT is
+    // never defined. The component must degrade gracefully, not throw.
+    (globalThis as unknown as { window: { YT?: unknown } }).window.YT =
+      undefined;
+
+    expect(() => render(<YouTubePlayer {...defaultProps} />)).not.toThrow();
+
+    const playerDiv = document.querySelector("#player");
+    expect(playerDiv).toBeInTheDocument();
+  });
 });

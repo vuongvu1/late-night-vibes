@@ -5,6 +5,10 @@
   background-color: var(--background-transparent);
   pointer-events: none;
   white-space: nowrap;
+  /* Cap at the parent's width so the 200vw marquee track is clipped by
+     overflow:hidden instead of stretching this flex item and forcing the whole
+     page to scroll sideways on phones (the .content min-width:100vw culprit). */
+  max-width: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;
