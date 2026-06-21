@@ -8,8 +8,11 @@
    The counter is laid out inline here (its own fixed positioning was removed). */
 .topRow {
   position: fixed;
-  top: 6rem;
-  right: 2rem;
+  /* Respect the notch / rounded corners. env() is 0 without a safe area, so
+     desktop and non-notch phones keep the 6rem / 2rem offsets; landscape
+     phones with a side notch get pushed clear of it. */
+  top: max(6rem, env(safe-area-inset-top));
+  right: max(2rem, env(safe-area-inset-right));
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);

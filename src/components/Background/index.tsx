@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FADE_MS } from "@/constants";
 import { useStore } from "@/store";
+import { prefersReducedData } from "./prefersReducedData";
 import { getBackgroundAt, loadBackground } from "./schedule";
 import styles from "./style.module.css";
 
@@ -9,6 +10,9 @@ type Layer = { id: number; gif: string; static: string };
 function Background() {
   const { isPlaying } = useStore();
   const [layers, setLayers] = useState<Layer[]>([]);
+  // Computed once: data-saver users get the static .jpg even while playing, so
+  // we never fetch a multi-MB animated background on a metered connection.
+  const [reducedData] = useState(prefersReducedData);
 
   // The rotation effect runs once; mirror isPlaying into a ref so it can read the
   // live value when deciding which image to decode ahead of the crossfade.
@@ -41,7 +45,8 @@ function Background() {
     // (only that one, so a paused tab never downloads the multi-MB gif).
     async function loadAndDecode(key: string): Promise<Layer> {
       const { gif, static: staticImg } = await loadBackground(key);
-      await preload(isPlayingRef.current ? gif : staticImg);
+      const showGif = isPlayingRef.current && !reducedData;
+      await preload(showGif ? gif : staticImg);
       return { id: nextLayerId++, gif, static: staticImg };
     }
 
@@ -79,12 +84,12 @@ function Background() {
       clearTimeout(nextId);
       clearTimeout(pruneId);
     };
-  }, []);
+  }, [reducedData]);
 
   return (
     <div className={styles.container}>
       {layers.map((layer) => {
-        const src = isPlaying ? layer.gif : layer.static;
+        const src = isPlaying && !reducedData ? layer.gif : layer.static;
         return (
           <div key={layer.id} className={styles.layer}>
             <img src={src} alt="" className={styles.foreground}></img>
