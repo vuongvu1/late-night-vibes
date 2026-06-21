@@ -25,13 +25,9 @@
   border-color: var(--primary-color);
 }
 
-/* Touch devices: grow the 30px trigger to the 44px minimum tap target. */
-@media (hover: none) and (pointer: coarse) {
-  .trigger {
-    width: var(--touch-target-min);
-    height: var(--touch-target-min);
-  }
-}
+/* ponytail: no touch-target growth — kept at 30px to match the OnlineCounter
+   it sits next to. Below the 44px a11y tap-target min; restore the coarse-pointer
+   rule if that matters more than the size match. */
 
 .content {
   width: 300px;
