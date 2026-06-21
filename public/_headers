@@ -6,8 +6,12 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
-  # CSP ships Report-Only first so it cannot break the app. Open the site,
-  # confirm the console logs NO CSP violations during normal use (play, switch
-  # channel, open chat, send a message, open the mixer), then enforce it by
-  # renaming this header to `Content-Security-Policy`.
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://www.youtube.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://www.youtube.com https://www.youtube-nocookie.com; worker-src 'self'; manifest-src 'self'; base-uri 'self'; frame-ancestors 'none'
+  # Enforced. script-src includes 'unsafe-inline' because the YouTube embed
+  # injects inline scripts (its widget + sandboxed ad/stats frames that inherit
+  # this policy). This app renders NO user-supplied HTML (chat is React-escaped
+  # text, no dangerouslySetInnerHTML/eval), so there is no inline-script
+  # injection vector for that to weaken — while connect-src / frame-src /
+  # img-src / base-uri stay locked down, which are the directives that actually
+  # matter here. To debug a future violation without breaking prod, temporarily
+  # rename this header to `Content-Security-Policy-Report-Only`.
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.youtube.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://www.youtube.com https://www.youtube-nocookie.com; worker-src 'self'; manifest-src 'self'; base-uri 'self'; frame-ancestors 'none'
