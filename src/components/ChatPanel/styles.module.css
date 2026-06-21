@@ -95,6 +95,15 @@
   outline-offset: 2px;
 }
 
+.connectionNotice {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--text-color);
+  background: rgb(255 180 0 / 15%);
+  border-bottom: 1px solid var(--border-color-subtle);
+}
+
 .messagesList {
   flex: 1;
   overflow-y: auto;

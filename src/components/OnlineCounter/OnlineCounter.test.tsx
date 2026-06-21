@@ -69,6 +69,22 @@ describe("OnlineCounter", () => {
     expect(mockChannel.unsubscribe).toHaveBeenCalled();
   });
 
+  it("marks the indicator disconnected when the channel errors", async () => {
+    mockChannel.subscribe = vi.fn((callback) => {
+      callback("CHANNEL_ERROR");
+      return Promise.resolve("CHANNEL_ERROR");
+    });
+
+    const { container } = render(<OnlineCounter />);
+
+    await waitFor(() => {
+      expect(container.querySelector("span:first-child")).toHaveAttribute(
+        "data-connected",
+        "false",
+      );
+    });
+  });
+
   it("should track presence when subscribed", async () => {
     const mockSubscribe = vi.fn((callback) => {
       callback("SUBSCRIBED");

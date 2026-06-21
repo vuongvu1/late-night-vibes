@@ -28,6 +28,8 @@ const isNearBottom = (el: HTMLElement) =>
 const ChatPanel: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
+  // Surfaces Supabase reachability so failures aren't silent.
+  const [isConnected, setIsConnected] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   // Shown when the user has scrolled up away from the latest message.
@@ -52,17 +54,24 @@ const ChatPanel: React.FC = () => {
   const { toggleChat, activeIndex } = useStore();
 
   const fetchMessages = async () => {
-    const { data, error } = await supabase
-      .from("messages")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(PAGE_SIZE);
+    try {
+      const { data, error } = await supabase
+        .from("messages")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(PAGE_SIZE);
 
-    if (error) {
-      console.error("Error fetching messages:", error);
-    } else if (data) {
-      setMessages(data.reverse());
-      setHasMore(data.length === PAGE_SIZE);
+      if (error) {
+        console.error("Error fetching messages:", error);
+        setIsConnected(false);
+      } else if (data) {
+        setIsConnected(true);
+        setMessages(data.reverse());
+        setHasMore(data.length === PAGE_SIZE);
+      }
+    } catch (err) {
+      console.error("Network error fetching messages:", err);
+      setIsConnected(false);
     }
   };
 
@@ -118,7 +127,11 @@ const ChatPanel: React.FC = () => {
           setMessages((prev) => [...prev, payload.new as Message]);
         },
       )
-      .subscribe();
+      .subscribe((status) => {
+        // Surface realtime connectivity; Supabase auto-reconnects and fires
+        // SUBSCRIBED again, which clears the notice.
+        setIsConnected(status === "SUBSCRIBED");
+      });
 
     return () => {
       supabase.removeChannel(channel);
@@ -192,15 +205,23 @@ const ChatPanel: React.FC = () => {
     const finalUsername = `${baseUsername} (Radio #${activeIndex + 1})`;
     setInputValue("");
 
-    const { error } = await supabase.from("messages").insert([
-      {
-        username: finalUsername,
-        content,
-      },
-    ]);
+    try {
+      const { error } = await supabase.from("messages").insert([
+        {
+          username: finalUsername,
+          content,
+        },
+      ]);
 
-    if (error) {
-      console.error("Error sending message:", error);
+      if (error) {
+        console.error("Error sending message:", error);
+        setIsConnected(false);
+      } else {
+        setIsConnected(true);
+      }
+    } catch (err) {
+      console.error("Network error sending message:", err);
+      setIsConnected(false);
     }
   };
 
@@ -245,6 +266,11 @@ const ChatPanel: React.FC = () => {
               <CloseIcon />
             </button>
           </div>
+          {!isConnected && (
+            <div className={styles.connectionNotice} role="status">
+              Reconnecting… messages may not send.
+            </div>
+          )}
           <div
             className={styles.messagesList}
             ref={scrollRef}

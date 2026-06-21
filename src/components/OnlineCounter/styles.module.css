@@ -19,6 +19,13 @@
   animation: pulse 2s infinite ease-in-out;
 }
 
+/* Realtime connection dropped: muted, no glow, no pulse. */
+.dot[data-connected="false"] {
+  background-color: var(--text-color-subtle);
+  box-shadow: none;
+  animation: none;
+}
+
 .text {
   color: var(--text-color);
   font-family: inherit;

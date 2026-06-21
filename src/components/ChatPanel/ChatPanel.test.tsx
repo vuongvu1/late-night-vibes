@@ -53,6 +53,25 @@ describe("ChatPanel", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
+    // Reset the shared channel mock so a test that drives the subscribe
+    // callback (e.g. the connection-error case) doesn't leak into others.
+    mockChannel.on = vi.fn().mockReturnThis();
+    mockChannel.subscribe = vi.fn();
+  });
+
+  it("shows a connection notice when the realtime channel errors", async () => {
+    mockChannel.subscribe = vi.fn((cb) => {
+      cb("CHANNEL_ERROR");
+      return mockChannel;
+    });
+
+    render(<ChatPanel />);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/reconnect|offline|connection/i),
+      ).toBeInTheDocument();
+    });
   });
 
   it("should render the chat container", async () => {
