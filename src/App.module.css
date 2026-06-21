@@ -12,9 +12,19 @@
      desktop and non-notch phones keep the 6rem / 2rem offsets; landscape
      phones with a side notch get pushed clear of it. */
   top: max(6rem, env(safe-area-inset-top));
-  right: max(2rem, env(safe-area-inset-right));
+  right: max(1rem, env(safe-area-inset-right));
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
   z-index: var(--z-index-controls);
+}
+
+/* Title shrinks on mobile, so its bottom edge rises — drop the row up to keep
+   it tucked just under the title instead of floating in a gap.
+   ponytail: hardcoded offset tracks the NeonText mobile height; re-tune both
+   together if the title's font/padding changes. */
+@media (max-width: 600px) {
+  .topRow {
+    top: max(3.75rem, env(safe-area-inset-top));
+  }
 }

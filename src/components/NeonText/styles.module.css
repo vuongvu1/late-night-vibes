@@ -52,3 +52,14 @@
     animation: none;
   }
 }
+
+@media (max-width: 600px) {
+  .container {
+    padding: var(--spacing-sm);
+    margin-block: var(--spacing-sm);
+  }
+
+  .content {
+    font-size: var(--font-size-lg);
+  }
+}
