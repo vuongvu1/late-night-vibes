@@ -9,6 +9,9 @@ const mockPlayer = {
   playVideo: vi.fn(),
   pauseVideo: vi.fn(),
   setVolume: vi.fn(),
+  unMute: vi.fn(),
+  loadVideoById: vi.fn(),
+  cueVideoById: vi.fn(),
   videoTitle: "Test Video",
 };
 
@@ -72,6 +75,87 @@ describe("YouTubePlayer", () => {
     const { container } = render(<YouTubePlayer {...defaultProps} />);
     const playerDiv = container.querySelector("#player");
     expect(playerDiv?.id).toBe("player");
+  });
+
+  it("unmutes before playing so audio is never left muted on mobile", () => {
+    // iOS/Android can leave a programmatically-started player muted. Since the
+    // play here is downstream of the user's Play tap, unmute as part of it.
+    render(<YouTubePlayer {...defaultProps} isPlaying={true} />);
+    expect(mockPlayer.unMute).toHaveBeenCalled();
+    expect(mockPlayer.playVideo).toHaveBeenCalled();
+  });
+
+  it("reuses the player on channel change while playing (keeps iOS audio unlocked)", () => {
+    // Destroying + recreating the <iframe> would drop the audio-autoplay
+    // permission from the first Play tap, so on iOS the new channel stays
+    // silent. Swap the video on the SAME player instead.
+    mockPlayer.getVideoUrl.mockReturnValue(
+      "https://www.youtube.com/watch?v=old-id",
+    );
+    const { rerender } = render(
+      <YouTubePlayer {...defaultProps} videoId="old-id" isPlaying={true} />,
+    );
+    const constructCalls = (
+      globalThis as unknown as {
+        window: { YT: { Player: { mock: { calls: unknown[] } } } };
+      }
+    ).window.YT.Player.mock.calls.length;
+
+    rerender(
+      <YouTubePlayer {...defaultProps} videoId="new-id" isPlaying={true} />,
+    );
+
+    expect(mockPlayer.loadVideoById).toHaveBeenCalledWith("new-id");
+    expect(mockPlayer.destroy).not.toHaveBeenCalled();
+    // No second YT.Player construction — the same instance was reused.
+    expect(
+      (
+        globalThis as unknown as {
+          window: { YT: { Player: { mock: { calls: unknown[] } } } };
+        }
+      ).window.YT.Player.mock.calls.length,
+    ).toBe(constructCalls);
+  });
+
+  it("cues (does not auto-play) the new channel when paused", () => {
+    mockPlayer.getVideoUrl.mockReturnValue(
+      "https://www.youtube.com/watch?v=old-id",
+    );
+    const { rerender } = render(
+      <YouTubePlayer {...defaultProps} videoId="old-id" isPlaying={false} />,
+    );
+
+    rerender(
+      <YouTubePlayer {...defaultProps} videoId="new-id" isPlaying={false} />,
+    );
+
+    expect(mockPlayer.cueVideoById).toHaveBeenCalledWith("new-id");
+    expect(mockPlayer.loadVideoById).not.toHaveBeenCalled();
+    expect(mockPlayer.destroy).not.toHaveBeenCalled();
+  });
+
+  it("recreates instead of crashing when the channel changes before the player is ready", () => {
+    // A player still initialising has no control methods yet (loadVideoById /
+    // cueVideoById are wired up around onReady). Swapping the video must not
+    // call them — that throws "is not a function". Recreate instead.
+    const notReadyPlayer = { destroy: vi.fn(), getVideoUrl: vi.fn() };
+    // biome-ignore lint/complexity/useArrowFunction: used as a constructor via `new YT.Player()`; arrow functions cannot be constructors
+    const NotReadyPlayer = function () {
+      return notReadyPlayer;
+    };
+    (
+      globalThis as unknown as { window: { YT: { Player: unknown } } }
+    ).window.YT.Player = vi.fn(NotReadyPlayer);
+
+    const { rerender } = render(
+      <YouTubePlayer {...defaultProps} videoId="a" isPlaying={true} />,
+    );
+
+    expect(() =>
+      rerender(
+        <YouTubePlayer {...defaultProps} videoId="b" isPlaying={true} />,
+      ),
+    ).not.toThrow();
   });
 
   it("does not crash when the YouTube IFrame API failed to load", () => {

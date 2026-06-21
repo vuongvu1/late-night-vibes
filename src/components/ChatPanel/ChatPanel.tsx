@@ -295,6 +295,7 @@ const ChatPanel: React.FC = () => {
               placeholder="Say something nice..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
+              maxLength={500}
               aria-label="Message"
             />
             <button

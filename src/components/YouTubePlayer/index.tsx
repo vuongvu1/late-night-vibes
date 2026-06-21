@@ -14,48 +14,6 @@ type PlayerWithTitle = YT.Player & {
   videoTitle?: string;
 };
 
-const initializePlayer = (
-  ref: React.MutableRefObject<PlayerWithTitle | null>,
-  videoId: string,
-  cb?: () => void,
-) => {
-  if (ref.current) {
-    const currentVideoUrl = ref.current.getVideoUrl?.();
-    if (currentVideoUrl?.includes(videoId)) {
-      return;
-    }
-
-    ref.current.destroy();
-  }
-
-  // The iframe_api script can be blocked by an ad-blocker/CSP, time out, or
-  // simply not be ready yet on a slow connection. Bail out instead of throwing
-  // on `window.YT.ready` — the effect re-runs and retries once it loads.
-  if (typeof window.YT === "undefined" || !window.YT.ready) {
-    return;
-  }
-
-  window.YT.ready(() => {
-    ref.current = new window.YT.Player("player", {
-      height: "auto",
-      width: "100%",
-      videoId,
-      playerVars: {
-        fs: 0, // hide fullscreen button by default
-        playsinline: 1, // make the player not go fullscreen when playing on ios
-        modestbranding: 1, // hide youtube logo by default - we say 'powered by youtube'
-        controls: 0, // hide controls by default
-        showinfo: 0, // hide video title by default
-        iv_load_policy: 3, // hide annotations by default
-        rel: 0,
-      },
-      events: {
-        onReady: cb,
-      },
-    });
-  });
-};
-
 const YouTubePlayer: React.FC<Props> = ({
   videoId,
   volume,
@@ -81,15 +39,80 @@ const YouTubePlayer: React.FC<Props> = ({
     onVideoLoaded(playerTitle);
 
     if (isPlaying) {
+      // Mobile browsers can leave a programmatically-started player muted.
+      // This play is downstream of the user's Play tap, so unmute as part of
+      // it to guarantee audio. No-op on desktop where the player isn't muted.
+      player.unMute?.();
       player.playVideo();
     } else {
       player.pauseVideo();
     }
   }, [isPlaying, onVideoLoaded]);
 
+  // Read the latest isPlaying / status callback from refs inside the init
+  // effect below, so it can depend on videoId ALONE. Play/pause toggles must
+  // not re-run init (that was tearing the player down and, before the player
+  // finished initialising, calling control methods that don't exist yet).
+  const isPlayingRef = useRef(isPlaying);
+  const checkStatusRef = useRef(checkPlayerStatus);
   useEffect(() => {
-    initializePlayer(playerRef, videoId, checkPlayerStatus);
-  }, [videoId, checkPlayerStatus]);
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+  useEffect(() => {
+    checkStatusRef.current = checkPlayerStatus;
+  }, [checkPlayerStatus]);
+
+  // Runs only when the channel (videoId) changes — isPlaying and the status
+  // callback are read via the refs above, so play/pause never re-inits.
+  useEffect(() => {
+    const player = playerRef.current;
+
+    // Player exists AND its control API is wired up. Those methods only appear
+    // once the iframe API finishes initialising — a freshly-constructed, not-
+    // yet-ready instance doesn't have them, so guard on the function check.
+    // Swap the video in place rather than rebuilding: a new <iframe> loses the
+    // audio-autoplay permission from the user's first Play tap, so on iOS the
+    // new channel stays silent. loadVideoById() plays now; cueVideoById() loads
+    // without playing.
+    if (player && typeof player.loadVideoById === "function") {
+      const currentVideoUrl = player.getVideoUrl?.();
+      if (currentVideoUrl?.includes(videoId)) return;
+
+      if (isPlayingRef.current) {
+        player.unMute?.();
+        player.loadVideoById(videoId);
+      } else {
+        player.cueVideoById(videoId);
+      }
+      checkStatusRef.current();
+      return;
+    }
+
+    // No player yet, or one still initialising → (re)create with this video.
+    // The iframe_api script can be blocked/slow; bail rather than throw on
+    // window.YT (the effect re-runs when videoId next changes).
+    if (typeof window.YT === "undefined" || !window.YT.ready) return;
+    player?.destroy?.();
+    window.YT.ready(() => {
+      playerRef.current = new window.YT.Player("player", {
+        height: "auto",
+        width: "100%",
+        videoId,
+        playerVars: {
+          fs: 0, // hide fullscreen button by default
+          playsinline: 1, // make the player not go fullscreen when playing on ios
+          modestbranding: 1, // hide youtube logo by default - we say 'powered by youtube'
+          controls: 0, // hide controls by default
+          showinfo: 0, // hide video title by default
+          iv_load_policy: 3, // hide annotations by default
+          rel: 0,
+        },
+        events: {
+          onReady: () => checkStatusRef.current(),
+        },
+      });
+    });
+  }, [videoId]);
 
   useEffect(() => {
     if (playerRef.current) {
