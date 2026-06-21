@@ -19,6 +19,12 @@
   height: 16px;
 }
 
+/* Radix sets data-state="open" on the trigger while the popover is open. */
+.trigger[data-state="open"] {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
 /* Touch devices: grow the 30px trigger to the 44px minimum tap target. */
 @media (hover: none) and (pointer: coarse) {
   .trigger {
@@ -69,6 +75,64 @@
   margin: 0;
   font-size: var(--font-size-md);
   line-height: 1.5;
+}
+
+.feedbackForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.feedbackInput {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 4.5em;
+  padding: var(--spacing-sm);
+  font: inherit;
+  font-size: var(--font-size-md);
+  color: var(--text-color);
+  background: var(--background-surface-soft);
+  border: 1px solid var(--border-color-subtle);
+  border-radius: var(--border-radius-sm);
+}
+
+.feedbackInput:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.feedbackFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.feedbackStatus {
+  font-size: var(--font-size-sm);
+  opacity: 0.8;
+}
+
+.feedbackSubmit {
+  flex: none;
+  padding: var(--spacing-xs) var(--spacing-md);
+  font: inherit;
+  font-size: var(--font-size-md);
+  color: var(--text-color);
+  background: var(--background-surface-soft);
+  border: 1px solid var(--border-color-subtle);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+}
+
+.feedbackSubmit:hover:not(:disabled) {
+  border-color: var(--primary-color);
+}
+
+.feedbackSubmit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .shortcutList {

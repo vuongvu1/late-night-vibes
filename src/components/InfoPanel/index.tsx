@@ -1,14 +1,37 @@
 import * as Popover from "@radix-ui/react-popover";
+import { useState } from "react";
 import { InfoIcon } from "../../assets/icons";
 import buttonPressSoundSrc from "../../assets/sounds/control/button-press-sound-4.mp3";
+import { supabase } from "../../services/supabase";
 import { SHORTCUTS } from "../../shortcuts";
 import { playSound } from "../../utils";
 import styles from "./style.module.css";
 
-// A single info surface that gathers "about" copy and the keyboard shortcut
-// reference into one popover, anchored to a button. Sections are stacked so new
-// ones (credits, links, …) can be appended without restructuring.
+// A single info surface that gathers the feedback form and the keyboard
+// shortcut reference into one popover, anchored to a button. Sections are
+// stacked so new ones (credits, links, …) can be appended without restructuring.
 function InfoPanel() {
+  const [feedback, setFeedback] = useState("");
+  // idle | sending | sent | error — drives the submit button + status line.
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
+    "idle",
+  );
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const content = feedback.trim();
+    if (!content || status === "sending") return;
+
+    setStatus("sending");
+    const { error } = await supabase.from("feedback").insert([{ content }]);
+    if (error) {
+      setStatus("error");
+      return;
+    }
+    setFeedback("");
+    setStatus("sent");
+  };
+
   return (
     <Popover.Root>
       <Popover.Trigger asChild>
@@ -29,8 +52,39 @@ function InfoPanel() {
           align="start"
         >
           <section className={styles.section}>
-            <h2 className={styles.heading}>About</h2>
-            <p className={styles.blurb}>Late Night Vibes - for lonely souls.</p>
+            <h2 className={styles.heading}>Feedback</h2>
+            {/* stopPropagation so typing (e.g. Space) doesn't fire global shortcuts */}
+            <form
+              className={styles.feedbackForm}
+              onSubmit={handleSubmit}
+              onKeyDown={(e) => e.stopPropagation()}
+            >
+              <textarea
+                className={styles.feedbackInput}
+                value={feedback}
+                onChange={(e) => {
+                  setFeedback(e.target.value);
+                  if (status !== "idle") setStatus("idle");
+                }}
+                placeholder="Got a suggestion or found a bug? Tell me."
+                rows={3}
+                maxLength={1000}
+                aria-label="Feedback"
+              />
+              <div className={styles.feedbackFooter}>
+                <span className={styles.feedbackStatus} aria-live="polite">
+                  {status === "sent" && "Thanks! 💜"}
+                  {status === "error" && "Couldn't send — try again."}
+                </span>
+                <button
+                  type="submit"
+                  className={styles.feedbackSubmit}
+                  disabled={!feedback.trim() || status === "sending"}
+                >
+                  {status === "sending" ? "Sending…" : "Send"}
+                </button>
+              </div>
+            </form>
           </section>
 
           <section className={styles.section}>
