@@ -7,13 +7,16 @@ export const useSoundEffects = () => {
 
   useEffect(() => {
     soundEffects.forEach((effect) => {
-      if (!audioRefs.current[effect.id]) {
-        const audio = new Audio(effect.file);
+      let audio = audioRefs.current[effect.id];
+
+      // Lazy-load: only build (and thus fetch) the clip once the user activates
+      // the layer. A never-touched layer never downloads its multi-MB mp3.
+      if (!audio) {
+        if (!effect.isPlaying) return;
+        audio = new Audio(effect.file);
         audio.loop = true;
         audioRefs.current[effect.id] = audio;
       }
-
-      const audio = audioRefs.current[effect.id];
 
       // Update volume
       audio.volume = effect.volume / 100;

@@ -16,82 +16,97 @@ globalThis.Audio = vi.fn(function () {
   return mockAudio;
 }) as unknown as typeof Audio;
 
-// Mock the store
-const mockSoundEffects = [
-  { id: "1", name: "Rain", volume: 50, isPlaying: true, file: "rain.mp3" },
-  {
-    id: "2",
-    name: "Thunder",
-    volume: 60,
-    isPlaying: false,
-    file: "thunder.mp3",
-  },
-];
+const activeRain = {
+  id: "1",
+  name: "Rain",
+  volume: 50,
+  isPlaying: true,
+  file: "rain.mp3",
+};
+const inactiveThunder = {
+  id: "2",
+  name: "Thunder",
+  volume: 60,
+  isPlaying: false,
+  file: "thunder.mp3",
+};
 
 vi.mock("../store", () => ({
   useStore: vi.fn(() => ({
-    soundEffects: mockSoundEffects,
+    soundEffects: [activeRain, inactiveThunder],
     isPlaying: true,
   })),
 }));
 
+async function setStore(state: {
+  soundEffects: (typeof activeRain)[];
+  isPlaying: boolean;
+}) {
+  const { useStore } = await import("../store");
+  vi.mocked(useStore).mockReturnValue(state);
+}
+
 describe("useSoundEffects", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks();
+    mockAudio.loop = false;
+    mockAudio.volume = 0.5;
+    mockAudio.paused = true;
+    await setStore({
+      soundEffects: [activeRain, inactiveThunder],
+      isPlaying: true,
+    });
   });
 
-  it("should create audio instances for sound effects", () => {
+  it("lazy-loads audio only for activated effects, not inactive ones", () => {
     renderHook(() => useSoundEffects());
 
+    // Active layer gets an Audio instance (and thus its file is fetched)…
     expect(globalThis.Audio).toHaveBeenCalledWith("rain.mp3");
-    expect(globalThis.Audio).toHaveBeenCalledWith("thunder.mp3");
+    // …the inactive layer must NOT be instantiated/fetched upfront.
+    expect(globalThis.Audio).not.toHaveBeenCalledWith("thunder.mp3");
+    expect(globalThis.Audio).toHaveBeenCalledTimes(1);
   });
 
-  it("should set loop property on audio instances", () => {
+  it("sets loop on the created audio", () => {
     renderHook(() => useSoundEffects());
 
     expect(mockAudio.loop).toBe(true);
   });
 
-  it("should update volume based on effect settings", () => {
+  it("sets volume from the active effect", () => {
     renderHook(() => useSoundEffects());
 
-    // Second effect has volume 60, so it should be 0.6
-    expect(mockAudio.volume).toBe(0.6); // 60 / 100
+    expect(mockAudio.volume).toBe(0.5); // rain volume 50 / 100
   });
 
-  it("should play audio when effect is active and global player is playing", () => {
+  it("plays the active effect when the global player is playing", () => {
     renderHook(() => useSoundEffects());
 
     expect(mockAudio.play).toHaveBeenCalled();
   });
 
-  it("should not play audio when global player is paused", async () => {
-    const storeModule = await import("../store");
+  it("does not play when the global player is paused", async () => {
     mockAudio.paused = false;
-    vi.mocked(storeModule.useStore).mockReturnValue({
-      soundEffects: mockSoundEffects,
-      isPlaying: false,
-    });
+    await setStore({ soundEffects: [activeRain], isPlaying: false });
 
     renderHook(() => useSoundEffects());
 
-    // When global player is paused, active effects should be paused
     expect(mockAudio.pause).toHaveBeenCalled();
   });
 
-  it("should pause audio when effect is not active", async () => {
-    const storeModule = await import("../store");
-    vi.mocked(storeModule.useStore).mockReturnValue({
-      soundEffects: mockSoundEffects,
-      isPlaying: true,
-    });
-
+  it("pauses an effect that gets deactivated after being active", async () => {
+    const { rerender } = renderHook(() => useSoundEffects());
+    // First render created + played the rain audio; simulate it now playing.
     mockAudio.paused = false;
 
-    renderHook(() => useSoundEffects());
+    // User turns the layer off.
+    await setStore({
+      soundEffects: [{ ...activeRain, isPlaying: false }],
+      isPlaying: true,
+    });
+    rerender();
 
-    // Second effect has isPlaying: false, so it should be paused
     expect(mockAudio.pause).toHaveBeenCalled();
   });
 });
