@@ -183,6 +183,39 @@ describe("YouTubePlayer", () => {
     mockPlayer.videoTitle = "Test Video"; // restore for other tests
   });
 
+  it("applies the initial volume once the async player is ready", () => {
+    // In the browser YT.ready fires AFTER mount (the iframe API loads async),
+    // so the player doesn't exist when the volume effect first runs. If the
+    // volume isn't (re)applied on ready, the player keeps YT's default (~100)
+    // while the slider shows the real value — loud audio, quiet-looking UI.
+    let readyCb: (() => void) | undefined;
+    (
+      globalThis as unknown as {
+        window: { YT: { Player: unknown; ready: unknown } };
+      }
+    ).window.YT.ready = vi.fn((cb: () => void) => {
+      readyCb = cb;
+    });
+
+    render(<YouTubePlayer {...defaultProps} volume={42} />);
+    // Player not constructed yet — the iframe API hasn't signalled ready.
+    expect(mockPlayer.setVolume).not.toHaveBeenCalled();
+
+    readyCb?.(); // iframe API ready → player constructed
+    const { events } = (
+      globalThis as unknown as {
+        window: {
+          YT: {
+            Player: { mock: { calls: [string, { events: YT.Events }][] } };
+          };
+        };
+      }
+    ).window.YT.Player.mock.calls[0][1];
+    events.onReady?.({} as YT.PlayerEvent);
+
+    expect(mockPlayer.setVolume).toHaveBeenCalledWith(42);
+  });
+
   it("does not crash when the YouTube IFrame API failed to load", () => {
     // Simulate the iframe_api script being blocked/timed out: window.YT is
     // never defined. The component must degrade gracefully, not throw.

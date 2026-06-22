@@ -55,9 +55,13 @@ const YouTubePlayer: React.FC<Props> = ({
   // finished initialising, calling control methods that don't exist yet).
   const isPlayingRef = useRef(isPlaying);
   const checkStatusRef = useRef(checkPlayerStatus);
+  const volumeRef = useRef(volume);
   useEffect(() => {
     isPlayingRef.current = isPlaying;
   }, [isPlaying]);
+  useEffect(() => {
+    volumeRef.current = volume;
+  }, [volume]);
   useEffect(() => {
     checkStatusRef.current = checkPlayerStatus;
   }, [checkPlayerStatus]);
@@ -108,7 +112,13 @@ const YouTubePlayer: React.FC<Props> = ({
           rel: 0,
         },
         events: {
-          onReady: () => checkStatusRef.current(),
+          onReady: () => {
+            // The player is created async (after the iframe API loads), so the
+            // volume effect already ran and skipped while playerRef was null.
+            // Push the current volume now or the player keeps YT's default ~100.
+            playerRef.current?.setVolume?.(volumeRef.current);
+            checkStatusRef.current();
+          },
           // After a channel swap (loadVideoById/cueVideoById) the new title
           // isn't on the player yet, so the immediate status check reads the
           // old one. The player fires a state change once the new video's data

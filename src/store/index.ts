@@ -29,7 +29,9 @@ const VOLUME_KEY = "volume";
 // Restore the last volume from storage, falling back to 80. Guarded so a
 // corrupt/out-of-range value can't break startup.
 const getInitialVolume = (): number => {
-  const stored = Number(localStorage.getItem(VOLUME_KEY));
+  const raw = localStorage.getItem(VOLUME_KEY);
+  if (raw === null) return 80; // never set — Number(null) is 0 and would defeat the fallback
+  const stored = Number(raw);
   return Number.isFinite(stored) && stored >= 0 && stored <= 100 ? stored : 80;
 };
 
