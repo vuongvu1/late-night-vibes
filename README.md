@@ -1,6 +1,6 @@
 # Late Night Vibes 🌙
 
-Let's play 👉 [▶️](https://late-night-vibes.vuongvu.workers.dev/)
+Let's play 👉 [▶️](https://late-night-vibes.com/)
 
 Lofi radio for late nights — study, chill, sleep.
 

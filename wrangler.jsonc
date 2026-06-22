@@ -8,5 +8,9 @@
   "assets": {
     "not_found_handling": "single-page-application"
   },
+  // Custom domain. Cloudflare auto-provisions DNS + TLS once the zone
+  // late-night-vibes.com is added to this account. Apex only; add a second
+  // route for www.late-night-vibes.com if you want www to resolve too.
+  "routes": [{ "pattern": "late-night-vibes.com", "custom_domain": true }],
   "compatibility_flags": ["nodejs_compat"]
 }
