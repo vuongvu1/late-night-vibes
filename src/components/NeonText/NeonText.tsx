@@ -13,9 +13,12 @@ export const NeonText = ({
         <Tag className={styles.content} data-active={isActive} {...restProps}>
           {children}
         </Tag>
-        <Tag className={styles.content} aria-hidden="true">
+        {/* Marquee clone: a neutral <span> (not another <Tag>) so a heading
+            isn't duplicated in the DOM. aria-hidden keeps it out of the a11y
+            tree; .content normalizes the font so it matches the real copy. */}
+        <span className={styles.content} aria-hidden="true">
           {children}
-        </Tag>
+        </span>
       </div>
     </div>
   );

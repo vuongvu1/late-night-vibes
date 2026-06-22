@@ -44,9 +44,11 @@ describe("SoundEffectsPanel", () => {
     vi.clearAllMocks();
   });
 
-  it("should render the panel title", () => {
+  it("should render the panel title as a level-2 heading", () => {
     render(<SoundEffectsPanel onClose={mockOnClose} />);
-    expect(screen.getByText("Sound Mixer")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Sound Mixer", level: 2 }),
+    ).toBeInTheDocument();
   });
 
   it("should render all sound effects", () => {

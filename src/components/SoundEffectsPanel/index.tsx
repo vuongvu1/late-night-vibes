@@ -39,7 +39,7 @@ const SoundEffectsPanel: React.FC<SoundEffectsPanelProps> = ({ onClose }) => {
             onMouseDown={handleMouseDown}
           >
             <Flex align="center" gap="var(--spacing-sm)">
-              <span className={styles.title}>Sound Mixer</span>
+              <h2 className={styles.title}>Sound Mixer</h2>
               <span
                 className={`${styles.counter} ${
                   isMaxReached ? styles.maxReached : ""

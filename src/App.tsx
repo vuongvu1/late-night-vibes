@@ -85,23 +85,29 @@ function App() {
   return (
     <RadixTooltip.Provider delayDuration={200}>
       <Flex direction="column" className={styles.app}>
-        <div className={styles.topRow}>
+        {/* Banner landmark (topRow is position:fixed; just a tag swap). */}
+        <header className={styles.topRow}>
           <Suspense fallback={null}>
             <OnlineCounter />
           </Suspense>
           <InfoPanel />
-        </div>
-        <YouTubePlayer
-          videoId={activeChannel}
-          volume={volume}
-          isPlaying={isPlaying}
-          onVideoLoaded={setVideoTitle}
-        />
+        </header>
         <Background />
-        <NeonText as="h1" isActive={isPlaying} key={activeChannel}>
-          [Live #{activeRadioNumber}]{" "}
-          {isLoading ? <Spinner /> : cleanText(videoTitle)}
-        </NeonText>
+        {/* Main landmark for the radio itself. display:contents (.contents) so
+            the player + title keep their existing flex layout — the wrapper
+            adds semantics, not a box. */}
+        <main className={styles.contents}>
+          <YouTubePlayer
+            videoId={activeChannel}
+            volume={volume}
+            isPlaying={isPlaying}
+            onVideoLoaded={setVideoTitle}
+          />
+          <NeonText as="h1" isActive={isPlaying} key={activeChannel}>
+            [Live #{activeRadioNumber}]{" "}
+            {isLoading ? <Spinner /> : cleanText(videoTitle)}
+          </NeonText>
+        </main>
 
         {isChatOpen && (
           <Suspense fallback={null}>
@@ -110,18 +116,25 @@ function App() {
         )}
         {isMixerOpen && <SoundEffectsPanel onClose={toggleMixer} />}
 
-        <ControlPanel
-          isPlaying={isPlaying}
-          isLoading={isLoading}
-          volume={volume}
-          setVolume={setVolume}
-          togglePlaying={togglePlaying}
-          selectRandomChannel={selectRandomChannel}
-          selectNextChannel={selectNextChannel}
-          selectPreviousChannel={selectPreviousChannel}
-          toggleSoundMixer={toggleMixer}
-          activeSoundCount={activeSoundCount}
-        />
+        {/* Nav landmark for the transport + channel controls (also fixed; the
+            wrapper is display:contents to stay layout-neutral). */}
+        <nav
+          className={styles.contents}
+          aria-label="Player and channel controls"
+        >
+          <ControlPanel
+            isPlaying={isPlaying}
+            isLoading={isLoading}
+            volume={volume}
+            setVolume={setVolume}
+            togglePlaying={togglePlaying}
+            selectRandomChannel={selectRandomChannel}
+            selectNextChannel={selectNextChannel}
+            selectPreviousChannel={selectPreviousChannel}
+            toggleSoundMixer={toggleMixer}
+            activeSoundCount={activeSoundCount}
+          />
+        </nav>
       </Flex>
     </RadixTooltip.Provider>
   );

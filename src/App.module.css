@@ -4,6 +4,13 @@
   height: 100dvh;
 }
 
+/* Landmark wrappers (<main>, <nav>) that add semantics without a box: their
+   children keep participating in the parent flex/fixed layout exactly as if
+   the wrapper weren't there. Same technique YouTubePlayer uses for #player. */
+.contents {
+  display: contents;
+}
+
 /* Top-right row holding the info button and the online counter side by side.
    The counter is laid out inline here (its own fixed positioning was removed). */
 .topRow {

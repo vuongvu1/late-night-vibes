@@ -242,6 +242,9 @@ const ChatPanel: React.FC = () => {
     >
       {(handleMouseDown) => (
         <>
+          {/* Names the chat region for screen readers (h1 → h2 hierarchy) without
+              taking visual space — the panel's purpose is obvious on screen. */}
+          <h2 className="sr-only">Live chat</h2>
           <div className={styles.header} onMouseDown={handleMouseDown}>
             <div className={styles.usernameInputWrapper}>
               <label className={styles.usernameLabel} htmlFor={usernameInputId}>

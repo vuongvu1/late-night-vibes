@@ -31,6 +31,7 @@
 }
 
 .title {
+  margin: 0; /* reset the UA <h2> margin so the heading sits inline like before */
   color: var(--text-color);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);

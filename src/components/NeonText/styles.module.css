@@ -36,6 +36,12 @@
     --spacing-xl
   ); /* space between repeats, baked into each copy */
   margin: 0;
+  /* Set the font explicitly so the real heading and the neutral <span> marquee
+     clone render identically. Without this the copies diverge — the heading
+     carried the UA h1 default (2rem/700) while the span would be 1rem/400, and
+     the seamless -50% loop would break. */
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
 }
 
 @keyframes marquee {

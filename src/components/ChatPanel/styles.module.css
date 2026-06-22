@@ -5,7 +5,10 @@
   min-height: 280px;
   max-width: 90vw;
   max-height: 85vh;
-  background: var(--background-panel);
+  /* Strong (70% near-black) panel, not the 40% --background-panel: chat text
+     (white messages + #0fa green usernames) sits over the busy animated
+     background, and 40% failed WCAG AA contrast over bright frames. */
+  background: var(--background-panel-strong);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color-subtle);
   border-radius: 12px;

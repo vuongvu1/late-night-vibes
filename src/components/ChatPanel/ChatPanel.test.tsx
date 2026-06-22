@@ -59,6 +59,13 @@ describe("ChatPanel", () => {
     mockChannel.subscribe = vi.fn();
   });
 
+  it("exposes a level-2 heading naming the chat region", async () => {
+    await renderChatPanel();
+    expect(
+      screen.getByRole("heading", { name: /live chat/i, level: 2 }),
+    ).toBeInTheDocument();
+  });
+
   it("shows a connection notice when the realtime channel errors", async () => {
     mockChannel.subscribe = vi.fn((cb) => {
       cb("CHANNEL_ERROR");

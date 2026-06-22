@@ -3,13 +3,17 @@ import { describe, expect, it } from "vitest";
 import { NeonText } from "./NeonText";
 
 describe("NeonText", () => {
-  it("should render children correctly (duplicated for the seamless marquee)", () => {
-    render(
+  it("renders the heading tag exactly once — the marquee clone is not a duplicate h1", () => {
+    const { container } = render(
       <NeonText as="h1" isActive={false}>
         Hello World
       </NeonText>,
     );
+    // Two visible text copies feed the seamless marquee…
     expect(screen.getAllByText("Hello World")).toHaveLength(2);
+    // …but only the primary copy is the actual <h1>; the clone is a neutral
+    // element so the page never exposes two h1s.
+    expect(container.querySelectorAll("h1")).toHaveLength(1);
   });
 
   it("should render with the specified HTML tag", () => {
