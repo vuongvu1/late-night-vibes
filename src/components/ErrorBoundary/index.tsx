@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
+import errorGifSrc from "@/assets/error.gif";
 
 interface Props {
   children: ReactNode;
@@ -44,6 +45,11 @@ export class ErrorBoundary extends Component<Props, State> {
           fontFamily: '"VT323", monospace',
         }}
       >
+        <img
+          src={errorGifSrc}
+          alt=""
+          style={{ maxWidth: "min(320px, 80vw)", borderRadius: "8px" }}
+        />
         <h1>Something went wrong</h1>
         <p>The app hit an unexpected error.</p>
         <button
