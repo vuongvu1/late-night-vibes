@@ -13,6 +13,14 @@ function Background() {
   // Computed once: data-saver users get the static .jpg even while playing, so
   // we never fetch a multi-MB animated background on a metered connection.
   const [reducedData] = useState(prefersReducedData);
+  // Touch devices (iOS especially) choke on blur-over-animation: the full-screen
+  // blurred fill below re-runs its blur on every gif frame, doubling the animated
+  // surfaces and tanking FPS as decoded frames pile up. Freeze the *fill* to its
+  // static frame there — it's blurred + brightened, the freeze is imperceptible.
+  // The sharp layer stays animated; desktop GPUs keep the animated fill.
+  const [coarsePointer] = useState(
+    () => window.matchMedia?.("(pointer: coarse)").matches ?? false,
+  );
 
   // The rotation effect runs once; mirror isPlaying into a ref so it can read the
   // live value when deciding which image to decode ahead of the crossfade.
@@ -89,11 +97,14 @@ function Background() {
   return (
     <div className={styles.container}>
       {layers.map((layer) => {
-        const src = isPlaying && !reducedData ? layer.gif : layer.static;
+        const animated = isPlaying && !reducedData ? layer.gif : layer.static;
+        // On touch devices the blurred fill is frozen to the static frame (see
+        // coarsePointer above) — only the sharp layer animates there.
+        const fill = coarsePointer ? layer.static : animated;
         return (
           <div key={layer.id} className={styles.layer}>
-            <img src={src} alt="" className={styles.foreground}></img>
-            <img src={src} alt="" className={styles.background}></img>
+            <img src={fill} alt="" className={styles.foreground}></img>
+            <img src={animated} alt="" className={styles.background}></img>
           </div>
         );
       })}

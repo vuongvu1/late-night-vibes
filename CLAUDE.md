@@ -74,6 +74,30 @@ To add one:
 3. That's it — no code/JSON edit. `commonKeys` picks it up at build time. (`src/data.json`
    is YouTube channels, unrelated to backgrounds.)
 
+**Every background must loop infinitely** (the bg is `<img>`-rendered, so CSS/JS can't
+force looping — it's baked into the file). A GIF with no `NETSCAPE2.0` loop block plays
+**once**; a GIF or animated WebP with a non-zero loop count stops after N plays. Source
+files often ship finite. After adding, normalize loop count to 0:
+
+- **WebP:** `webpmux -set loop 0 in.webp -o out.webp` (lossless — edits the `ANIM` chunk only).
+- **GIF:** `magick in.gif -loop 0 out.gif` (re-encodes).
+
+Audit all assets in one pass (lists any that aren't infinite):
+
+```sh
+python3 - <<'PY'
+import glob,struct
+def gfin(b):
+    i=b.find(b'NETSCAPE2.0');  j=i+11
+    return True if i<0 else (b[j]==3 and struct.unpack('<H',b[j+2:j+4])[0]!=0)
+def wfin(b):
+    i=b.find(b'ANIM');  return i>=0 and struct.unpack('<H',b[i+12:i+14])[0]!=0
+for f in glob.glob("src/assets/gifs/*.gif")+glob.glob("src/assets/gifs/*.webp"):
+    b=open(f,'rb').read()
+    if (gfin(b) if f.endswith('.gif') else wfin(b)): print("finite:",f)
+PY
+```
+
 ### Component conventions
 
 - `Button` (`src/components/Button/index.tsx`) takes an `icon` and forwards button props;
