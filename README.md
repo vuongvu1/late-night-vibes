@@ -2,7 +2,7 @@
 
 Let's play 👉 [▶️](https://late-night-vibes.com/)
 
-Lofi radio for late nights — study, chill, sleep.
+Background lofi music with pixel art for late nighters.
 
 ## Features
 
@@ -16,8 +16,8 @@ Lofi radio for late nights — study, chill, sleep.
 - **Keyboard shortcuts** — `Space` play/pause, `R` random channel, `←`/`→` previous/next
   channel, `↑`/`↓` volume, `F` fullscreen, `C` chat, `M` sound mixer.
 - **Deep links** — append `#<n>` to the URL (e.g. `#3`) to open a specific channel.
-- **Animated backgrounds** on a deterministic, shared rotation, with a static-frame
-  fallback when paused. Installable as a PWA.
+- **Animated pixel art backgrounds** on a deterministic, shared rotation, with a
+  static-frame fallback when paused. Installable as a PWA.
 
 ## Installation
 
@@ -94,4 +94,8 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## License
 
-MIT
+Copyright © Late Night Vibes. All rights reserved.
+
+This project is **proprietary**. The source is published for reference only; it is not
+open source. No license is granted to use, copy, modify, or distribute this software or
+its assets without prior written permission.

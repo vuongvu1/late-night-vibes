@@ -1,6 +1,7 @@
 {
   "name": "late-night-vibes",
   "private": true,
+  "license": "UNLICENSED",
   "version": "0.0.1",
   "type": "module",
   "engines": {

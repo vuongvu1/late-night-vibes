@@ -51,7 +51,7 @@ export default defineConfig({
         name: "Lofi Pixel Radio",
         short_name: "LofiPixelRadio",
         description:
-          "Lofi radio for late nights — study, chill, sleep.",
+          "Background lofi music with pixel art for late nighters.",
         theme_color: "#242424",
         background_color: "#242424",
         display: "standalone",
