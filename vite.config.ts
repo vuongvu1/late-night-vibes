@@ -50,8 +50,7 @@ export default defineConfig({
       manifest: {
         name: "Lofi Pixel Radio",
         short_name: "LofiPixelRadio",
-        description:
-          "Background lofi music with pixel art for late nighters.",
+        description: "a lofi radio player + pixel arts (no ads/signup) ❤️",
         theme_color: "#242424",
         background_color: "#242424",
         display: "standalone",

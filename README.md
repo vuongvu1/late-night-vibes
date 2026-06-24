@@ -1,8 +1,10 @@
 # Late Night Vibes 🌙
 
-Let's play 👉 [▶️](https://late-night-vibes.com/)
+a lofi radio player + pixel arts ❤️
 
-Background lofi music with pixel art for late nighters.
+▶️ **Live at [late-night-vibes.com](https://late-night-vibes.com/)**
+
+![Late Night Vibes — lofi player over an animated pixel-art background](public/assets/late-night-vibes-preview.png)
 
 ## Features
 
@@ -19,14 +21,18 @@ Background lofi music with pixel art for late nighters.
 - **Animated pixel art backgrounds** on a deterministic, shared rotation, with a
   static-frame fallback when paused. Installable as a PWA.
 
-## Installation
+## Tech stack
 
-This is a React and TypeScript project created with Vite.
+React 19 (+ React Compiler) · TypeScript · Vite · Zustand · CSS Modules ·
+Supabase (realtime chat + presence) · Cloudflare Workers · Vitest.
 
-First, install the project dependencies:
+## Getting started
 
 ```sh
-pnpm install
+pnpm install   # install dependencies
+pnpm dev       # start the dev server
+pnpm build     # type-check + production build
+pnpm test      # run the test suite
 ```
 
 ### Environment variables
@@ -38,22 +44,6 @@ project root with your project's credentials (both are exposed to the client, so
 ```sh
 VITE_SUPABASE_URL=https://<your-project>.supabase.co
 VITE_SUPABASE_ANON_KEY=<your-anon-key>
-```
-
-## Development
-
-To start the development server, run:
-
-```
-pnpm dev
-```
-
-## Building
-
-To build the project, run:
-
-```
-pnpm build
 ```
 
 ## Deployment
