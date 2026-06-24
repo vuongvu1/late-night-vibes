@@ -1,11 +1,27 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import { supabase } from "../../services/supabase";
+import { getCountAt } from "./schedule";
 import styles from "./styles.module.css";
 
 const OnlineCounter: React.FC = () => {
-  const [count, setCount] = useState(1);
+  // Displayed count = synced fake base (1–5 walk) + real present listeners.
+  const [base, setBase] = useState(() => getCountAt(Date.now()).count);
+  const [real, setReal] = useState(0);
   const [connected, setConnected] = useState(true);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    // Recompute the base on each step boundary and schedule the next tick exactly
+    // when it's due to change — no fixed-interval polling.
+    const tick = () => {
+      const { count, msUntilNext } = getCountAt(Date.now());
+      setBase(count);
+      timer = setTimeout(tick, msUntilNext);
+    };
+    tick();
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     // Unique ID for this session/tab
@@ -21,9 +37,9 @@ const OnlineCounter: React.FC = () => {
 
     channel
       .on("presence", { event: "sync" }, () => {
-        const state = channel.presenceState();
-        // Count unique keys in presence state
-        setCount(Object.keys(state).length + 1);
+        // Unique present clients (includes self once tracked). Added on top of the
+        // fake base, so a lone visitor shows base + 1.
+        setReal(Object.keys(channel.presenceState()).length);
       })
       .subscribe(async (status) => {
         if (status === "SUBSCRIBED") {
@@ -47,7 +63,7 @@ const OnlineCounter: React.FC = () => {
         data-connected={connected}
         title={connected ? undefined : "Reconnecting…"}
       />
-      <span className={styles.text}>{count} listening</span>
+      <span className={styles.text}>{base + real} listening</span>
     </div>
   );
 };
