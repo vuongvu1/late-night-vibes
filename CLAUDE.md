@@ -71,7 +71,9 @@ To add one:
 2. Run `pnpm generate-static` — it extracts frame `[0]` of every gif/webp that lacks a
    matching `.jpg` into `src/assets/static/` (needs ImageMagick `magick`). Existing
    statics are skipped, so only the new one is generated.
-3. That's it — no code/JSON edit. `commonKeys` picks it up at build time. (`src/data.json`
+3. Delete the original source file from the import folder once it's copied in — keeps the
+   staging folder clean so the next batch is unambiguously "new".
+4. That's it — no code/JSON edit. `commonKeys` picks it up at build time. (`src/data.json`
    is YouTube channels, unrelated to backgrounds.)
 
 **Every background must loop infinitely** (the bg is `<img>`-rendered, so CSS/JS can't
