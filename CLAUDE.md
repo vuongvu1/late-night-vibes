@@ -58,6 +58,11 @@ Tests live next to source as `*.test.ts(x)`. Run a single file with `npx vitest 
 
 ### Adding a background
 
+**Fast path:** drop new files in `~/Desktop/gifs` and run `bash scripts/import_gifs.sh`
+— it dedupes, gap-fills `vibe-<N>` numbers, optimizes/​converts (gif2webp, mp4→webp),
+normalizes loops to infinite, generates statics, deletes the sources, and verifies
+pairing. The manual steps below are what it automates.
+
 Backgrounds are discovered by glob, not a manifest — `schedule.ts` pairs
 `src/assets/gifs/<name>.{gif,webp}` with `src/assets/static/<name>.jpg` by **base
 filename**. A background is only eligible when **both** files exist with the same name.
