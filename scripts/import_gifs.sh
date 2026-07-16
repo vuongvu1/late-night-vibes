@@ -40,6 +40,11 @@ opt_gif() {  # $1 src gif  $2 out webp ; echoes size or "0" on inflate/fail
   else
     gif2webp -lossy -q 68 -m 4 "$f" -o "$out" 2>/dev/null
   fi
+  # heavy result: downscale from the source gif + lower quality
+  if [ "$(stat -f%z "$out" 2>/dev/null || echo 0)" -gt 6000000 ]; then
+    magick "$f" -coalesce -resize '1000x1000>' "$TMP/rg.gif" 2>/dev/null
+    gif2webp -lossy -q 54 -m 4 "$TMP/rg.gif" -o "$out" 2>/dev/null
+  fi
 }
 
 convert_mp4() {  # $1 src mp4  $2 out webp
