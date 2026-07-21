@@ -20,8 +20,12 @@ cd "$ROOT"
 
 [ -d "$IMPORT" ] || { echo "no import dir: $IMPORT"; exit 0; }
 
-# md5 of everything already imported (to skip re-copied duplicates)
-find "$GIFS" -type f \( -name '*.gif' -o -name '*.webp' \) -exec md5 -q {} \; | sort -u > "$TMP/repomd5"
+# Skip set: md5 of every asset already in the repo (catches re-copied files) PLUS a
+# persistent manifest of consumed SOURCE md5s (catches re-adds of files we optimized —
+# the repo holds the recompressed webp, so its md5 no longer matches the source gif).
+MANIFEST="$ROOT/src/assets/.import-manifest"; touch "$MANIFEST"
+find "$GIFS" -type f \( -name '*.gif' -o -name '*.webp' \) -exec md5 -q {} \; > "$TMP/skip"
+cat "$MANIFEST" >> "$TMP/skip"; sort -u "$TMP/skip" -o "$TMP/skip"
 
 # free vibe numbers, gaps first then beyond max (zero-padded later)
 # NOTE: coerce with +0 so "007" keys as 7, not "007" — else zero-padded names read as free and clobber existing files.
@@ -68,7 +72,9 @@ for f in "$IMPORT"/*; do
   bn="$(basename "$f")"
   kind="$(file -b "$f" 2>/dev/null)"
   case "$kind" in GIF*|RIFF*|ISO\ Media*) ;; *) continue ;; esac   # skip pdf/png/etc
-  if grep -qx "$(md5 -q "$f")" "$TMP/repomd5"; then echo "DUP-skip  $bn"; continue; fi
+  m="$(md5 -q "$f")"
+  if grep -qxF "$m" "$TMP/skip"; then echo "DUP-skip  $bn"; continue; fi
+  echo "$m" >> "$MANIFEST"   # record source so a future re-add is recognized even if optimized
 
   n="${freearr[$fi]}"; fi=$((fi+1)); nnn="$(printf '%03d' "$n")"
   case "$kind" in
