@@ -19,6 +19,8 @@ vi.mock("../../store", () => ({
   useStore: vi.fn(() => ({
     toggleFullscreen: vi.fn(),
     toggleChat: vi.fn(),
+    isPomodoroOn: false,
+    togglePomodoro: vi.fn(),
   })),
 }));
 
@@ -32,6 +34,7 @@ vi.mock("../../assets/icons", () => ({
   FullscreenIcon: () => <div>Fullscreen</div>,
   ChatIcon: () => <div>Chat</div>,
   MixerIcon: () => <div>Mixer</div>,
+  TimerIcon: () => <div>Timer</div>,
 }));
 
 describe("ControlPanel", () => {

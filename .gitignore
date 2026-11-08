@@ -35,3 +35,6 @@ dist-ssr
 
 # gif import staging dedup manifest
 src/assets/.import-manifest
+
+# brainstorming mockups
+.superpowers/

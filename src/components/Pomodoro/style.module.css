@@ -1,0 +1,81 @@
+/* Centerpiece clock: margin-block:auto centers it in the space left between
+   the title and the control bar of the column-flex app layout. */
+.pomodoro {
+  margin-block: auto;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  z-index: var(--z-index-controls);
+  color: var(--text-color);
+}
+
+.clock {
+  font-size: clamp(3.5rem, 14vw, 8rem);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums; /* digits don't jiggle as they change */
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-shadow:
+    0 0 8px var(--accent-color),
+    0 0 24px var(--accent-color),
+    0 4px 15px rgb(0 0 0 / 60%);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-color-muted);
+  text-shadow: 0 2px 6px rgb(0 0 0 / 80%);
+}
+
+/* Controls stay out of the way until hover / keyboard focus / settings open. */
+.controls {
+  display: flex;
+  gap: var(--spacing-sm);
+  opacity: 0;
+  transition: opacity var(--duration-normal) ease;
+}
+
+.pomodoro:hover .controls,
+.pomodoro:focus-within .controls,
+.pomodoro[data-open="true"] .controls {
+  opacity: 1;
+}
+
+/* Touch screens can't hover: keep controls visible. */
+@media (hover: none) {
+  .controls {
+    opacity: 1;
+  }
+}
+
+.settings {
+  display: grid;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--background-panel-strong);
+  border: 1px solid var(--border-color-subtle);
+  backdrop-filter: blur(4px);
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+
+  & input {
+    width: 4.5rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color-subtle);
+    background-color: var(--background-surface-strong);
+    color: var(--text-color);
+    font: inherit;
+  }
+}

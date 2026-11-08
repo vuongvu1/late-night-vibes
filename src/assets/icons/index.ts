@@ -9,4 +9,6 @@ export { default as PauseIcon } from "./Pause";
 export { default as PlayIcon } from "./Play";
 export { default as PreviousIcon } from "./Previous";
 export { default as ResetIcon } from "./Reset";
+export { default as SettingsIcon } from "./Settings";
 export { default as ShuffleIcon } from "./Shuffle";
+export { default as TimerIcon } from "./Timer";

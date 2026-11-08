@@ -139,6 +139,12 @@ export const useStore = create<PlayerStore>((set, get) => ({
     set((state) => ({ isMixerOpen: !state.isMixerOpen }));
   },
 
+  isPomodoroOn: false,
+  togglePomodoro: () => {
+    playSound(SOUNDS.action);
+    set((state) => ({ isPomodoroOn: !state.isPomodoroOn }));
+  },
+
   toggleSoundEffect: (id: string) => {
     const { soundEffects } = get();
     const activeCount = soundEffects.filter((e) => e.isPlaying).length;

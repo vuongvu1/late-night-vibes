@@ -13,6 +13,7 @@ export const SHORTCUTS = [
   { code: "KeyF", keyLabel: "F", description: "Toggle fullscreen" },
   { code: "KeyC", keyLabel: "C", description: "Toggle chat" },
   { code: "KeyM", keyLabel: "M", description: "Toggle sound mixer" },
+  { code: "KeyP", keyLabel: "P", description: "Toggle pomodoro timer" },
 ] as const;
 
 export type ShortcutCode = (typeof SHORTCUTS)[number]["code"];

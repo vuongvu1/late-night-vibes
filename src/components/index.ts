@@ -8,6 +8,7 @@ export { default as ControlPanel } from "./ControlPanel";
 export { Flex } from "./Flex";
 export { default as InfoPanel } from "./InfoPanel";
 export { NeonText } from "./NeonText";
+export { default as Pomodoro } from "./Pomodoro";
 export { default as SoundEffectsPanel } from "./SoundEffectsPanel";
 export { Spinner } from "./Spinner";
 export { Tooltip } from "./Tooltip";

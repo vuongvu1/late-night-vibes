@@ -15,6 +15,7 @@ export interface PlayerState {
   isFullscreen: boolean;
   isChatOpen: boolean;
   isMixerOpen: boolean;
+  isPomodoroOn: boolean;
   soundEffects: SoundEffect[];
 }
 
@@ -30,6 +31,7 @@ export interface PlayerActions {
   setIsFullscreen: (val: boolean) => void;
   toggleChat: () => void;
   toggleMixer: () => void;
+  togglePomodoro: () => void;
   toggleSoundEffect: (id: string) => void;
   setSoundEffectVolume: (id: string, volume: number) => void;
   resetSoundEffects: () => void;

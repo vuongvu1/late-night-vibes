@@ -7,6 +7,7 @@ import {
   Flex,
   InfoPanel,
   NeonText,
+  Pomodoro,
   SoundEffectsPanel,
   Spinner,
   YouTubePlayer,
@@ -37,6 +38,8 @@ function App() {
     toggleChat,
     isMixerOpen,
     toggleMixer,
+    isPomodoroOn,
+    togglePomodoro,
     soundEffects,
   } = useStore();
   const activeSoundCount = soundEffects.filter((e) => e.isPlaying).length;
@@ -73,6 +76,7 @@ function App() {
     KeyF: toggleFullscreen,
     KeyC: toggleChat,
     KeyM: toggleMixer,
+    KeyP: togglePomodoro,
   } satisfies Record<ShortcutCode, () => void>;
 
   useKeyPress(shortcutHandlers);
@@ -107,6 +111,7 @@ function App() {
             [Live #{activeRadioNumber}]{" "}
             {isLoading ? <Spinner /> : cleanText(videoTitle)}
           </NeonText>
+          {isPomodoroOn && <Pomodoro />}
         </main>
 
         {isChatOpen && (

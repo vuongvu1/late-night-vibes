@@ -7,6 +7,7 @@ import {
   PlayIcon,
   PreviousIcon,
   ShuffleIcon,
+  TimerIcon,
 } from "../../assets/icons";
 import { Button, Flex, Tooltip, VolumeSlider } from "../../components";
 import { useStore } from "../../store";
@@ -37,7 +38,8 @@ function ControlPanel({
   toggleSoundMixer,
   activeSoundCount,
 }: ControlPanelProps) {
-  const { toggleFullscreen, toggleChat } = useStore();
+  const { toggleFullscreen, toggleChat, isPomodoroOn, togglePomodoro } =
+    useStore();
 
   // Show a quiet count badge on the mixer button only while sounds are mixing —
   // keeps the button clean when nothing is active.
@@ -95,6 +97,14 @@ function ControlPanel({
             onClick={toggleSoundMixer}
             badge={soundMixerBadge}
             aria-label="Toggle sound mixer"
+          />
+        </Tooltip>
+        <Tooltip content="Pomodoro timer">
+          <Button
+            icon={<TimerIcon />}
+            onClick={togglePomodoro}
+            aria-label="Toggle pomodoro timer"
+            aria-pressed={isPomodoroOn}
           />
         </Tooltip>
       </Flex>
