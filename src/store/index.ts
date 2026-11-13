@@ -13,7 +13,7 @@ const channels = data.channels;
 
 // Distinct UI click sounds, named by the actions they accompany.
 // Kept 1:1 with the previous per-action assignments.
-const SOUNDS = {
+export const SOUNDS = {
   channel: buttonPressSound1Src, // next / previous / reset
   play: buttonPressSound2Src, // play / pause toggle
   volume: buttonPressSound3Src, // volume change

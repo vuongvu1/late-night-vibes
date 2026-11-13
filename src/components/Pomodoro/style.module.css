@@ -9,6 +9,14 @@
   gap: var(--spacing-sm);
   z-index: var(--z-index-controls);
   color: var(--text-color);
+  /* Dark glass card, same recipe as the title bar (NeonText), so the timer
+     reads on any background. */
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--background-transparent);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--border-color-subtle);
+  box-shadow: 0 4px 15px rgb(0 0 0 / 30%);
 }
 
 .clock {
@@ -27,39 +35,83 @@
   font-size: var(--font-size-sm);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--text-color-muted);
-  text-shadow: 0 2px 6px rgb(0 0 0 / 80%);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
 }
 
-/* Controls stay out of the way until hover / keyboard focus / settings open. */
+/* Halo so light text reads on any background (shared by tabs + label). */
+.tabs,
+.label {
+  text-shadow:
+    0 0 2px #000,
+    0 0 4px #000,
+    0 1px 8px rgb(0 0 0 / 90%);
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.tab {
+  cursor: var(--cursor-pointer);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-sm);
+  background: none;
+  color: var(--text-color-muted);
+  font: inherit;
+  font-size: var(--font-size-lg);
+  transition: background-color var(--duration-normal) ease;
+
+  &:hover {
+    color: var(--text-color);
+  }
+
+  &[aria-pressed="true"] {
+    color: var(--text-color);
+    font-weight: var(--font-weight-bold);
+    background-color: var(--background-surface-strong);
+    border-color: var(--border-color-subtle);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-shadow);
+  }
+}
+
 .controls {
   display: flex;
   gap: var(--spacing-sm);
-  opacity: 0;
-  transition: opacity var(--duration-normal) ease;
 }
 
-.pomodoro:hover .controls,
-.pomodoro:focus-within .controls,
-.pomodoro[data-open="true"] .controls {
-  opacity: 1;
-}
+.dialog {
+  padding: 0;
+  border: 1px solid var(--border-color-subtle);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--background-panel-strong);
+  color: var(--text-color);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgb(0 0 0 / 30%);
 
-/* Touch screens can't hover: keep controls visible. */
-@media (hover: none) {
-  .controls {
-    opacity: 1;
+  &::backdrop {
+    background-color: rgb(0 0 0 / 50%);
   }
+}
+
+.dialogTitle {
+  margin: 0 0 var(--spacing-xs);
+  font-size: var(--font-size-lg);
 }
 
 .settings {
   display: grid;
   gap: var(--spacing-sm);
   padding: var(--spacing-md);
-  border-radius: var(--border-radius-sm);
-  background-color: var(--background-panel-strong);
-  border: 1px solid var(--border-color-subtle);
-  backdrop-filter: blur(4px);
+  min-width: min(20rem, 85vw);
 }
 
 .field {
@@ -69,7 +121,7 @@
   gap: var(--spacing-md);
   font-size: var(--font-size-sm);
 
-  & input {
+  & input[type="number"] {
     width: 4.5rem;
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--border-radius-sm);
@@ -77,5 +129,44 @@
     background-color: var(--background-surface-strong);
     color: var(--text-color);
     font: inherit;
+  }
+
+  & input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--accent-color);
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.done {
+  cursor: var(--cursor-pointer);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: 1px solid var(--border-color-subtle);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--button-color-background);
+  color: var(--text-color);
+  font: inherit;
+
+  &:hover {
+    background-color: var(--button-color-background-hover);
+  }
+}
+
+/* Phones: tighter card + smaller tabs so all three fit on one row. */
+@media (max-width: 600px) {
+  .pomodoro {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .tab {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-md);
   }
 }
