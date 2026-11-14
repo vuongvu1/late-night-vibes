@@ -23,6 +23,12 @@
   }
 }
 
+/* Toggle buttons (chat, mixer, pomodoro) stay lit while their panel is open. */
+.button[aria-pressed="true"] {
+  background-color: var(--button-color-background-active);
+  border-color: var(--primary-color);
+}
+
 .button:disabled {
   opacity: 0.5;
   cursor: var(--cursor-pointer-disabled);

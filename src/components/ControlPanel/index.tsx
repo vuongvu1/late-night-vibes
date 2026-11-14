@@ -38,8 +38,14 @@ function ControlPanel({
   toggleSoundMixer,
   activeSoundCount,
 }: ControlPanelProps) {
-  const { toggleFullscreen, toggleChat, isPomodoroOn, togglePomodoro } =
-    useStore();
+  const {
+    toggleFullscreen,
+    toggleChat,
+    isChatOpen,
+    isMixerOpen,
+    isPomodoroOn,
+    togglePomodoro,
+  } = useStore();
 
   // Show a quiet count badge on the mixer button only while sounds are mixing —
   // keeps the button clean when nothing is active.
@@ -89,6 +95,7 @@ function ControlPanel({
             icon={<ChatIcon />}
             onClick={toggleChat}
             aria-label="Toggle chat"
+            aria-pressed={isChatOpen}
           />
         </Tooltip>
         <Tooltip content="Toggle sound mixer">
@@ -97,6 +104,7 @@ function ControlPanel({
             onClick={toggleSoundMixer}
             badge={soundMixerBadge}
             aria-label="Toggle sound mixer"
+            aria-pressed={isMixerOpen}
           />
         </Tooltip>
         <Tooltip content="Pomodoro timer">
